@@ -1,0 +1,149 @@
+<meta charset="utf-8">
+<title>Booster-Tracker · Live</title>
+<style>
+  /* Committed single-theme design: dark "stream companion" look, all colors explicit */
+  :root {
+    --bg: #101418;
+    --panel: #1a2129;
+    --panel-edge: #26303b;
+    --text: #e8edf2;
+    --muted: #8b98a5;
+    --price: #ffd23f;
+    --live: #ff5964;
+  }
+  html { background: var(--bg); }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    padding: 16px;
+    max-width: 560px;
+    margin-inline: auto;
+  }
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  header h1 { font-size: 1rem; margin: 0; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .live-dot { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; color: var(--muted); }
+  .live-dot::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--live); animation: pulse 1.6s infinite; }
+  @keyframes pulse { 50% { opacity: .35; } }
+  @media (prefers-reduced-motion: reduce) { .live-dot::before { animation: none; } }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--panel-edge);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .card.latest { border-color: var(--price); }
+  .card .name { font-size: 1.35rem; font-weight: 700; margin: 0 0 2px; text-wrap: balance; }
+  .card.latest .name { font-size: 1.7rem; }
+  .card .set { color: var(--muted); font-size: .85rem; margin: 0 0 10px; }
+  .row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .price { font-size: 1.5rem; font-weight: 700; color: var(--price); font-variant-numeric: tabular-nums; }
+  .card.latest .price { font-size: 2.2rem; }
+  .price small { font-size: .65em; color: var(--muted); font-weight: 400; }
+  .chip {
+    display: inline-block; padding: 3px 10px; border-radius: 999px;
+    font-size: .75rem; font-weight: 600; letter-spacing: .03em;
+    border: 1px solid var(--panel-edge); color: var(--text); background: #222b35;
+  }
+  .chip.holo { border-color: #7aa7ff; color: #a8c4ff; }
+  .chip.hit  { border-color: var(--price); color: var(--price); }
+  .empty { text-align: center; color: var(--muted); padding: 48px 16px; }
+  .counters {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
+    margin-bottom: 16px;
+  }
+  .counter {
+    background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 10px;
+    text-align: center; padding: 10px 4px;
+  }
+  .counter .num { font-size: 2rem; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .counter .lbl { font-size: .7rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .counter.c-sar  { border-color: #ff8a5c; } .counter.c-sar .num  { color: #ff8a5c; }
+  .counter.c-ir   { border-color: #7aa7ff; } .counter.c-ir .num   { color: #a8c4ff; }
+  .counter.c-fa   { border-color: #b48bff; } .counter.c-fa .num   { color: #c9adff; }
+  .counter.c-gold { border-color: var(--price); } .counter.c-gold .num { color: var(--price); }
+  .counter.c-ex   { border-color: #6ad3a2; } .counter.c-ex .num   { color: #8ae0b8; }
+  .display-label {
+    display: flex; align-items: center; gap: 8px;
+    font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--muted); margin: 4px 0 10px;
+  }
+  .display-label::after { content: ""; flex: 1; height: 1px; background: var(--panel-edge); }
+  details.display-old {
+    background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 10px;
+    margin-bottom: 12px; padding: 0 16px;
+  }
+  details.display-old summary {
+    cursor: pointer; list-style: none; padding: 14px 0;
+    display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+  }
+  details.display-old summary::-webkit-details-marker { display: none; }
+  details.display-old summary .d-name { font-weight: 700; font-size: 1rem; }
+  details.display-old summary .d-stats { color: var(--muted); font-size: .8rem; }
+  details.display-old[open] summary { border-bottom: 1px solid var(--panel-edge); margin-bottom: 12px; }
+  details.display-old .card { border: none; border-top: 1px solid var(--panel-edge); border-radius: 0; margin: 0; padding: 12px 0; }
+  details.display-old .card:first-of-type { border-top: none; }
+  footer { text-align: center; color: var(--muted); font-size: .75rem; margin-top: 20px; }
+</style>
+
+<header>
+  <h1>Booster-Tracker</h1>
+  <span class="live-dot">Ewige Rivalen · bereit</span>
+</header>
+
+<div class="counters">
+  <div class="counter c-sar"><div class="num">0</div><div class="lbl">SAR</div></div>
+  <div class="counter c-ir"><div class="num">1</div><div class="lbl">IR</div></div>
+  <div class="counter c-fa"><div class="num">0</div><div class="lbl">FA</div></div>
+  <div class="counter c-gold"><div class="num">0</div><div class="lbl">Gold</div></div>
+  <div class="counter c-ex"><div class="num">0</div><div class="lbl">ex</div></div>
+</div>
+
+<p class="display-label">Display 1 · aktuell</p>
+
+<div class="card latest">
+  <p class="name">Team Rocket's Hypno</p>
+  <p class="set">Ewige Rivalen (DRI) · 80/182</p>
+  <div class="row">
+    <span class="chip holo">Uncommon</span>
+    <span class="price">~0,03 €</span>
+  </div>
+</div>
+
+<div class="card">
+  <p class="name">Waschrotom</p>
+  <p class="set">Ewige Rivalen (DRI) · 61/182</p>
+  <div class="row">
+    <span class="chip">Common</span>
+    <span class="price">~0,10 €</span>
+  </div>
+</div>
+
+<footer>Seite aktualisiert sich automatisch alle 20&nbsp;Sekunden · Preise: Cardmarket (ab-Preis, near mint)</footer>
+
+<script>
+  /* Soft-Update: Inhalt nachladen statt Voll-Reload — verhindert Ruckler in OBS.
+     Fällt auf location.reload() zurück, wenn fetch nicht erlaubt ist (z. B. file:// blockiert). */
+  var lastHtml = null;
+  function tick() {
+    fetch(location.href, { cache: 'no-store' })
+      .then(function (r) { return r.text(); })
+      .then(function (t) {
+        if (lastHtml === null) { lastHtml = t; }
+        else if (t !== lastHtml) {
+          lastHtml = t;
+          var doc = new DOMParser().parseFromString(t, 'text/html');
+          if (doc && doc.body) { document.body.innerHTML = doc.body.innerHTML; }
+        }
+        setTimeout(tick, 10000);
+      })
+      .catch(function () { setTimeout(function () { location.reload(); }, 10000); });
+  }
+  tick();
+</script>
