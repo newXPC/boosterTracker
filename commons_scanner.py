@@ -49,12 +49,24 @@ def main():
     total = 0.0
     last_num = None       # zuletzt gezaehlte Karte
     gate_open = True      # erst wieder zaehlen, wenn Karte weg war
+    weak_num, weak_count = None, 0
 
     try:
         while True:
             ts = datetime.now().strftime("%H:%M:%S")
             frame = take_screenshot()
-            num, inliers = identify_card(frame, refs, orb, flann, owner, bf)
+            num, inliers, candidate = identify_card(frame, refs, orb, flann, owner, bf)
+
+            # Beharrlichkeit fuer Holo-Karten (siehe stream_monitor_v4)
+            if num is None and candidate is not None:
+                if candidate == weak_num:
+                    weak_count += 1
+                else:
+                    weak_num, weak_count = candidate, 1
+                if weak_count >= stream_monitor_v4.PERSIST_SCANS:
+                    num = candidate
+            elif candidate is None:
+                weak_num, weak_count = None, 0
 
             if num is None:
                 # Kein Treffer -> Karte ist weg -> Tor auf fuer naechste Zaehlung

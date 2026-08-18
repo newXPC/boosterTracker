@@ -41,7 +41,10 @@ FRAME_FEATURES = 3000      # ORB-Features im Frame (hoch, weil Hintergrund/Termi
                            # viele Features frisst)
 MIN_VOTES = 5              # Vorfilter: FLANN-Votes pro Karte
 TOP_CANDIDATES = 5         # So viele Kandidaten werden RANSAC-verifiziert
-MIN_INLIERS = 15           # RANSAC-Inlier fuer sichere Erkennung
+MIN_INLIERS = 15           # RANSAC-Inlier fuer sofortige sichere Erkennung
+PERSIST_MIN_INLIERS = 8    # Schwaechere Treffer akzeptieren, wenn...
+PERSIST_SCANS = 4          # ...dieselbe Karte so oft in Folge gewinnt
+                           # (hilft bei Holo/Full-Art-Karten mit Reflexionen)
 MATCH_CONFIRMATIONS = 1    # RANSAC ist sicher genug -> 1 Treffer reicht
 RESCAN_COOLDOWN = 3.0      # Sek. nach Erkennung, bevor dieselbe Stelle neu prueft
 DEBUG = True               # Pro Scan eine Diagnosezeile ausgeben
@@ -107,7 +110,10 @@ def take_screenshot():
         }
         shot = sct.grab(region)
         img = np.array(shot)
-        return cv2.cvtColor(img, cv2.COLOR_BGRA2GRAY)
+        gray = cv2.cvtColor(img, cv2.COLOR_BGRA2GRAY)
+        # CLAHE: verbessert Kontrast bei Reflexionen (Holo-/Full-Art-Karten)
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+        return clahe.apply(gray)
 
 
 def identify_card(frame_gray, refs, orb, flann, owner, bf):
@@ -154,12 +160,12 @@ def identify_card(frame_gray, refs, orb, flann, owner, bf):
             best_num, best_inliers = num, inliers
 
     if DEBUG and best_num:
-        status = 'OK' if best_inliers >= MIN_INLIERS else 'zu wenig'
+        status = 'OK' if best_inliers >= MIN_INLIERS else 'schwach'
         print(f'    [debug] RANSAC: {best_num} -> {best_inliers} Inlier ({status})')
 
-    if best_inliers >= MIN_INLIERS:
-        return best_num, best_inliers
-    return None, best_inliers
+    accepted = best_num if best_inliers >= MIN_INLIERS else None
+    candidate = best_num if best_inliers >= PERSIST_MIN_INLIERS else None
+    return accepted, best_inliers, candidate
 
 
 def get_rarity_type(rarity_str):
@@ -322,6 +328,8 @@ def main():
     pending_num = None
     pending_count = 0
     last_detect_time = 0
+    weak_num = None
+    weak_count = 0
 
     try:
         while True:
@@ -338,12 +346,28 @@ def main():
                     counters = {'SAR': 0, 'IR': 0, 'FA': 0, 'Gold': 0, 'ex': 0}
                     seen_cards = set()
                     pending_num, pending_count = None, 0
+                    weak_num, weak_count = None, 0
                     update_html(cards_list, counters, display_num, archived_html)
                     print(f"\n[{ts}] ===== NEUES DISPLAY: Display {display_num} =====\n")
 
             frame = take_screenshot()
 
-            num, inliers = identify_card(frame, refs, orb, flann, owner, bf)
+            num, inliers, candidate = identify_card(frame, refs, orb, flann, owner, bf)
+
+            # Beharrlichkeit: schwacher Kandidat gewinnt PERSIST_SCANS mal in
+            # Folge (Holo-Reflexionen) -> trotzdem akzeptieren
+            if num is None and candidate is not None:
+                if candidate == weak_num:
+                    weak_count += 1
+                else:
+                    weak_num, weak_count = candidate, 1
+                if weak_count >= PERSIST_SCANS:
+                    num = candidate
+                    if DEBUG:
+                        print(f'    [debug] {candidate} akzeptiert nach '
+                              f'{weak_count} konsistenten Scans')
+            elif candidate is None:
+                weak_num, weak_count = None, 0
 
             if num:
                 if num == pending_num:
