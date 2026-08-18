@@ -23,6 +23,11 @@ import cv2
 import numpy as np
 import mss
 
+try:
+    import msvcrt  # Windows: Tastatur-Abfrage ohne Blockieren
+except ImportError:
+    msvcrt = None
+
 BOOSTER_DIR = Path(__file__).parent
 PRICE_DB = BOOSTER_DIR / "sv10-preise.json"
 CARDS_DIR = BOOSTER_DIR / "sv10_cards_images"
@@ -172,17 +177,15 @@ def get_rarity_type(rarity_str):
     return None
 
 
-def update_html(cards_list, counters):
-    if not HTML_FILE.exists():
-        return
-
-    cards_html = ""
-    for i, card in enumerate(cards_list[:10]):
-        latest_class = " latest" if i == 0 else ""
+def render_cards(cards_list, limit=10, highlight_latest=True):
+    """Kartenliste als HTML-Bloecke rendern."""
+    out = ""
+    for i, card in enumerate(cards_list[:limit]):
+        latest_class = " latest" if (i == 0 and highlight_latest) else ""
         rarity = card.get('rarity', 'Unknown')
         price = card.get('avg7', 'N/A')
         display_name = card.get('name_de') or card['name']
-        cards_html += f"""<div class="card{latest_class}">
+        out += f"""<div class="card{latest_class}">
   <p class="name">{display_name}</p>
   <p class="set">Ewige Rivalen (DRI) &middot; {card['number']}/182</p>
   <div class="row">
@@ -191,6 +194,32 @@ def update_html(cards_list, counters):
   </div>
 </div>
 """
+    return out
+
+
+def build_archive_section(display_num, cards_list, counters):
+    """Abgeschlossenes Display als zusammenklappbaren Abschnitt rendern."""
+    total = sum(c.get('avg7') or 0 for c in cards_list
+                if isinstance(c.get('avg7'), (int, float)))
+    total_str = f"{total:.2f}".replace('.', ',')
+    stats = ' &middot; '.join(f"{v}&times;{k}" for k, v in counters.items() if v > 0) or "keine Hits"
+    cards_html = render_cards(cards_list, limit=100, highlight_latest=False)
+    return f"""<details class="display-old">
+  <summary>
+    <span class="d-name">Display {display_num}</span>
+    <span class="d-stats">{len(cards_list)} Hits &middot; {stats} &middot; ~{total_str} &euro;</span>
+  </summary>
+{cards_html}</details>
+"""
+
+
+def update_html(cards_list, counters, display_num=1, archived_html=""):
+    if not HTML_FILE.exists():
+        return
+
+    cards_html = render_cards(cards_list)
+    if not cards_html:
+        cards_html = '<p class="empty">Noch keine Hits in diesem Display</p>\n'
 
     counters_html = f"""<div class="counter c-sar"><div class="num">{counters['SAR']}</div><div class="lbl">SAR</div></div>
   <div class="counter c-ir"><div class="num">{counters['IR']}</div><div class="lbl">IR</div></div>
@@ -208,7 +237,8 @@ def update_html(cards_list, counters):
     )
     html = re.sub(
         r'<p class="display-label">.*?(?=<footer>)',
-        f'<p class="display-label">Display 1 &middot; aktuell</p>\n\n{cards_html}\n',
+        f'<p class="display-label">Display {display_num} &middot; aktuell</p>\n\n'
+        f'{cards_html}\n{archived_html}',
         html, flags=re.DOTALL
     )
 
@@ -276,7 +306,8 @@ def main():
     print("Berechne Referenz-Features und FLANN-Index (einmalig)...")
     refs, flann, owner = build_reference_features()
     print(f"Referenz-Features: {len(refs)} Karten")
-    print("Warte auf Karten...\n")
+    print("Warte auf Karten...")
+    print(">> ENTER druecken = neues Display starten (dieses Fenster muss Fokus haben) <<\n")
 
     orb = cv2.ORB_create(nfeatures=FRAME_FEATURES)
     bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
@@ -285,6 +316,9 @@ def main():
     counters = {'SAR': 0, 'IR': 0, 'FA': 0, 'Gold': 0, 'ex': 0}
     seen_cards = set()
 
+    display_num = 1
+    archived_html = ""
+
     pending_num = None
     pending_count = 0
     last_detect_time = 0
@@ -292,6 +326,21 @@ def main():
     try:
         while True:
             ts = datetime.now().strftime("%H:%M:%S")
+
+            # ENTER im Terminal = aktuelles Display archivieren, neues starten
+            if msvcrt and msvcrt.kbhit():
+                key = msvcrt.getwch()
+                if key == '\r':
+                    archived_html = build_archive_section(
+                        display_num, cards_list, counters) + archived_html
+                    display_num += 1
+                    cards_list = []
+                    counters = {'SAR': 0, 'IR': 0, 'FA': 0, 'Gold': 0, 'ex': 0}
+                    seen_cards = set()
+                    pending_num, pending_count = None, 0
+                    update_html(cards_list, counters, display_num, archived_html)
+                    print(f"\n[{ts}] ===== NEUES DISPLAY: Display {display_num} =====\n")
+
             frame = take_screenshot()
 
             num, inliers = identify_card(frame, refs, orb, flann, owner, bf)
@@ -329,7 +378,8 @@ def main():
                                     cards_list.insert(0, card_data)
                                     if rt:
                                         counters[rt] += 1
-                                    update_html(cards_list, counters)
+                                    update_html(cards_list, counters,
+                                                display_num, archived_html)
                                     print(f"[{ts}] HIT: {num} {name} "
                                           f"(~{price} EUR, {inliers} Inlier)")
                                 else:
