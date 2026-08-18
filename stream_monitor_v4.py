@@ -42,8 +42,8 @@ FRAME_FEATURES = 3000      # ORB-Features im Frame (hoch, weil Hintergrund/Termi
 MIN_VOTES = 5              # Vorfilter: FLANN-Votes pro Karte
 TOP_CANDIDATES = 5         # So viele Kandidaten werden RANSAC-verifiziert
 MIN_INLIERS = 15           # RANSAC-Inlier fuer sofortige sichere Erkennung
-PERSIST_MIN_INLIERS = 8    # Schwaechere Treffer akzeptieren, wenn...
-PERSIST_SCANS = 4          # ...dieselbe Karte so oft in Folge gewinnt
+PERSIST_MIN_INLIERS = 6    # Schwaechere Treffer akzeptieren, wenn...
+PERSIST_SCANS = 5          # ...dieselbe Karte so oft in Folge gewinnt
                            # (hilft bei Holo/Full-Art-Karten mit Reflexionen)
 MATCH_CONFIRMATIONS = 1    # RANSAC ist sicher genug -> 1 Treffer reicht
 RESCAN_COOLDOWN = 3.0      # Sek. nach Erkennung, bevor dieselbe Stelle neu prueft
