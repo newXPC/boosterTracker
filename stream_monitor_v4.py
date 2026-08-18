@@ -123,7 +123,7 @@ def identify_card(frame_gray, refs, orb, flann, owner, bf):
     """
     kp_f, des_f = orb.detectAndCompute(frame_gray, None)
     if des_f is None or len(kp_f) < 50:
-        return None, 0
+        return None, 0, None
 
     # Stufe 1: FLANN-knnMatch gegen den Gesamtindex, Voting pro Karte
     knn = flann.knnMatch(des_f, k=2)
@@ -142,7 +142,7 @@ def identify_card(frame_gray, refs, orb, flann, owner, bf):
         print(f'    [debug] votes: {top3}')
     candidates = [(num, v) for num, v in candidates[:TOP_CANDIDATES] if v >= MIN_VOTES]
     if not candidates:
-        return None, 0
+        return None, 0, None
 
     # Stufe 2: RANSAC-Verifikation der Top-Kandidaten (praezises BF-Matching)
     best_num, best_inliers = None, 0
@@ -363,9 +363,10 @@ def main():
                     weak_num, weak_count = candidate, 1
                 if weak_count >= PERSIST_SCANS:
                     num = candidate
+                    weak_num, weak_count = None, 0  # zuruecksetzen gegen Log-Spam
                     if DEBUG:
                         print(f'    [debug] {candidate} akzeptiert nach '
-                              f'{weak_count} konsistenten Scans')
+                              f'{PERSIST_SCANS} konsistenten Scans')
             elif candidate is None:
                 weak_num, weak_count = None, 0
 
