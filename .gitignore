@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+screenshots/
+debug_ocr_output/
+debug_v3_output/
+sv10_orb_descriptors.npz

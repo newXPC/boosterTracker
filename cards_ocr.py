@@ -76,11 +76,11 @@ def get_ocr_reader(languages=['de', 'en'], gpu=False):
 
 def crop_card_number_region(image: np.ndarray,
                             box_h_range=(0.75, 1.0),
-                            box_w_range=(0.8, 1.0)) -> Optional[np.ndarray]:
+                            box_w_range=(0.0, 0.25)) -> Optional[np.ndarray]:
     """
-    Crop die Kartennummern-Region (untere rechts) aus dem Bild.
+    Crop die Kartennummern-Region (untere LINKS) aus dem Bild.
 
-    Die Kartennummern befinden sich typischerweise in der unteren rechten Ecke
+    Die Kartennummern befinden sich typischerweise in der unteren LINKEN Ecke
     eines Pokémon-Kartenfotos. Diese Funktion extrahiert diese Region flexibel
     basierend auf Prozentsätzen der Bilddimensionen.
 
@@ -162,22 +162,21 @@ def preprocess_for_ocr(image: np.ndarray, upscale_factor=2) -> np.ndarray:
 def extract_text_from_region(image: np.ndarray, reader=None) -> str:
     """
     Führt EasyOCR auf der Kartennummern-Region durch.
+    Speichert alle Text-Boxen für einzelne Pattern-Suche.
 
     Args:
         image: Preprocessing-Bild
         reader: EasyOCR Reader (wird geladen wenn None)
 
     Returns:
-        Erkannter Text als String
+        Erkannter Text und alle OCR-Boxen
     """
     if reader is None:
         reader = get_ocr_reader()
 
-    # EasyOCR erwartet BGR oder RGB; PIL-freundlich mit RGB
-    # Aber EasyOCR kann auch Grayscale verarbeiten
     results = reader.readtext(image, detail=1)
 
-    # Kombiniere alle erkannten Textfragmente
+    # Kombiniere auch für Logging
     texts = [text for (bbox, text, confidence) in results]
     combined_text = ' '.join(texts)
 
@@ -203,16 +202,11 @@ def extract_card_number_from_text(text: str) -> Optional[str]:
         Kartennummer als String (z.B. "80/182") oder None
     """
     # Normalize häufige OCR-Fehler
-    # O (Buchstabe) -> 0 (Ziffer)
-    # l (Buchstabe) -> 1 (Ziffer)
     normalized = text.replace('O', '0').replace('l', '1').replace('I', '1').replace('S', '5')
-
     logger.debug(f"Normalized text: {normalized}")
 
     # Pattern: (1-3 Ziffern) / (1-3 Ziffern)
-    # Erlaubt optional Whitespace um den Slash
     pattern = r'(\d{1,3})\s*/\s*(\d{1,3})'
-
     matches = re.findall(pattern, normalized)
 
     if matches:
@@ -220,7 +214,29 @@ def extract_card_number_from_text(text: str) -> Optional[str]:
         logger.info(f"✓ Kartennummer gefunden: {card_num}")
         return card_num
 
-    logger.warning(f"Keine Kartennummer mit Regex gefunden in: {normalized}")
+    return None
+
+
+def extract_card_number_from_ocr_results(ocr_results: list) -> Optional[str]:
+    """
+    Durchsuche JEDEN erkannten Text-Fragment nach XXX/YYY Pattern.
+    Robuster als kombinierter Text.
+
+    Args:
+        ocr_results: Liste von (bbox, text, confidence) Tuples von EasyOCR
+
+    Returns:
+        Kartennummer oder None
+    """
+    logger.debug(f"Suche nach Kartennummer in {len(ocr_results)} Text-Fragmenten...")
+
+    for bbox, text, confidence in ocr_results:
+        card_num = extract_card_number_from_text(text)
+        if card_num:
+            logger.info(f"✓ Kartennummer in Fragment gefunden: {card_num} (conf={confidence:.2f})")
+            return card_num
+
+    logger.warning("Keine Kartennummer in OCR-Fragmenten gefunden")
     return None
 
 
@@ -270,12 +286,12 @@ def extract_card_number(image_path: str,
     reader = get_ocr_reader(gpu=gpu)
     text, results = extract_text_from_region(processed, reader)
 
-    if not text.strip():
+    if not results:
         logger.warning("OCR hat keinen Text erkannt")
         return None
 
-    # 4. Kartennummer extrahieren
-    card_number = extract_card_number_from_text(text)
+    # 4. Kartennummer extrahieren (durchsuche JEDEN Fragment nach XXX/YYY)
+    card_number = extract_card_number_from_ocr_results(results)
 
     return card_number
 

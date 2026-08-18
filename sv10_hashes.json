@@ -1,0 +1,2442 @@
+{
+  "1": {
+    "name": "Ethan's Pinsir",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "1c0323a0ffff7f02",
+      "whash": "04032362ffff7f00",
+      "phash": "a76f1c98d86623b1",
+      "dhash": "f1664e4ed8dfcee6"
+    }
+  },
+  "10": {
+    "name": "Shaymin",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "1cf327019f7f7f10",
+      "whash": "5c7023039fef7f00",
+      "phash": "a7765cd85a33078c",
+      "dhash": "b0a6464d37dfcee6"
+    }
+  },
+  "100": {
+    "name": "Medicham",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "c00181f1ffffff00",
+      "whash": "880081f1fffbff00",
+      "phash": "ea7a1591cbca4a95",
+      "dhash": "990f27a3c393e266"
+    }
+  },
+  "101": {
+    "name": "Regirock ex",
+    "rarity": "Double Rare",
+    "hashes": {
+      "average": "0cee8800cfefffe3",
+      "whash": "0ce80800cf6fffe3",
+      "phash": "f15bc3b2261e58d8",
+      "dhash": "88ca32379edccec6"
+    }
+  },
+  "102": {
+    "name": "Cynthia's Gible",
+    "rarity": "Common",
+    "hashes": {
+      "average": "6c060301ffffff00",
+      "whash": "2c060301ffffff00",
+      "phash": "a73310d84e6f2bb1",
+      "dhash": "c9cc4c4f9992e266"
+    }
+  },
+  "103": {
+    "name": "Cynthia's Gabite",
+    "rarity": "Common",
+    "hashes": {
+      "average": "0c67c3c2bfff7f00",
+      "whash": "0067c3c29f7f7f00",
+      "phash": "b13143da5ed82c6e",
+      "dhash": "d88e8e146191cc66"
+    }
+  },
+  "104": {
+    "name": "Cynthia's Garchomp ex",
+    "rarity": "Double Rare",
+    "hashes": {
+      "average": "40800161ffff7e02",
+      "whash": "480002f1fffffe02",
+      "phash": "d17b14d649c915a7",
+      "dhash": "9009ded3cc9cc486"
+    }
+  },
+  "105": {
+    "name": "Hippopotas",
+    "rarity": "Common",
+    "hashes": {
+      "average": "c48080c1ffffff30",
+      "whash": "04c08081ffffff30",
+      "phash": "ea6a159197b4a58d",
+      "dhash": "8d01070ddb93e266"
+    }
+  },
+  "106": {
+    "name": "Hippowdon",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "cd800091ffffffbf",
+      "whash": "cc000081ffffff30",
+      "phash": "ea7a5091d7c70f81",
+      "dhash": "39317365d155e266"
+    }
+  },
+  "107": {
+    "name": "Mudbray",
+    "rarity": "Common",
+    "hashes": {
+      "average": "5ed0c001ffffff00",
+      "whash": "1cd0c001ffff7f00",
+      "phash": "ea78c4851f1b33e1",
+      "dhash": "b0b51939c7d4e266"
+    }
+  },
+  "108": {
+    "name": "Mudsdale",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "88808197ffffff30",
+      "whash": "08008197ffffff00",
+      "phash": "ea7a50919d9585e5",
+      "dhash": "192127277bccc666"
+    }
+  },
+  "109": {
+    "name": "Arven's Toedscool",
+    "rarity": "Common",
+    "hashes": {
+      "average": "60f06238ffff7f00",
+      "whash": "40f06238fff77e00",
+      "phash": "c5e064f01f1b3736",
+      "dhash": "8c87c6518596e266"
+    }
+  },
+  "11": {
+    "name": "Dwebble",
+    "rarity": "Common",
+    "hashes": {
+      "average": "140000e1ffffff32",
+      "whash": "140000e1ffffff12",
+      "phash": "af7e1490d4c41f99",
+      "dhash": "b4374b47dbdbc666"
+    }
+  },
+  "110": {
+    "name": "Arven's Toedscruel",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "83830080ffffff30",
+      "whash": "c6830080ffffff00",
+      "phash": "ea7a34b4c14b4bc3",
+      "dhash": "0e26516392d5c666"
+    }
+  },
+  "111": {
+    "name": "Cornerstone Mask Ogerpon",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "e0e02100ffffff00",
+      "whash": "60e02100ffffff20",
+      "phash": "e36254941e1f1fb1",
+      "dhash": "ac8745798b47c666"
+    }
+  },
+  "112": {
+    "name": "Team Rocket's Ekans",
+    "rarity": "Common",
+    "hashes": {
+      "average": "fb0d87fb91810181",
+      "whash": "ff8d87ff81818181",
+      "phash": "ae9dd1c9c9e48626",
+      "dhash": "5251653371614d35"
+    }
+  },
+  "113": {
+    "name": "Team Rocket's Arbok",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "fbb83dbfc1110080",
+      "whash": "ffb82dff81918180",
+      "phash": "eecf64e0b0b18726",
+      "dhash": "3761695915614d25"
+    }
+  },
+  "114": {
+    "name": "Team Rocket's Nidoran♀",
+    "rarity": "Common",
+    "hashes": {
+      "average": "fb8d0d8381898185",
+      "whash": "ff8d8d8f81998185",
+      "phash": "bb9bc4e4e4a591d0",
+      "dhash": "2739595b61694d35"
+    }
+  },
+  "115": {
+    "name": "Team Rocket's Nidorina",
+    "rarity": "Common",
+    "hashes": {
+      "average": "ffb019cf91b10180",
+      "whash": "ff91b9cf81e18181",
+      "phash": "eeccc4f1b1b1988c",
+      "dhash": "0323711b6169650d"
+    }
+  },
+  "116": {
+    "name": "Team Rocket's Nidoqueen",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "fffc3de781010080",
+      "whash": "fffc3dff81010180",
+      "phash": "ead0d47cb5a58b03",
+      "dhash": "22754d4d71616535"
+    }
+  },
+  "117": {
+    "name": "Team Rocket's Nidoran♂",
+    "rarity": "Common",
+    "hashes": {
+      "average": "fffdffff81010080",
+      "whash": "fff9ffff01010000",
+      "phash": "ebc1542ebca18d66",
+      "dhash": "16c9c95b6d614d2d"
+    }
+  },
+  "118": {
+    "name": "Team Rocket's Nidorino",
+    "rarity": "Common",
+    "hashes": {
+      "average": "ff80199981b1a185",
+      "whash": "ff899999819181cf",
+      "phash": "eadbd0e0b4b49c16",
+      "dhash": "0261716b21614d1d"
+    }
+  },
+  "119": {
+    "name": "Team Rocket's Nidoking ex",
+    "rarity": "Double Rare",
+    "hashes": {
+      "average": "d6f67fcf01000007",
+      "whash": "f6f7ffef01000007",
+      "phash": "b7d6446eb878c829",
+      "dhash": "244edb1c2b634356"
+    }
+  },
+  "12": {
+    "name": "Crustle",
+    "rarity": "Rare",
+    "hashes": {
+      "average": "dc640081ffffff3e",
+      "whash": "1c600081ffff7f12",
+      "phash": "a272d49cdc783d85",
+      "dhash": "b8cd07177bcddee6"
+    }
+  },
+  "120": {
+    "name": "Team Rocket's Zubat",
+    "rarity": "Common",
+    "hashes": {
+      "average": "f737618181010181",
+      "whash": "ffb7f1e181818185",
+      "phash": "eec6849cf861c971",
+      "dhash": "6664c54771614d35"
+    }
+  },
+  "121": {
+    "name": "Team Rocket's Golbat",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "ffe3f599c1010080",
+      "whash": "ffd3f5dd81810181",
+      "phash": "eef495a1f1c8ca42",
+      "dhash": "1626253515614515"
+    }
+  },
+  "122": {
+    "name": "Team Rocket's Crobat ex",
+    "rarity": "Double Rare",
+    "hashes": {
+      "average": "c0c1c1ff6100015f",
+      "whash": "f2c1f1ff010101ff",
+      "phash": "eaf8140791de9c2e",
+      "dhash": "12072719c7696795"
+    }
+  },
+  "123": {
+    "name": "Team Rocket's Grimer",
+    "rarity": "Common",
+    "hashes": {
+      "average": "fb999dbf81810080",
+      "whash": "fb9d9dff81810181",
+      "phash": "ba8de460f4f0da43",
+      "dhash": "0673797161694d2d"
+    }
+  },
+  "124": {
+    "name": "Team Rocket's Muk",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "ffe0e9ff81110080",
+      "whash": "ffe1f9ff81810180",
+      "phash": "eae0d48cbc95892f",
+      "dhash": "260d0b1325614d25"
+    }
+  },
+  "125": {
+    "name": "Team Rocket's Koffing",
+    "rarity": "Common",
+    "hashes": {
+      "average": "ff0c84fdc1a10180",
+      "whash": "ff8ce5fd81a18181",
+      "phash": "fad215a5e5c4e470",
+      "dhash": "73792d6911616505"
+    }
+  },
+  "126": {
+    "name": "Team Rocket's Weezing",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "ff811983819d8181",
+      "whash": "ff81998b81ff8181",
+      "phash": "fad9d4e4e4858989",
+      "dhash": "2a3951536d294d25"
+    }
+  },
+  "127": {
+    "name": "Team Rocket's Murkrow",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "ffd3d39f81810080",
+      "whash": "ffd3f39f81818180",
+      "phash": "eea4c0c39393cf64",
+      "dhash": "0227273961610535"
+    }
+  },
+  "128": {
+    "name": "Team Rocket's Sneasel",
+    "rarity": "Rare",
+    "hashes": {
+      "average": "fb1131bf81bd8180",
+      "whash": "fb1133ff819d8181",
+      "phash": "af8f60e0f0d19636",
+      "dhash": "53736b6163694d25"
+    }
+  },
+  "129": {
+    "name": "Cynthia's Spiritomb",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "bb3cffef81010000",
+      "whash": "fbbdffff01810000",
+      "phash": "eac34c6c3cb5c5e0",
+      "dhash": "6369cc0d61614d25"
+    }
+  },
+  "13": {
+    "name": "Fomantis",
+    "rarity": "Common",
+    "hashes": {
+      "average": "04068181ffffff00",
+      "whash": "04068191ffffff00",
+      "phash": "a47e14935b6a0b9d",
+      "dhash": "dc042723d3dac6f6"
+    }
+  },
+  "130": {
+    "name": "Marnie's Purrloin",
+    "rarity": "Common",
+    "hashes": {
+      "average": "ff9381f781910181",
+      "whash": "ff9383f781918185",
+      "phash": "aeb4d4c1e0e09d1f",
+      "dhash": "2627751561614d35"
+    }
+  },
+  "131": {
+    "name": "Marnie's Liepard",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "f3c89dff81010080",
+      "whash": "ffc599ff81910181",
+      "phash": "fad87465e5868e0a",
+      "dhash": "2631216d73614d2d"
+    }
+  },
+  "132": {
+    "name": "Marnie's Scraggy",
+    "rarity": "Common",
+    "hashes": {
+      "average": "f33f7dff81000000",
+      "whash": "ff3fffff01010000",
+      "phash": "8f8715387c64ec63",
+      "dhash": "6668432161614d2d"
+    }
+  },
+  "133": {
+    "name": "Marnie's Scrafty",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "f7cf3fbd81010000",
+      "whash": "ffdf9fbd81010180",
+      "phash": "bf95f464ecca8822",
+      "dhash": "261e587165614d25"
+    }
+  },
+  "134": {
+    "name": "Marnie's Impidimp",
+    "rarity": "Common",
+    "hashes": {
+      "average": "ff3cfeff81000080",
+      "whash": "ffbcffff81010000",
+      "phash": "cfc5342ce5c1f074",
+      "dhash": "62615d4165694915"
+    }
+  },
+  "135": {
+    "name": "Marnie's Morgrem",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "ffe7b5a181010180",
+      "whash": "ffeff5a181818181",
+      "phash": "eed4d4b8e961cc84",
+      "dhash": "264d6d4b59694d25"
+    }
+  },
+  "136": {
+    "name": "Marnie's Grimmsnarl ex",
+    "rarity": "Double Rare",
+    "hashes": {
+      "average": "f6fac0e101b1018f",
+      "whash": "f2fbc0f101b9019f",
+      "phash": "fec09487b7634c32",
+      "dhash": "84a2a30315634f3e"
+    }
+  },
+  "137": {
+    "name": "Marnie's Morpeko",
+    "rarity": "Common",
+    "hashes": {
+      "average": "ff3fffef81010080",
+      "whash": "ff9ffffd01810000",
+      "phash": "ae949569e9e0e46c",
+      "dhash": "766d2d4931614d2d"
+    }
+  },
+  "138": {
+    "name": "Arven's Maschiff",
+    "rarity": "Common",
+    "hashes": {
+      "average": "fbffe7ff81000000",
+      "whash": "ffffe7ff01010000",
+      "phash": "a6a5544acae1b13f",
+      "dhash": "a686cecf71254d35"
+    }
+  },
+  "139": {
+    "name": "Arven's Mabosstiff ex",
+    "rarity": "Double Rare",
+    "hashes": {
+      "average": "fefff1110101010f",
+      "whash": "feffe3338101001f",
+      "phash": "aee494191d64c677",
+      "dhash": "248cc7a33ba39f3f"
+    }
+  },
+  "14": {
+    "name": "Lurantis",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "1c640101ffffff02",
+      "whash": "5c640101ffff7f00",
+      "phash": "a17a54d07d2d1ed2",
+      "dhash": "b0dd1717dbdfc666"
+    }
+  },
+  "140": {
+    "name": "Forretress",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "c0840101fffffffb",
+      "whash": "40040001ffffffe9",
+      "phash": "bb3ed0c0cc6d4bc1",
+      "dhash": "953d1b17cdd7cecb"
+    }
+  },
+  "141": {
+    "name": "Skarmory",
+    "rarity": "Common",
+    "hashes": {
+      "average": "00c0e0f8ffff7f60",
+      "whash": "0088c2f8ff7f7f00",
+      "phash": "f07815954fca87a5",
+      "dhash": "b5988db1d3dacecb"
+    }
+  },
+  "142": {
+    "name": "Steven's Skarmory",
+    "rarity": "Common",
+    "hashes": {
+      "average": "70f1c1c0ff7f7f60",
+      "whash": "60f1c0c0ff7f6f00",
+      "phash": "e06c459d5b1b9297",
+      "dhash": "86878d89d8cfceca"
+    }
+  },
+  "143": {
+    "name": "Steven's Beldum",
+    "rarity": "Common",
+    "hashes": {
+      "average": "c08080c1ffffffff",
+      "whash": "000080c1ffffff69",
+      "phash": "ea7a179585e18996",
+      "dhash": "05191193d0d6cecb"
+    }
+  },
+  "144": {
+    "name": "Steven's Metang",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "f8000001ffffffeb",
+      "whash": "70000001ffffff69",
+      "phash": "bb3fc4c4e860e391",
+      "dhash": "81795d53d8cececb"
+    }
+  },
+  "145": {
+    "name": "Steven's Metagross ex",
+    "rarity": "Double Rare",
+    "hashes": {
+      "average": "603010e8eff76f62",
+      "whash": "603010e4efff6f60",
+      "phash": "c54f45b273f01d86",
+      "dhash": "d262f4d19e8e8cce"
+    }
+  },
+  "146": {
+    "name": "Zamazenta",
+    "rarity": "Rare",
+    "hashes": {
+      "average": "e4c0c080ffffff60",
+      "whash": "60c08080ffffff60",
+      "phash": "e272d5958f4e0c8d",
+      "dhash": "8d8d1301d8cfcecb"
+    }
+  },
+  "147": {
+    "name": "Team Rocket's Rattata",
+    "rarity": "Common",
+    "hashes": {
+      "average": "04000000ffffffff",
+      "whash": "24000000ffffff7e",
+      "phash": "bf3ec0c0d2de8ec0",
+      "dhash": "cd777179d4d6cac4"
+    }
+  },
+  "148": {
+    "name": "Team Rocket's Raticate",
+    "rarity": "Common",
+    "hashes": {
+      "average": "64000000ffffffff",
+      "whash": "44000000ffffff7e",
+      "phash": "ef6a8090d71f8bc1",
+      "dhash": "8d23737394d6cac4"
+    }
+  },
+  "149": {
+    "name": "Team Rocket's Meowth",
+    "rarity": "Common",
+    "hashes": {
+      "average": "24001000ffffffff",
+      "whash": "24000000ffffff7e",
+      "phash": "cf6e94b0f1d18ad0",
+      "dhash": "4d6561519ccccee4"
+    }
+  },
+  "15": {
+    "name": "Team Rocket's Blipbug",
+    "rarity": "Common",
+    "hashes": {
+      "average": "40000000ffffff7f",
+      "whash": "44000000ffffff7e",
+      "phash": "eb7a0484d5c78b99",
+      "dhash": "8d39395394cfc6e6"
+    }
+  },
+  "150": {
+    "name": "Team Rocket's Persian ex",
+    "rarity": "Double Rare",
+    "hashes": {
+      "average": "70707fd8f7e16363",
+      "whash": "70306fd8eff92061",
+      "phash": "c14f450d795b9387",
+      "dhash": "c3e7c8109753cec6"
+    }
+  },
+  "151": {
+    "name": "Kangaskhan",
+    "rarity": "Common",
+    "hashes": {
+      "average": "64000830ffffff3e",
+      "whash": "20000820ffffff3e",
+      "phash": "c16b1592c6ce999d",
+      "dhash": "c9db1361cacccee4"
+    }
+  },
+  "152": {
+    "name": "Tauros",
+    "rarity": "Common",
+    "hashes": {
+      "average": "100181c3ffffff7e",
+      "whash": "10000181ffffff3c",
+      "phash": "a72f4ed0d2f070d1",
+      "dhash": "216b0f0fd8dccae4"
+    }
+  },
+  "153": {
+    "name": "Team Rocket's Porygon",
+    "rarity": "Common",
+    "hashes": {
+      "average": "60000000ffffffff",
+      "whash": "60000000ffffff7e",
+      "phash": "9e7ec0c1d5949b91",
+      "dhash": "c571717598dac6e4"
+    }
+  },
+  "154": {
+    "name": "Team Rocket's Porygon2",
+    "rarity": "Common",
+    "hashes": {
+      "average": "76000000fffffffe",
+      "whash": "44000000ffffff7e",
+      "phash": "bf3b84c4c4672bc1",
+      "dhash": "ac39594dd0cec6e4"
+    }
+  },
+  "155": {
+    "name": "Team Rocket's Porygon-Z",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "e7000080ffffffff",
+      "whash": "40000000fffffffe",
+      "phash": "ae6ec191d5d4c8cc",
+      "dhash": "8d6b212578cecee4"
+    }
+  },
+  "156": {
+    "name": "Taillow",
+    "rarity": "Common",
+    "hashes": {
+      "average": "5e070401ffffff7e",
+      "whash": "14020000ffffff3e",
+      "phash": "b73ec4c0c96a5ad2",
+      "dhash": "b06c5d599adc8ecc"
+    }
+  },
+  "157": {
+    "name": "Swellow",
+    "rarity": "Common",
+    "hashes": {
+      "average": "18008000ffffff7e",
+      "whash": "18008000ffffff3e",
+      "phash": "ea6a15958f8695b1",
+      "dhash": "b1091165dadecee4"
+    }
+  },
+  "158": {
+    "name": "Arven's Skwovet",
+    "rarity": "Common",
+    "hashes": {
+      "average": "448003c4ffffff36",
+      "whash": "04800140ffffff3c",
+      "phash": "e57e4c92d292398d",
+      "dhash": "8c06178cdcdecae4"
+    }
+  },
+  "159": {
+    "name": "Arven's Greedent",
+    "rarity": "Rare",
+    "hashes": {
+      "average": "45070100ffffff7e",
+      "whash": "00030000ffffff7e",
+      "phash": "bf3fc0c14a620e9e",
+      "dhash": "893a3d5d6ccecce4"
+    }
+  },
+  "16": {
+    "name": "Applin",
+    "rarity": "Common",
+    "hashes": {
+      "average": "1406a081ffffff10",
+      "whash": "14008181ffffff12",
+      "phash": "e6661c981a6f4fd0",
+      "dhash": "b48c4f4fd8cec666"
+    }
+  },
+  "160": {
+    "name": "Squawkabilly",
+    "rarity": "Common",
+    "hashes": {
+      "average": "0060c0c0ffffff30",
+      "whash": "0460c0c0ff7fff30",
+      "phash": "e17a14941f9b1b93",
+      "dhash": "8cc59953dad8cee4"
+    }
+  },
+  "161": {
+    "name": "Arven's Sandwich",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "0860c003ffff7e00",
+      "whash": "0860c807ffff7e20",
+      "phash": "d17a42863fbd2dc0",
+      "dhash": "f8c9a23ef8f0f0d8"
+    }
+  },
+  "162": {
+    "name": "Cynthia's Power Weight",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "7a80900cffffff60",
+      "whash": "38801008ffffff60",
+      "phash": "da7a65859393c6c4",
+      "dhash": "d233215971f0c0c9"
+    }
+  },
+  "163": {
+    "name": "Emcee's Hype",
+    "rarity": "Common",
+    "hashes": {
+      "average": "1c684000ffffff20",
+      "whash": "1c684008ffff7f20",
+      "phash": "c97b51943f3c68e0",
+      "dhash": "f0d99173e8f8e0c8"
+    }
+  },
+  "164": {
+    "name": "Energy Recycler",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "3c00000fffffff7e",
+      "whash": "1c000007ffffff28",
+      "phash": "9f3f40c0b3b3c4cc",
+      "dhash": "f8717d5af0f0e0d8"
+    }
+  },
+  "165": {
+    "name": "Ethan's Adventure",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "3c030020ffffff60",
+      "whash": "1c020220ffffff28",
+      "phash": "833fcccc4a721b99",
+      "dhash": "f84a4a4ddaf0c0d8"
+    }
+  },
+  "166": {
+    "name": "Granite Cave",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "7f000000ffffff7e",
+      "whash": "7e000000ffffff60",
+      "phash": "9b3bc184cdc4f3c1",
+      "dhash": "f071597171f0e0ca"
+    }
+  },
+  "167": {
+    "name": "Judge",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "7c000000ffffff68",
+      "whash": "3c000000ffffff6c",
+      "phash": "c76f919066663d98",
+      "dhash": "f0551747ecf0c0d8"
+    }
+  },
+  "168": {
+    "name": "Sacred Ash",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "187c8400ffff7e20",
+      "whash": "18fc8400ff7f7e20",
+      "phash": "d27ac1852f3a31b5",
+      "dhash": "f0b81d3df0f0e0d8"
+    }
+  },
+  "169": {
+    "name": "Spikemuth Gym",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "3c000000ffffff60",
+      "whash": "3e000001ffffff60",
+      "phash": "9b3f41c4c3c92bd1",
+      "dhash": "f82d5b4df8f0c0ca"
+    }
+  },
+  "17": {
+    "name": "Dipplin",
+    "rarity": "Common",
+    "hashes": {
+      "average": "9c000181ffffff3a",
+      "whash": "1c000001ffffff3a",
+      "phash": "ae7e54d0d8351785",
+      "dhash": "b5756727dbcfc666"
+    }
+  },
+  "170": {
+    "name": "Team Rocket's Archer",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "3e000000ffffff7e",
+      "whash": "3c000000ffffff6c",
+      "phash": "db7ac484b71d8cc4",
+      "dhash": "f0113151ccf0e2d8"
+    }
+  },
+  "171": {
+    "name": "Team Rocket's Ariana",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "38070200ffffff68",
+      "whash": "18070100ffffff60",
+      "phash": "873fd0c04b4ecef0",
+      "dhash": "f05e6c43c1f0c0d8"
+    }
+  },
+  "172": {
+    "name": "Team Rocket's Bother-Bot",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "3800c301ffffff7e",
+      "whash": "18000101ffffff3c",
+      "phash": "9f3f40cc0eb1f1c1",
+      "dhash": "e0731b6f70f0d0c8"
+    }
+  },
+  "173": {
+    "name": "Team Rocket's Factory",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "3ec00001ffffff60",
+      "whash": "3e800000ffffff60",
+      "phash": "ca6ed0952f2f4ec0",
+      "dhash": "f055696bc1f0c0c2"
+    }
+  },
+  "174": {
+    "name": "Team Rocket's Giovanni",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "78000001ffffff7e",
+      "whash": "3a000000ffffff6c",
+      "phash": "af3ed0d065699392",
+      "dhash": "e22d5913a2f8c0d8"
+    }
+  },
+  "175": {
+    "name": "Team Rocket's Great Ball",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "78000000ffffff7e",
+      "whash": "18000000ffffff7e",
+      "phash": "9b7b45c4c6c99991",
+      "dhash": "e2551971e4f0e0d8"
+    }
+  },
+  "176": {
+    "name": "Team Rocket's Petrel",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "3e0000c4ffffff6c",
+      "whash": "1c000044ffffff68",
+      "phash": "e23e0d98d2f2a5c5",
+      "dhash": "e073468dd9e0c0d8"
+    }
+  },
+  "177": {
+    "name": "Team Rocket's Proton",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "10362202ffff7e20",
+      "whash": "18360302ffff7e20",
+      "phash": "872648d83b3b6ec9",
+      "dhash": "f0e6465e7ae0f0d8"
+    }
+  },
+  "178": {
+    "name": "Team Rocket's Transceiver",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "7c000080ffffff7e",
+      "whash": "18000000ffffff7e",
+      "phash": "da7e8585cb7834c4",
+      "dhash": "f2651d19c1f0f0d8"
+    }
+  },
+  "179": {
+    "name": "Team Rocket's Venture Bomb",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "38200000ffffff7e",
+      "whash": "18000000ffffff7e",
+      "phash": "937bcdcc0e30bcc1",
+      "dhash": "f1499d5dc9b0f0c8"
+    }
+  },
+  "18": {
+    "name": "Hydrapple",
+    "rarity": "Rare",
+    "hashes": {
+      "average": "800010c3ffffff3e",
+      "whash": "000000c3ffffff3a",
+      "phash": "aa7a5891f4f68685",
+      "dhash": "3133718fdbcfce66"
+    }
+  },
+  "180": {
+    "name": "Team Rocket's Watchtower",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "78000000ffffff60",
+      "whash": "7c000000ffffff68",
+      "phash": "ca7e4191b5e4e4c5",
+      "dhash": "f259072dd8f0e0ca"
+    }
+  },
+  "181": {
+    "name": "TM Machine",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "1c222301ffff7f28",
+      "whash": "1c220301ffff7e28",
+      "phash": "8726c1d91b3f66e0",
+      "dhash": "f0c64e6ff0f0e0d8"
+    }
+  },
+  "182": {
+    "name": "Team Rocket's Energy",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "ff00800001ffffff",
+      "whash": "fe00000001ffffff",
+      "phash": "ae6ad0852dd09b2f",
+      "dhash": "f065492377f8f0f0"
+    }
+  },
+  "183": {
+    "name": "Yanma",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "b1d0f791c0c19cfd",
+      "whash": "f1d0f58180c1dcfd",
+      "phash": "ea2fc1782d96c6c2",
+      "dhash": "67136537310135c1"
+    }
+  },
+  "184": {
+    "name": "Cynthia's Roserade",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "fcfcfed931001010",
+      "whash": "fcfefff931001010",
+      "phash": "cad216672c793b16",
+      "dhash": "68cc98b367433031"
+    }
+  },
+  "185": {
+    "name": "Shaymin",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "5ec1e0f1fd79032f",
+      "whash": "6ec1e0f1fd78070c",
+      "phash": "cbf811949c0f4b97",
+      "dhash": "9c86496331d14cd9"
+    }
+  },
+  "186": {
+    "name": "Crustle",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "c180818181e1ffff",
+      "whash": "e980818181e1ffff",
+      "phash": "eb7e85606895f60a",
+      "dhash": "291729171703f3e3"
+    }
+  },
+  "187": {
+    "name": "Team Rocket's Spidops",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "fba90414356f9cf9",
+      "whash": "fba90015554398ff",
+      "phash": "ea2fd9b9e41ca04a",
+      "dhash": "136b6965d58f3181"
+    }
+  },
+  "188": {
+    "name": "Hydrapple",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "efd8c8f0f8081813",
+      "whash": "fed8d0f0f888181f",
+      "phash": "daf03583c6b6134d",
+      "dhash": "8c911101e179716a"
+    }
+  },
+  "189": {
+    "name": "Rapidash",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "d2cfffffff780000",
+      "whash": "10cfefffff480000",
+      "phash": "f2f4106ccd24db5a",
+      "dhash": "a688594665a9acd1"
+    }
+  },
+  "19": {
+    "name": "Team Rocket's Tarountula",
+    "rarity": "Common",
+    "hashes": {
+      "average": "64010180ffffffff",
+      "whash": "24000100ffffff3e",
+      "phash": "af2f90d0d07c8fc1",
+      "dhash": "8d6f6323d8cec666"
+    }
+  },
+  "190": {
+    "name": "Ethan's Typhlosion",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "d61b8d8f1f1d0c4e",
+      "whash": "ee1b8d8f1d1d0c0e",
+      "phash": "9becc488b473e05e",
+      "dhash": "2c76595931b9599e"
+    }
+  },
+  "191": {
+    "name": "Team Rocket's Houndoom",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "fd8796908c9c043c",
+      "whash": "ff8787908c8d84bc",
+      "phash": "9ae5c4dac93ec492",
+      "dhash": "290d247359392d79"
+    }
+  },
+  "192": {
+    "name": "Blaziken",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "f9b9bfb3a3c02303",
+      "whash": "f9b9bfb3a3800303",
+      "phash": "aeccd170cca5f807",
+      "dhash": "23636767660d4e4c"
+    }
+  },
+  "193": {
+    "name": "Misty's Psyduck",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "833f7781071d1a0e",
+      "whash": "c33b7781071d1e1e",
+      "phash": "8fa7d4783272e2c4",
+      "dhash": "1672c55d77317432"
+    }
+  },
+  "194": {
+    "name": "Misty's Lapras",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "0000e7b5e0f8fcfc",
+      "whash": "0000e6b7f0f8fcfc",
+      "phash": "e23619482ecff1e1",
+      "dhash": "159c8e6d0591c1c0"
+    }
+  },
+  "195": {
+    "name": "Clamperl",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "ffbff1e090c140ff",
+      "whash": "7fbff08080c140ff",
+      "phash": "eecc91199a62ed4c",
+      "dhash": "f362672d71518d94"
+    }
+  },
+  "196": {
+    "name": "Electrike",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "0100b90f8f9f1fff",
+      "whash": "1100b90f878f1f7f",
+      "phash": "bf6ac03eb3a4c0c3",
+      "dhash": "6171717d7d3977d0"
+    }
+  },
+  "197": {
+    "name": "Rotom",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "0c5e839ffdfc3000",
+      "whash": "1e36c39ff9fc3000",
+      "phash": "ceb504d2921eb86f",
+      "dhash": "98d6367c4119e1c7"
+    }
+  },
+  "198": {
+    "name": "Team Rocket's Orbeetle",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "fc80c18303811e3f",
+      "whash": "fdc0c18383c11f3f",
+      "phash": "be62d4c2ad98e28d",
+      "dhash": "a1051f3b73193072"
+    }
+  },
+  "199": {
+    "name": "Team Rocket's Weezing",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "dd8c2fa1817918bf",
+      "whash": "fd8585a181d918bf",
+      "phash": "bfb0d068fe4fc102",
+      "dhash": "393d5d6f4dd37179"
+    }
+  },
+  "2": {
+    "name": "Yanma",
+    "rarity": "Common",
+    "hashes": {
+      "average": "1e0e0000ffffff3e",
+      "whash": "1e0a0000ffffff22",
+      "phash": "bf1e94c0c86267e5",
+      "dhash": "b4326d519bdecee6"
+    }
+  },
+  "20": {
+    "name": "Team Rocket's Spidops",
+    "rarity": "Rare",
+    "hashes": {
+      "average": "c0000088ffffffff",
+      "whash": "c0000080ffffff3e",
+      "phash": "fa7a2484cdd98387",
+      "dhash": "2d2549196ccfce66"
+    }
+  },
+  "200": {
+    "name": "Team Rocket's Murkrow",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "76c18903a1ddcdff",
+      "whash": "f6c1800181ddcdff",
+      "phash": "bb2cc0c28799cdda",
+      "dhash": "ec2f3b6b6b2b29ec"
+    }
+  },
+  "201": {
+    "name": "Zamazenta",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "df87898183870707",
+      "whash": "ff878981838f070f",
+      "phash": "bd5a80a4cea6cb1d",
+      "dhash": "171e1b1d1f3f5e2e"
+    }
+  },
+  "202": {
+    "name": "Team Rocket's Raticate",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "dd8083839f8123ff",
+      "whash": "fd8083839f8103ff",
+      "phash": "be7a40da9ca5869c",
+      "dhash": "2d192f56302d4730"
+    }
+  },
+  "203": {
+    "name": "Team Rocket's Meowth",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "99008031b9ffb99f",
+      "whash": "d9008031b1ffb1df",
+      "phash": "ee6eb0d1c9c8f142",
+      "dhash": "3375656761236135"
+    }
+  },
+  "204": {
+    "name": "Kangaskhan",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "1f010080a39f7fff",
+      "whash": "1f010081839f7fff",
+      "phash": "bb3b9494c0cad8e3",
+      "dhash": "797f59514f3de598"
+    }
+  },
+  "205": {
+    "name": "Arven's Greedent",
+    "rarity": "Illustration Rare",
+    "hashes": {
+      "average": "8fcfc0e6dadf8096",
+      "whash": "cf43c0c6db9f809c",
+      "phash": "bab11098c776cbc9",
+      "dhash": "39961a5c34313d54"
+    }
+  },
+  "206": {
+    "name": "Yanmega ex",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "92066f00007f0307",
+      "whash": "da077f00007f5f0f",
+      "phash": "94b6b46c6a69c987",
+      "dhash": "343cd89169f9a6f4"
+    }
+  },
+  "207": {
+    "name": "Arboliva ex",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "3c5e6c2400ef7f20",
+      "whash": "1c7e6c2c01f77f20",
+      "phash": "915a95ac4fc7722c",
+      "dhash": "f898c8cc758eccc6"
+    }
+  },
+  "208": {
+    "name": "Team Rocket's Moltres ex",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "7efff7fe7c601000",
+      "whash": "7cfdf7fe5c401000",
+      "phash": "d0a52d4a92ce733e",
+      "dhash": "e0970e64d989a0a4"
+    }
+  },
+  "209": {
+    "name": "Ethan's Ho-Oh ex",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "3c74f0c1fbfe4f42",
+      "whash": "3c74f0c1f3ee5e00",
+      "phash": "c44a13992d3b5f8d",
+      "dhash": "c8c5a587b698ac8e"
+    }
+  },
+  "21": {
+    "name": "Smoliv",
+    "rarity": "Common",
+    "hashes": {
+      "average": "1e010081ffffff12",
+      "whash": "1c041001ffffff12",
+      "phash": "8f1f15d1f46448d9",
+      "dhash": "34797147d3d2c666"
+    }
+  },
+  "210": {
+    "name": "Cetitan ex",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "00687ce6c43cfe60",
+      "whash": "00387cfec63cfe60",
+      "phash": "d01a693c7d960f9c",
+      "dhash": "b3d8c8cc3468ccc6"
+    }
+  },
+  "211": {
+    "name": "Dondozo ex",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "016d9c80a0fbfe62",
+      "whash": "007c9c88e0fbfe66",
+      "phash": "d91b80a02f3dedd4",
+      "dhash": "7a99383801a384ce"
+    }
+  },
+  "212": {
+    "name": "Electivire ex",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "78397ce003db7f62",
+      "whash": "787c7cf0034b7f20",
+      "phash": "c1cb53bc66f05e84",
+      "dhash": "cad3d0c596b29ec6"
+    }
+  },
+  "213": {
+    "name": "Team Rocket's Mewtwo ex",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "787c3c3d1e1e0406",
+      "whash": "787c3c3f1e1e0c0e",
+      "phash": "92c361fcac2bad16",
+      "dhash": "d198d9fdb4b4283c"
+    }
+  },
+  "214": {
+    "name": "Regirock ex",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "3e5bd9805cc0f060",
+      "whash": "3e7bf980dcc2f060",
+      "phash": "e08d85d4566e7a6a",
+      "dhash": "d2b2a335b48c82ce"
+    }
+  },
+  "215": {
+    "name": "Cynthia's Garchomp ex",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "7effd88361087960",
+      "whash": "7eff9883e1087960",
+      "phash": "c9dcc683363d784a",
+      "dhash": "c4f2330e835ad3c4"
+    }
+  },
+  "216": {
+    "name": "Team Rocket's Nidoking ex",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "f8e026347c7f0006",
+      "whash": "f8e4263c7e7f0007",
+      "phash": "c6f278c99c2d9513",
+      "dhash": "a1c94ce4e8e327bc"
+    }
+  },
+  "217": {
+    "name": "Team Rocket's Crobat ex",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "fcf0e0e6eef00007",
+      "whash": "fcf0e0e6eee0400f",
+      "phash": "e2c00dc996f28f1f",
+      "dhash": "a0c30c0cd4c3897c"
+    }
+  },
+  "218": {
+    "name": "Arven's Mabosstiff ex",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "7eff470703c0c262",
+      "whash": "7eff0f0703c2ca22",
+      "phash": "b596c0780f387e63",
+      "dhash": "b0d88c5e5e2a9ace"
+    }
+  },
+  "219": {
+    "name": "Team Rocket's Persian ex",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "037f7fe7cf7f1000",
+      "whash": "007f7fe78f7e1000",
+      "phash": "95a14bdd3b660c5a",
+      "dhash": "cadac68c1cb6a4ec"
+    }
+  },
+  "22": {
+    "name": "Dolliv",
+    "rarity": "Common",
+    "hashes": {
+      "average": "dc1800a1ffffff3e",
+      "whash": "180000a1ffffff32",
+      "phash": "ca7a1491c7e73694",
+      "dhash": "a9317541dbded666"
+    }
+  },
+  "220": {
+    "name": "Emcee's Hype",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "7f39edcbc1819f3e",
+      "whash": "7e39e1c9c1818e3e",
+      "phash": "a8c0973e61b0f3e3",
+      "dhash": "f0618993932f3854"
+    }
+  },
+  "221": {
+    "name": "Ethan's Adventure",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "7f5f9fffc181000f",
+      "whash": "7e5f87ffc180001e",
+      "phash": "bc841663e19b4e79",
+      "dhash": "f8ae36921b2b3936"
+    }
+  },
+  "222": {
+    "name": "Judge",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "fff7ecbc08c0003f",
+      "whash": "fff3eeb80840003f",
+      "phash": "cac585689ac3e93b",
+      "dhash": "f0ce8a6931a3cd78"
+    }
+  },
+  "223": {
+    "name": "Team Rocket's Archer",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "ff0c98843e9e1f1f",
+      "whash": "ff0c98801e1e1f1f",
+      "phash": "9e7a8194b369c88f",
+      "dhash": "fc7c33296c346e72"
+    }
+  },
+  "224": {
+    "name": "Team Rocket's Ariana",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "ffe0c8c09e8c091f",
+      "whash": "ffe0e8e08e85091f",
+      "phash": "fbe18596842b9399",
+      "dhash": "f096931514193b76"
+    }
+  },
+  "225": {
+    "name": "Team Rocket's Giovanni",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "ff212ffb0181011f",
+      "whash": "ff21affb0181011f",
+      "phash": "afc7d468cc90d23a",
+      "dhash": "f24358d333131734"
+    }
+  },
+  "226": {
+    "name": "Team Rocket's Petrel",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "ffffffc70103831f",
+      "whash": "ffddfdc70101001e",
+      "phash": "bcc0c42d37f2c24f",
+      "dhash": "f0b1951d37173678"
+    }
+  },
+  "227": {
+    "name": "Team Rocket's Proton",
+    "rarity": "Ultra Rare",
+    "hashes": {
+      "average": "ff2068c880f3b33f",
+      "whash": "ff2068c880f3a33f",
+      "phash": "e3d284ac98c9d96b",
+      "dhash": "e04dd9990b666b4a"
+    }
+  },
+  "228": {
+    "name": "Yanmega ex",
+    "rarity": "Special Illustration Rare",
+    "hashes": {
+      "average": "fff7e70304400006",
+      "whash": "ffffe72344600007",
+      "phash": "a5b59c5a5a49f132",
+      "dhash": "b0cece56c98a95bc"
+    }
+  },
+  "229": {
+    "name": "Team Rocket's Moltres ex",
+    "rarity": "Special Illustration Rare",
+    "hashes": {
+      "average": "00100e2f3f7e4406",
+      "whash": "0a182e3f3f7e6c06",
+      "phash": "950c68c9bd73c33a",
+      "dhash": "b6b46c5c76d28cac"
+    }
+  },
+  "23": {
+    "name": "Arboliva ex",
+    "rarity": "Double Rare",
+    "hashes": {
+      "average": "d401084eefffffe2",
+      "whash": "0001084eefff7fe2",
+      "phash": "9b4a44b4f59d4d49",
+      "dhash": "b0697b98999c9bc6"
+    }
+  },
+  "230": {
+    "name": "Ethan's Ho-Oh ex",
+    "rarity": "Special Illustration Rare",
+    "hashes": {
+      "average": "00632fb9fcfc7c00",
+      "whash": "08622fb9fcfcfc00",
+      "phash": "c6b535c86c4b3396",
+      "dhash": "d2c64c63a5c9e1ec"
+    }
+  },
+  "231": {
+    "name": "Team Rocket's Mewtwo ex",
+    "rarity": "Special Illustration Rare",
+    "hashes": {
+      "average": "9e2e6e1f1f0d1c1f",
+      "whash": "9e064e1f1f0e1c1f",
+      "phash": "99f7156dac1cc170",
+      "dhash": "784cd875b6b830b4"
+    }
+  },
+  "232": {
+    "name": "Cynthia's Garchomp ex",
+    "rarity": "Special Illustration Rare",
+    "hashes": {
+      "average": "fcffd40087044007",
+      "whash": "feffd4c187444007",
+      "phash": "f0ccc59727695a34",
+      "dhash": "d062b4072c9c9ade"
+    }
+  },
+  "233": {
+    "name": "Team Rocket's Nidoking ex",
+    "rarity": "Special Illustration Rare",
+    "hashes": {
+      "average": "fe8440c8c73f1fe2",
+      "whash": "7e044048c5bf1fe7",
+      "phash": "905a958de99bc372",
+      "dhash": "983c899925ea7c8e"
+    }
+  },
+  "234": {
+    "name": "Team Rocket's Crobat ex",
+    "rarity": "Special Illustration Rare",
+    "hashes": {
+      "average": "fc8018183178f8ff",
+      "whash": "fc801818f170f8ff",
+      "phash": "c83ff0e2bcca92a4",
+      "dhash": "2916736367c18194"
+    }
+  },
+  "235": {
+    "name": "Arven's Mabosstiff ex",
+    "rarity": "Special Illustration Rare",
+    "hashes": {
+      "average": "d053018438ff6760",
+      "whash": "5c5321843aff6762",
+      "phash": "a56d64945a729b4b",
+      "dhash": "b4b64b0d5abe8ec4"
+    }
+  },
+  "236": {
+    "name": "Ethan's Adventure",
+    "rarity": "Special Illustration Rare",
+    "hashes": {
+      "average": "fffe8c82210167ff",
+      "whash": "7ffc9682218124fe",
+      "phash": "e79c9923c43969c6",
+      "dhash": "f82830244d4f48c8"
+    }
+  },
+  "237": {
+    "name": "Team Rocket's Ariana",
+    "rarity": "Special Illustration Rare",
+    "hashes": {
+      "average": "7ec383cfc781420e",
+      "whash": "7ec383cfc781421e",
+      "phash": "b1bd4643939c1b63",
+      "dhash": "e486161e8f1b96d8"
+    }
+  },
+  "238": {
+    "name": "Team Rocket's Giovanni",
+    "rarity": "Special Illustration Rare",
+    "hashes": {
+      "average": "ff237efbc1f0003f",
+      "whash": "ff02fcf9c0e0003f",
+      "phash": "ca958563b9ccc678",
+      "dhash": "e2c6f4b319c1c578"
+    }
+  },
+  "239": {
+    "name": "Ethan's Ho-Oh ex",
+    "rarity": "Hyper Rare",
+    "hashes": {
+      "average": "2024f0c1fb3f0f47",
+      "whash": "3824f0c1fb1f0f47",
+      "phash": "a34e139de878cce4",
+      "dhash": "4b49a587b778dcde"
+    }
+  },
+  "24": {
+    "name": "Rellor",
+    "rarity": "Common",
+    "hashes": {
+      "average": "84c080a1ffffff3f",
+      "whash": "00c00081ffffff3a",
+      "phash": "ea7a50919f8e0ec5",
+      "dhash": "2999056fd3dade66"
+    }
+  },
+  "240": {
+    "name": "Team Rocket's Mewtwo ex",
+    "rarity": "Hyper Rare",
+    "hashes": {
+      "average": "006cefef1f0f0605",
+      "whash": "08ec6fff1f0b0605",
+      "phash": "93c3423cac33ad9e",
+      "dhash": "d9c9c8dc36366c2d"
+    }
+  },
+  "241": {
+    "name": "Cynthia's Garchomp ex",
+    "rarity": "Hyper Rare",
+    "hashes": {
+      "average": "f9fb988381080607",
+      "whash": "f9ff998381a90607",
+      "phash": "afccd043a635587a",
+      "dhash": "c3c2334e575b0a3c"
+    }
+  },
+  "242": {
+    "name": "Team Rocket's Crobat ex",
+    "rarity": "Hyper Rare",
+    "hashes": {
+      "average": "80e8fe9791fe04a7",
+      "whash": "80e8fec791de04a7",
+      "phash": "de6b531a2e34d10e",
+      "dhash": "19cbd43767d83444"
+    }
+  },
+  "243": {
+    "name": "Jamming Tower",
+    "rarity": "Hyper Rare",
+    "hashes": {
+      "average": "ff00d81fdf7c080b",
+      "whash": "ff00d81fdf7c001a",
+      "phash": "98c403d2bdbfc0f8",
+      "dhash": "f8d59132b0d97972"
+    }
+  },
+  "244": {
+    "name": "Levincia",
+    "rarity": "Hyper Rare",
+    "hashes": {
+      "average": "fe7f85811c1f1f10",
+      "whash": "7e5f85811c1f1f18",
+      "phash": "9ee685984b3e6a0e",
+      "dhash": "f0b66d6d71313473"
+    }
+  },
+  "25": {
+    "name": "Rabsca ex",
+    "rarity": "Double Rare",
+    "hashes": {
+      "average": "001ffdc75f7ffe20",
+      "whash": "001a7dc17f6efe20",
+      "phash": "941c479571fa43ab",
+      "dhash": "f066d5ad9ede8cc6"
+    }
+  },
+  "26": {
+    "name": "Teal Mask Ogerpon",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "6400007dffffff32",
+      "whash": "2400006dffff7f12",
+      "phash": "a27a5485d9c30dbd",
+      "dhash": "cd0d45559bcfc666"
+    }
+  },
+  "27": {
+    "name": "Growlithe",
+    "rarity": "Common",
+    "hashes": {
+      "average": "00182ee7ff7f7f00",
+      "whash": "00102ce7ff7f7f00",
+      "phash": "8b5a5ce064e39397",
+      "dhash": "d53159cdd9dace66"
+    }
+  },
+  "28": {
+    "name": "Arcanine",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "326f45c3ff6f6f00",
+      "whash": "006f4d43ff676f00",
+      "phash": "a3b34dcc4c247ad9",
+      "dhash": "e4ca9926d1ddce46"
+    }
+  },
+  "29": {
+    "name": "Ponyta",
+    "rarity": "Common",
+    "hashes": {
+      "average": "70e0b800ffffff00",
+      "whash": "30e0b800ffff7f00",
+      "phash": "ca4a44b53d1e9e95",
+      "dhash": "a5c16969d7c7ca66"
+    }
+  },
+  "3": {
+    "name": "Yanmega ex",
+    "rarity": "Double Rare",
+    "hashes": {
+      "average": "40e378c0c36fffe2",
+      "whash": "40e078c0f34fff62",
+      "phash": "e167859c78d8198f",
+      "dhash": "8acec98527984c8e"
+    }
+  },
+  "30": {
+    "name": "Rapidash",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "84c17061bf7f7f00",
+      "whash": "00c078e1ff7f7f00",
+      "phash": "e27a14957f425a9c",
+      "dhash": "a49d81c17bdac666"
+    }
+  },
+  "31": {
+    "name": "Team Rocket's Moltres ex",
+    "rarity": "Double Rare",
+    "hashes": {
+      "average": "2091370c467f63f7",
+      "whash": "20813788667f3f67",
+      "phash": "824e685b535bd7a4",
+      "dhash": "c9b7ee59dcd9c784"
+    }
+  },
+  "32": {
+    "name": "Ethan's Cyndaquil",
+    "rarity": "Common",
+    "hashes": {
+      "average": "04cf5080ff7f7f00",
+      "whash": "00cf5880ff7f7f00",
+      "phash": "b13135874e464ecf",
+      "dhash": "cc9aaa4dd1dfc666"
+    }
+  },
+  "33": {
+    "name": "Ethan's Quilava",
+    "rarity": "Common",
+    "hashes": {
+      "average": "c43424a0bf7f7f00",
+      "whash": "443420b4ff7f7f00",
+      "phash": "8a5a54b17ce50f8b",
+      "dhash": "8d4d554573dfce66"
+    }
+  },
+  "34": {
+    "name": "Ethan's Typhlosion",
+    "rarity": "Rare",
+    "hashes": {
+      "average": "e4d90101ffffff10",
+      "whash": "e4510101ffff7f00",
+      "phash": "be7ac0c057273ec8",
+      "dhash": "8cb3354f99cdce66"
+    }
+  },
+  "35": {
+    "name": "Ethan's Slugma",
+    "rarity": "Common",
+    "hashes": {
+      "average": "0607034eff7f7f00",
+      "whash": "0407034eff7f7f00",
+      "phash": "b53706c25a636bcc",
+      "dhash": "cc2e1e9ad1c6ce66"
+    }
+  },
+  "36": {
+    "name": "Ethan's Magcargo",
+    "rarity": "Rare",
+    "hashes": {
+      "average": "c4c08081ffffff30",
+      "whash": "c4008081ffffff30",
+      "phash": "b8784487df4b8bc2",
+      "dhash": "9d971f2b79cbce66"
+    }
+  },
+  "37": {
+    "name": "Team Rocket's Houndour",
+    "rarity": "Common",
+    "hashes": {
+      "average": "30206000ffffff00",
+      "whash": "30307000ffffff20",
+      "phash": "cb6a14951f36e4e4",
+      "dhash": "65c1c351d2c7ce46"
+    }
+  },
+  "38": {
+    "name": "Team Rocket's Houndoom",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "f5800080ffffffff",
+      "whash": "f0000000ffffff3a",
+      "phash": "ee6ec490d1a78b91",
+      "dhash": "2d257369d8cfce66"
+    }
+  },
+  "39": {
+    "name": "Ethan's Ho-Oh ex",
+    "rarity": "Double Rare",
+    "hashes": {
+      "average": "60292f480fbf7f62",
+      "whash": "6029ae180fdfff20",
+      "phash": "914b46ac6cd0f697",
+      "dhash": "815b58927b6cacc6"
+    }
+  },
+  "4": {
+    "name": "Pineco",
+    "rarity": "Common",
+    "hashes": {
+      "average": "1c000081ffffff3e",
+      "whash": "18000081ffffff3a",
+      "phash": "ab7b5490dcc4c6e4",
+      "dhash": "711b4d559bdec666"
+    }
+  },
+  "40": {
+    "name": "Torchic",
+    "rarity": "Common",
+    "hashes": {
+      "average": "10510301ff7f7f00",
+      "whash": "30118307ff7f7f00",
+      "phash": "a96d44c25e361fd4",
+      "dhash": "a0931209d3dace66"
+    }
+  },
+  "41": {
+    "name": "Combusken",
+    "rarity": "Common",
+    "hashes": {
+      "average": "8c580000ff7f7f00",
+      "whash": "dc580101ff7f7f00",
+      "phash": "a37a44901e3767e5",
+      "dhash": "29b1575d9bcdc646"
+    }
+  },
+  "42": {
+    "name": "Blaziken",
+    "rarity": "Rare",
+    "hashes": {
+      "average": "9078c021ff7f7f00",
+      "whash": "9c708011ff7f7f00",
+      "phash": "ea4a54959e2e3e91",
+      "dhash": "25d10145d8cfc746"
+    }
+  },
+  "43": {
+    "name": "Heat Rotom",
+    "rarity": "Common",
+    "hashes": {
+      "average": "3ce4c3e7ff6f7f00",
+      "whash": "2464c1e77f676f00",
+      "phash": "e2625e9b9fb42425",
+      "dhash": "e9c98f8dd3dfce76"
+    }
+  },
+  "44": {
+    "name": "Hearthflame Mask Ogerpon",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "34040181ffffffba",
+      "whash": "30000181ffffff32",
+      "phash": "af3e44c0c8e9e9c5",
+      "dhash": "6d7457579bcfce66"
+    }
+  },
+  "45": {
+    "name": "Misty's Psyduck",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "62ff9ce8977f6200",
+      "whash": "62ff1cea973f4200",
+      "phash": "c4c045a77f631a3e",
+      "dhash": "86a2b1ca65e5ce26"
+    }
+  },
+  "46": {
+    "name": "Misty's Staryu",
+    "rarity": "Common",
+    "hashes": {
+      "average": "66ff03feff7f7300",
+      "whash": "60fa00feff776200",
+      "phash": "84f064c25f0f3f39",
+      "dhash": "c486357099e5e626"
+    }
+  },
+  "47": {
+    "name": "Misty's Starmie",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "404143e7ffff7f00",
+      "whash": "404103e7ff777f00",
+      "phash": "e1694cdad694968d",
+      "dhash": "8d83868cb1c5c626"
+    }
+  },
+  "48": {
+    "name": "Misty's Magikarp",
+    "rarity": "Common",
+    "hashes": {
+      "average": "74380081ffff7f02",
+      "whash": "64380081ffff7f02",
+      "phash": "ab4b549034643ebf",
+      "dhash": "c57171476bd5c626"
+    }
+  },
+  "49": {
+    "name": "Misty's Gyarados",
+    "rarity": "Rare",
+    "hashes": {
+      "average": "604f81c7ff7f7f00",
+      "whash": "604381c3ff3f7f00",
+      "phash": "b37b44c646723a78",
+      "dhash": "cc8a1b0bd5cdce26"
+    }
+  },
+  "5": {
+    "name": "Shroomish",
+    "rarity": "Common",
+    "hashes": {
+      "average": "84000001ffffffff",
+      "whash": "04000001ffffff3f",
+      "phash": "aa7a1591c54eced1",
+      "dhash": "1d1d7161dacec666"
+    }
+  },
+  "50": {
+    "name": "Misty's Lapras",
+    "rarity": "Common",
+    "hashes": {
+      "average": "0064e5feff7f7700",
+      "whash": "006561eeff7f6600",
+      "phash": "e2e314895dc54ecb",
+      "dhash": "cccdc9ccd9e7c626"
+    }
+  },
+  "51": {
+    "name": "Team Rocket's Articuno",
+    "rarity": "Rare",
+    "hashes": {
+      "average": "8d000800ffffffff",
+      "whash": "48000800ffffff97",
+      "phash": "bf3bd4c0c643c3c4",
+      "dhash": "593351712dcdce26"
+    }
+  },
+  "52": {
+    "name": "Cynthia's Feebas",
+    "rarity": "Common",
+    "hashes": {
+      "average": "3679c901ffff7700",
+      "whash": "2478c801ff7f7f00",
+      "phash": "e3cb05853e3638f8",
+      "dhash": "cedb994db0c3c626"
+    }
+  },
+  "53": {
+    "name": "Cynthia's Milotic",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "42201139ff7f7f00",
+      "whash": "44301139ff7f7f00",
+      "phash": "8e6a34b0dd8d38f2",
+      "dhash": "8c455573d9ede626"
+    }
+  },
+  "54": {
+    "name": "Clamperl",
+    "rarity": "Common",
+    "hashes": {
+      "average": "76e781ffff7f7700",
+      "whash": "64e301e7ff277300",
+      "phash": "a66674c9d9c91959",
+      "dhash": "8ccc050f99c3e626"
+    }
+  },
+  "55": {
+    "name": "Huntail",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "5e008081ffff7f00",
+      "whash": "56018181ffff7f00",
+      "phash": "ae7a5481cce14ec7",
+      "dhash": "b43969133befce26"
+    }
+  },
+  "56": {
+    "name": "Gorebyss",
+    "rarity": "Rare",
+    "hashes": {
+      "average": "470f0101ffff7f00",
+      "whash": "460f0101ffff7f00",
+      "phash": "bf3f14c0666e4ac1",
+      "dhash": "9c7e736795e5c626"
+    }
+  },
+  "57": {
+    "name": "Buizel",
+    "rarity": "Common",
+    "hashes": {
+      "average": "c0800081ffffff96",
+      "whash": "f0800081ffffff02",
+      "phash": "ea6e559191939785",
+      "dhash": "a527612993ccc626"
+    }
+  },
+  "58": {
+    "name": "Floatzel",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "507f1cb8ff7f6300",
+      "whash": "007b0cb9ff7f6300",
+      "phash": "8bcb35e07c4a1e33",
+      "dhash": "a4c2797199cdce26"
+    }
+  },
+  "59": {
+    "name": "Snover",
+    "rarity": "Common",
+    "hashes": {
+      "average": "701747c3ff7f7300",
+      "whash": "701707c3ff7f6200",
+      "phash": "b4b646c3696172d6",
+      "dhash": "a4269c9a49d4c626"
+    }
+  },
+  "6": {
+    "name": "Breloom",
+    "rarity": "Common",
+    "hashes": {
+      "average": "8c000185ffffff3f",
+      "whash": "08000105ffffff3a",
+      "phash": "bb7b50d0c4868fc5",
+      "dhash": "3919777ddcdccee6"
+    }
+  },
+  "60": {
+    "name": "Abomasnow",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "001d3d39ff3f6300",
+      "whash": "001d1d39ff3f6f00",
+      "phash": "8a9b70f165661e96",
+      "dhash": "b9f97171d96dce36"
+    }
+  },
+  "61": {
+    "name": "Wash Rotom",
+    "rarity": "Common",
+    "hashes": {
+      "average": "64010797ffff7f00",
+      "whash": "44000795ffff7f00",
+      "phash": "ae7a41c1d8b636b4",
+      "dhash": "8c232d6593ccce26"
+    }
+  },
+  "62": {
+    "name": "Arrokuda",
+    "rarity": "Common",
+    "hashes": {
+      "average": "cc800089ffffff82",
+      "whash": "ec000081ffffff02",
+      "phash": "ba7a54c0999b8f85",
+      "dhash": "9d0d693993e6c626"
+    }
+  },
+  "63": {
+    "name": "Barraskewda",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "007361f9ff7f2300",
+      "whash": "007361f9ff7f2300",
+      "phash": "e9e134965a4b4be1",
+      "dhash": "0cd6d3d39cd1c626"
+    }
+  },
+  "64": {
+    "name": "Cetoddle",
+    "rarity": "Common",
+    "hashes": {
+      "average": "006c347fff7f7700",
+      "whash": "007c2467ff7f7300",
+      "phash": "82d254e96dad1ee2",
+      "dhash": "d5c9ed5799ecc626"
+    }
+  },
+  "65": {
+    "name": "Cetitan ex",
+    "rarity": "Double Rare",
+    "hashes": {
+      "average": "ccd91e3e107f7f02",
+      "whash": "4cd91e36387e7f00",
+      "phash": "98d879e266871765",
+      "dhash": "99b3706ca3dcf386"
+    }
+  },
+  "66": {
+    "name": "Dondozo ex",
+    "rarity": "Double Rare",
+    "hashes": {
+      "average": "70c3070fdf6fcf83",
+      "whash": "60c1070fef2f8f83",
+      "phash": "b72b60c0c697175e",
+      "dhash": "830b3e5c2edc1e06"
+    }
+  },
+  "67": {
+    "name": "Wellspring Mask Ogerpon",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "6266247dff776700",
+      "whash": "606424fdff376700",
+      "phash": "a2e254a4cc8f0ff3",
+      "dhash": "c4dc4d659bcdce36"
+    }
+  },
+  "68": {
+    "name": "Electabuzz",
+    "rarity": "Common",
+    "hashes": {
+      "average": "382020e0ffffff02",
+      "whash": "382800c0ffff7f12",
+      "phash": "c34b15995a6c36b5",
+      "dhash": "c1414fc1dacc86e6"
+    }
+  },
+  "69": {
+    "name": "Electivire ex",
+    "rarity": "Double Rare",
+    "hashes": {
+      "average": "207e4d00eff7ff62",
+      "whash": "007e0d00ebf7ff60",
+      "phash": "c34b14ec6b5d38b1",
+      "dhash": "e9cc9b6bcb96d6c4"
+    }
+  },
+  "7": {
+    "name": "Cynthia's Roselia",
+    "rarity": "Common",
+    "hashes": {
+      "average": "0603030effff7f00",
+      "whash": "0403030effff7f10",
+      "phash": "bd3d44c252963ae9",
+      "dhash": "8c323278d0dec666"
+    }
+  },
+  "70": {
+    "name": "Team Rocket's Zapdos",
+    "rarity": "Rare",
+    "hashes": {
+      "average": "3c091000ffffff7e",
+      "whash": "34001000ffffff36",
+      "phash": "9e1e81b3d2666ccc",
+      "dhash": "cd313355dc4ecee6"
+    }
+  },
+  "71": {
+    "name": "Ethan's Pichu",
+    "rarity": "Common",
+    "hashes": {
+      "average": "04081830ffffff02",
+      "whash": "04181838ffff7f02",
+      "phash": "d45a10b277c5ad8d",
+      "dhash": "dd3972548cde86c6"
+    }
+  },
+  "72": {
+    "name": "Team Rocket's Mareep",
+    "rarity": "Common",
+    "hashes": {
+      "average": "240c0000ffffffff",
+      "whash": "04080000ffffff7e",
+      "phash": "9e3e81c1e5652ee2",
+      "dhash": "cd397d64ccdedee6"
+    }
+  },
+  "73": {
+    "name": "Team Rocket's Flaaffy",
+    "rarity": "Common",
+    "hashes": {
+      "average": "f8101800ffffffff",
+      "whash": "40100000ffffff7e",
+      "phash": "cf4ec0f0f2339385",
+      "dhash": "a1737331dccc82c6"
+    }
+  },
+  "74": {
+    "name": "Team Rocket's Ampharos",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "7c0c0c00ffffff7f",
+      "whash": "040c0800bfffff3e",
+      "phash": "9f1bc4e074782f85",
+      "dhash": "ad59793964d9dee6"
+    }
+  },
+  "75": {
+    "name": "Electrike",
+    "rarity": "Common",
+    "hashes": {
+      "average": "1c400001ffffff36",
+      "whash": "0c400001ffffff36",
+      "phash": "b17a5490ce4f1b95",
+      "dhash": "d99d1f6798d8c6e6"
+    }
+  },
+  "76": {
+    "name": "Manectric",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "0c040001ffffff7f",
+      "whash": "0c040000ffffff3e",
+      "phash": "9b3ad4c0e42d4fc5",
+      "dhash": "b969691bd8dcc6f6"
+    }
+  },
+  "77": {
+    "name": "Rotom",
+    "rarity": "Common",
+    "hashes": {
+      "average": "3c100000ffefff3e",
+      "whash": "3c100000ffff7f36",
+      "phash": "c34e1591d87a72b5",
+      "dhash": "e1624d69dadccee6"
+    }
+  },
+  "78": {
+    "name": "Zeraora",
+    "rarity": "Rare",
+    "hashes": {
+      "average": "44002131ffffff7e",
+      "whash": "04008121ffff7f36",
+      "phash": "e36b10909dcdc7d1",
+      "dhash": "a9194b4398dcc6c6"
+    }
+  },
+  "79": {
+    "name": "Team Rocket's Drowzee",
+    "rarity": "Common",
+    "hashes": {
+      "average": "31100000ffffff6e",
+      "whash": "31100000ffffff2e",
+      "phash": "af6f44c0d43333d1",
+      "dhash": "65634b4d949fcecc"
+    }
+  },
+  "8": {
+    "name": "Cynthia's Roserade",
+    "rarity": "Rare",
+    "hashes": {
+      "average": "543b01c2bf7f7f02",
+      "whash": "003b81c3bf7f7f00",
+      "phash": "b37a4c8c5672236b",
+      "dhash": "94720b8c75dbce76"
+    }
+  },
+  "80": {
+    "name": "Team Rocket's Hypno",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "e1001000fffffffe",
+      "whash": "e0001080ffffff26",
+      "phash": "eb6a30b0f1a78785",
+      "dhash": "0d3171519055cecc"
+    }
+  },
+  "81": {
+    "name": "Team Rocket's Mewtwo ex",
+    "rarity": "Double Rare",
+    "hashes": {
+      "average": "6467ab240f7e7f02",
+      "whash": "64672b2a173e7f02",
+      "phash": "81e341c45cd87ebd",
+      "dhash": "c9ca4be8facce6ae"
+    }
+  },
+  "82": {
+    "name": "Team Rocket's Wobbuffet",
+    "rarity": "Rare",
+    "hashes": {
+      "average": "73010180ffffff26",
+      "whash": "71000180ffffff06",
+      "phash": "ee6e1191d7272ec0",
+      "dhash": "c76327679d95ce4c"
+    }
+  },
+  "83": {
+    "name": "Steven's Baltoy",
+    "rarity": "Common",
+    "hashes": {
+      "average": "383827f7ffff6600",
+      "whash": "382826b7ff776600",
+      "phash": "864a49c9dcb4b673",
+      "dhash": "f161cd249597ce44"
+    }
+  },
+  "84": {
+    "name": "Steven's Claydol",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "d8910401ffff7f00",
+      "whash": "f8110401ffff7f00",
+      "phash": "ba6e44c9cb23b2b4",
+      "dhash": "a1234d4991d9cecc"
+    }
+  },
+  "85": {
+    "name": "Team Rocket's Chingling",
+    "rarity": "Common",
+    "hashes": {
+      "average": "01001880ffffff6e",
+      "whash": "01001880ffffff2e",
+      "phash": "ab1b12e0f4e5c587",
+      "dhash": "4d7973338493cecc"
+    }
+  },
+  "86": {
+    "name": "Steven's Carbink",
+    "rarity": "Common",
+    "hashes": {
+      "average": "00001cf9ffffff76",
+      "whash": "000008f9ffff7f22",
+      "phash": "8a5a35a5e1e1d297",
+      "dhash": "4d7571713593cec4"
+    }
+  },
+  "87": {
+    "name": "Team Rocket's Mimikyu",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "01000c88ffffff66",
+      "whash": "41000480ffffff66",
+      "phash": "ba7a24a5c5c19bd2",
+      "dhash": "852d79599497cecc"
+    }
+  },
+  "88": {
+    "name": "Team Rocket's Dottler",
+    "rarity": "Common",
+    "hashes": {
+      "average": "e1801880ffffffee",
+      "whash": "e0001800ffffff26",
+      "phash": "fa6a60e4f5878a86",
+      "dhash": "0d3369699495cecc"
+    }
+  },
+  "89": {
+    "name": "Team Rocket's Orbeetle",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "f7000080fffffffe",
+      "whash": "f7000000ffffff20",
+      "phash": "ee6ec481f1311b9a",
+      "dhash": "2765610f7c99cec4"
+    }
+  },
+  "9": {
+    "name": "Mow Rotom",
+    "rarity": "Common",
+    "hashes": {
+      "average": "cc010181ffffff3e",
+      "whash": "0c000101ffffff3a",
+      "phash": "af6f1490d26347c5",
+      "dhash": "b5376b49d4dece66"
+    }
+  },
+  "90": {
+    "name": "Mankey",
+    "rarity": "Common",
+    "hashes": {
+      "average": "81000d01ffffff3b",
+      "whash": "04000901ffffff3a",
+      "phash": "bf3f44c0e49699d0",
+      "dhash": "3d73797b9b92e266"
+    }
+  },
+  "91": {
+    "name": "Primeape",
+    "rarity": "Common",
+    "hashes": {
+      "average": "0c731800ffff7f00",
+      "whash": "0c731801ff7f7f00",
+      "phash": "8f7c44f07a1a1bc5",
+      "dhash": "38c673798bd3e266"
+    }
+  },
+  "92": {
+    "name": "Annihilape",
+    "rarity": "Rare",
+    "hashes": {
+      "average": "c8000181ffffff30",
+      "whash": "c8000181ffffff30",
+      "phash": "ab7a5490f9617594",
+      "dhash": "19714d4b3b51cc66"
+    }
+  },
+  "93": {
+    "name": "Ethan's Sudowoodo",
+    "rarity": "Common",
+    "hashes": {
+      "average": "4c4d0184ffff7f10",
+      "whash": "4c4c0184ffff7f00",
+      "phash": "be3a50d0d2262f6d",
+      "dhash": "9899676d99d7c662"
+    }
+  },
+  "94": {
+    "name": "Team Rocket's Larvitar",
+    "rarity": "Common",
+    "hashes": {
+      "average": "89000000ffffffbf",
+      "whash": "08000000ffffffbf",
+      "phash": "bb3b04c4f5d1aac4",
+      "dhash": "3571717b8496e266"
+    }
+  },
+  "95": {
+    "name": "Team Rocket's Pupitar",
+    "rarity": "Common",
+    "hashes": {
+      "average": "c4010d00ffffff32",
+      "whash": "c4010100ffffff32",
+      "phash": "9f3f64e0705a8ac3",
+      "dhash": "2d73697986d7e266"
+    }
+  },
+  "96": {
+    "name": "Team Rocket's Tyranitar",
+    "rarity": "Rare",
+    "hashes": {
+      "average": "c0000010ffffff3b",
+      "whash": "e0000010ffffff3a",
+      "phash": "ce5a40e0f5a53793",
+      "dhash": "a961697529f5c666"
+    }
+  },
+  "97": {
+    "name": "Nosepass",
+    "rarity": "Common",
+    "hashes": {
+      "average": "0000e0f1ffffff00",
+      "whash": "0000e0f1ffffff00",
+      "phash": "e26a1f95d8e07127",
+      "dhash": "996dc781dbd8c266"
+    }
+  },
+  "98": {
+    "name": "Probopass",
+    "rarity": "Uncommon",
+    "hashes": {
+      "average": "0c0101a1ffffff10",
+      "whash": "4c010581ffffff00",
+      "phash": "a33b59985c6676d0",
+      "dhash": "994b4d4f9bd4c666"
+    }
+  },
+  "99": {
+    "name": "Meditite",
+    "rarity": "Common",
+    "hashes": {
+      "average": "c09010e7ffffff00",
+      "whash": "409010a7ffff7f00",
+      "phash": "ea6a58b0b3871f8c",
+      "dhash": "9d33614d8395e266"
+    }
+  }
+}
