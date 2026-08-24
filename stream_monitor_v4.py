@@ -230,11 +230,11 @@ def update_html(cards_list, counters, display_num=1, archived_html=""):
     if not cards_html:
         cards_html = '<p class="empty">Noch keine Hits in diesem Display</p>\n'
 
-    counters_html = f"""<div class="counter c-sar"><div class="num">{counters['SAR']}</div><div class="lbl">SAR</div></div>
+    counters_html = f"""<div class="counter c-ex"><div class="num">{counters['ex']}</div><div class="lbl">ex</div></div>
   <div class="counter c-ir"><div class="num">{counters['IR']}</div><div class="lbl">IR</div></div>
-  <div class="counter c-ex"><div class="num">{counters['ex']}</div><div class="lbl">ex</div></div>
+  <div class="counter c-fa"><div class="num">{counters['FA']}</div><div class="lbl">FA</div></div>
   <div class="counter c-gold"><div class="num">{counters['Gold']}</div><div class="lbl">Gold</div></div>
-  <div class="counter c-fa"><div class="num">{counters['FA']}</div><div class="lbl">FA</div></div>"""
+  <div class="counter c-sar"><div class="num">{counters['SAR']}</div><div class="lbl">SAR</div></div>"""
 
     with open(HTML_FILE, 'r', encoding='utf-8') as f:
         html = f.read()
@@ -322,7 +322,7 @@ def main():
     bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
 
     cards_list = []
-    counters = {'SAR': 0, 'IR': 0, 'ex': 0, 'Gold': 0, 'FA': 0}
+    counters = {'ex': 0, 'IR': 0, 'FA': 0, 'Gold': 0, 'SAR': 0}
     seen_cards = set()
 
     display_num = 1
@@ -346,7 +346,7 @@ def main():
                         display_num, cards_list, counters) + archived_html
                     display_num += 1
                     cards_list = []
-                    counters = {'SAR': 0, 'IR': 0, 'ex': 0, 'Gold': 0, 'FA': 0}
+                    counters = {'ex': 0, 'IR': 0, 'FA': 0, 'Gold': 0, 'SAR': 0}
                     seen_cards = set()
                     pending_num, pending_count = None, 0
                     weak_num, weak_count = None, 0
