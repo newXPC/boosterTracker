@@ -192,11 +192,14 @@ def render_cards(cards_list, limit=10, highlight_latest=True):
         price = card.get('avg7', 'N/A')
         display_name = card.get('name_de') or card['name']
         out += f"""<div class="card{latest_class}">
-  <p class="name">{display_name}</p>
-  <p class="set">Ewige Rivalen (DRI) &middot; {card['number']}/182</p>
-  <div class="row">
-    <span class="chip">{rarity}</span>
-    <span class="price">~{price} &euro;</span>
+  <img class="thumb" src="sv10_cards_images/{card['number']}.png" alt="">
+  <div class="info">
+    <p class="name">{display_name}</p>
+    <p class="set">Ewige Rivalen (DRI) &middot; {card['number']}/182</p>
+    <div class="row">
+      <span class="chip">{rarity}</span>
+      <span class="price">~{price} &euro;</span>
+    </div>
   </div>
 </div>
 """
@@ -229,9 +232,9 @@ def update_html(cards_list, counters, display_num=1, archived_html=""):
 
     counters_html = f"""<div class="counter c-sar"><div class="num">{counters['SAR']}</div><div class="lbl">SAR</div></div>
   <div class="counter c-ir"><div class="num">{counters['IR']}</div><div class="lbl">IR</div></div>
-  <div class="counter c-fa"><div class="num">{counters['FA']}</div><div class="lbl">FA</div></div>
+  <div class="counter c-ex"><div class="num">{counters['ex']}</div><div class="lbl">ex</div></div>
   <div class="counter c-gold"><div class="num">{counters['Gold']}</div><div class="lbl">Gold</div></div>
-  <div class="counter c-ex"><div class="num">{counters['ex']}</div><div class="lbl">ex</div></div>"""
+  <div class="counter c-fa"><div class="num">{counters['FA']}</div><div class="lbl">FA</div></div>"""
 
     with open(HTML_FILE, 'r', encoding='utf-8') as f:
         html = f.read()
@@ -319,7 +322,7 @@ def main():
     bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
 
     cards_list = []
-    counters = {'SAR': 0, 'IR': 0, 'FA': 0, 'Gold': 0, 'ex': 0}
+    counters = {'SAR': 0, 'IR': 0, 'ex': 0, 'Gold': 0, 'FA': 0}
     seen_cards = set()
 
     display_num = 1
@@ -343,7 +346,7 @@ def main():
                         display_num, cards_list, counters) + archived_html
                     display_num += 1
                     cards_list = []
-                    counters = {'SAR': 0, 'IR': 0, 'FA': 0, 'Gold': 0, 'ex': 0}
+                    counters = {'SAR': 0, 'IR': 0, 'ex': 0, 'Gold': 0, 'FA': 0}
                     seen_cards = set()
                     pending_num, pending_count = None, 0
                     weak_num, weak_count = None, 0

@@ -17,15 +17,15 @@
     color: var(--text);
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     margin: 0;
-    padding: 16px;
+    padding: 10px;
     max-width: 560px;
     margin-inline: auto;
   }
   header {
     display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 14px;
+    margin-bottom: 8px;
   }
-  header h1 { font-size: 1rem; margin: 0; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  header h1 { font-size: .8rem; margin: 0; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
   .live-dot { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; color: var(--muted); }
   .live-dot::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--live); animation: pulse 1.6s infinite; }
   @keyframes pulse { 50% { opacity: .35; } }
@@ -34,36 +34,40 @@
   .card {
     background: var(--panel);
     border: 1px solid var(--panel-edge);
-    border-radius: 10px;
-    padding: 16px;
-    margin-bottom: 12px;
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+    display: flex; align-items: center; gap: 10px;
   }
   .card.latest { border-color: var(--price); }
-  .card .name { font-size: 1.35rem; font-weight: 700; margin: 0 0 2px; text-wrap: balance; }
-  .card.latest .name { font-size: 1.7rem; }
-  .card .set { color: var(--muted); font-size: .85rem; margin: 0 0 10px; }
-  .row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-  .price { font-size: 1.5rem; font-weight: 700; color: var(--price); font-variant-numeric: tabular-nums; }
-  .card.latest .price { font-size: 2.2rem; }
+  .card img.thumb { width: 46px; border-radius: 3px; flex-shrink: 0; display: block; }
+  .card.latest img.thumb { width: 64px; }
+  .card .info { flex: 1; min-width: 0; }
+  .card .name { font-size: .95rem; font-weight: 700; margin: 0; text-wrap: balance; }
+  .card.latest .name { font-size: 1.15rem; }
+  .card .set { color: var(--muted); font-size: .7rem; margin: 0 0 4px; }
+  .row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .price { font-size: 1rem; font-weight: 700; color: var(--price); font-variant-numeric: tabular-nums; }
+  .card.latest .price { font-size: 1.35rem; }
   .price small { font-size: .65em; color: var(--muted); font-weight: 400; }
   .chip {
-    display: inline-block; padding: 3px 10px; border-radius: 999px;
-    font-size: .75rem; font-weight: 600; letter-spacing: .03em;
+    display: inline-block; padding: 1px 8px; border-radius: 999px;
+    font-size: .65rem; font-weight: 600; letter-spacing: .03em;
     border: 1px solid var(--panel-edge); color: var(--text); background: #222b35;
   }
   .chip.holo { border-color: #7aa7ff; color: #a8c4ff; }
   .chip.hit  { border-color: var(--price); color: var(--price); }
   .empty { text-align: center; color: var(--muted); padding: 48px 16px; }
   .counters {
-    display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
-    margin-bottom: 16px;
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px;
+    margin-bottom: 10px;
   }
   .counter {
-    background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 10px;
-    text-align: center; padding: 10px 4px;
+    background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 8px;
+    text-align: center; padding: 4px 2px;
   }
-  .counter .num { font-size: 2rem; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
-  .counter .lbl { font-size: .7rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .counter .num { font-size: 1.2rem; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .counter .lbl { font-size: .58rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
   .counter.c-sar  { border-color: #ff8a5c; } .counter.c-sar .num  { color: #ff8a5c; }
   .counter.c-ir   { border-color: #7aa7ff; } .counter.c-ir .num   { color: #a8c4ff; }
   .counter.c-fa   { border-color: #b48bff; } .counter.c-fa .num   { color: #c9adff; }
@@ -99,15 +103,185 @@
 
 <div class="counters">
   <div class="counter c-sar"><div class="num">0</div><div class="lbl">SAR</div></div>
-  <div class="counter c-ir"><div class="num">0</div><div class="lbl">IR</div></div>
-  <div class="counter c-fa"><div class="num">0</div><div class="lbl">FA</div></div>
+  <div class="counter c-ir"><div class="num">5</div><div class="lbl">IR</div></div>
+  <div class="counter c-ex"><div class="num">9</div><div class="lbl">ex</div></div>
   <div class="counter c-gold"><div class="num">0</div><div class="lbl">Gold</div></div>
-  <div class="counter c-ex"><div class="num">1</div><div class="lbl">ex</div></div>
+  <div class="counter c-fa"><div class="num">2</div><div class="lbl">FA</div></div>
 </div>
 
-<p class="display-label">Display 1 &middot; aktuell</p>
+<p class="display-label">Display 4 &middot; aktuell</p>
 
 <div class="card latest">
+  <p class="name">Heerashai-ex</p>
+  <p class="set">Ewige Rivalen (DRI) &middot; 66/182</p>
+  <div class="row">
+    <span class="chip">Double Rare</span>
+    <span class="price">~0.42 &euro;</span>
+  </div>
+</div>
+<div class="card">
+  <p class="name">Rotom</p>
+  <p class="set">Ewige Rivalen (DRI) &middot; 197/182</p>
+  <div class="row">
+    <span class="chip">Illustration Rare</span>
+    <span class="price">~3.27 &euro;</span>
+  </div>
+</div>
+<div class="card">
+  <p class="name">Team Rockets Nidoking-ex</p>
+  <p class="set">Ewige Rivalen (DRI) &middot; 119/182</p>
+  <div class="row">
+    <span class="chip">Double Rare</span>
+    <span class="price">~0.6 &euro;</span>
+  </div>
+</div>
+<div class="card">
+  <p class="name">Skarabaks-ex</p>
+  <p class="set">Ewige Rivalen (DRI) &middot; 25/182</p>
+  <div class="row">
+    <span class="chip">Double Rare</span>
+    <span class="price">~0.45 &euro;</span>
+  </div>
+</div>
+<div class="card">
+  <p class="name">Troys Metagross-ex</p>
+  <p class="set">Ewige Rivalen (DRI) &middot; 145/182</p>
+  <div class="row">
+    <span class="chip">Double Rare</span>
+    <span class="price">~0.61 &euro;</span>
+  </div>
+</div>
+<div class="card">
+  <p class="name">Marys Olangaar-ex</p>
+  <p class="set">Ewige Rivalen (DRI) &middot; 136/182</p>
+  <div class="row">
+    <span class="chip">Double Rare</span>
+    <span class="price">~0.79 &euro;</span>
+  </div>
+</div>
+<div class="card">
+  <p class="name">Team Rockets Lavados-ex</p>
+  <p class="set">Ewige Rivalen (DRI) &middot; 208/182</p>
+  <div class="row">
+    <span class="chip">Ultra Rare</span>
+    <span class="price">~6.59 &euro;</span>
+  </div>
+</div>
+<div class="card">
+  <p class="name">Frizelbliz</p>
+  <p class="set">Ewige Rivalen (DRI) &middot; 196/182</p>
+  <div class="row">
+    <span class="chip">Illustration Rare</span>
+    <span class="price">~3.73 &euro;</span>
+  </div>
+</div>
+<div class="card">
+  <p class="name">Yanmega-ex</p>
+  <p class="set">Ewige Rivalen (DRI) &middot; 3/182</p>
+  <div class="row">
+    <span class="chip">Double Rare</span>
+    <span class="price">~0.52 &euro;</span>
+  </div>
+</div>
+<div class="card">
+  <p class="name">Team Rockets Hundemon</p>
+  <p class="set">Ewige Rivalen (DRI) &middot; 191/182</p>
+  <div class="row">
+    <span class="chip">Illustration Rare</span>
+    <span class="price">~15.5 &euro;</span>
+  </div>
+</div>
+
+<details class="display-old">
+  <summary>
+    <span class="d-name">Display 3</span>
+    <span class="d-stats">0 Hits &middot; keine Hits &middot; ~0,00 &euro;</span>
+  </summary>
+</details>
+<details class="display-old">
+  <summary>
+    <span class="d-name">Display 2</span>
+    <span class="d-stats">0 Hits &middot; keine Hits &middot; ~0,00 &euro;</span>
+  </summary>
+</details>
+<details class="display-old">
+  <summary>
+    <span class="d-name">Display 1</span>
+    <span class="d-stats">10 Hits &middot; 1&times;SAR &middot; 2&times;IR &middot; 1&times;FA &middot; 6&times;ex &middot; ~56,22 &euro;</span>
+  </summary>
+<div class="card">
+  <p class="name">Team Rockets Mewtu-ex</p>
+  <p class="set">Ewige Rivalen (DRI) &middot; 81/182</p>
+  <div class="row">
+    <span class="chip">Double Rare</span>
+    <span class="price">~0.99 &euro;</span>
+  </div>
+</div>
+<div class="card">
+  <p class="name">Rotom</p>
+  <p class="set">Ewige Rivalen (DRI) &middot; 197/182</p>
+  <div class="row">
+    <span class="chip">Illustration Rare</span>
+    <span class="price">~3.27 &euro;</span>
+  </div>
+</div>
+<div class="card">
+  <p class="name">Team Rockets Athena</p>
+  <p class="set">Ewige Rivalen (DRI) &middot; 237/182</p>
+  <div class="row">
+    <span class="chip">Special Illustration Rare</span>
+    <span class="price">~39.12 &euro;</span>
+  </div>
+</div>
+<div class="card">
+  <p class="name">Team Rockets Snobilikat-ex</p>
+  <p class="set">Ewige Rivalen (DRI) &middot; 150/182</p>
+  <div class="row">
+    <span class="chip">Double Rare</span>
+    <span class="price">~0.51 &euro;</span>
+  </div>
+</div>
+<div class="card">
+  <p class="name">Troys Metagross-ex</p>
+  <p class="set">Ewige Rivalen (DRI) &middot; 145/182</p>
+  <div class="row">
+    <span class="chip">Double Rare</span>
+    <span class="price">~0.61 &euro;</span>
+  </div>
+</div>
+<div class="card">
+  <p class="name">Team Rockets Nidoking-ex</p>
+  <p class="set">Ewige Rivalen (DRI) &middot; 119/182</p>
+  <div class="row">
+    <span class="chip">Double Rare</span>
+    <span class="price">~0.6 &euro;</span>
+  </div>
+</div>
+<div class="card">
+  <p class="name">Team Rockets Lavados-ex</p>
+  <p class="set">Ewige Rivalen (DRI) &middot; 31/182</p>
+  <div class="row">
+    <span class="chip">Double Rare</span>
+    <span class="price">~0.62 &euro;</span>
+  </div>
+</div>
+<div class="card">
+  <p class="name">Elevoltek-ex</p>
+  <p class="set">Ewige Rivalen (DRI) &middot; 212/182</p>
+  <div class="row">
+    <span class="chip">Ultra Rare</span>
+    <span class="price">~2.19 &euro;</span>
+  </div>
+</div>
+<div class="card">
+  <p class="name">Shaymin</p>
+  <p class="set">Ewige Rivalen (DRI) &middot; 185/182</p>
+  <div class="row">
+    <span class="chip">Illustration Rare</span>
+    <span class="price">~7.85 &euro;</span>
+  </div>
+</div>
+<div class="card">
   <p class="name">Team Rockets Iksbat-ex</p>
   <p class="set">Ewige Rivalen (DRI) &middot; 122/182</p>
   <div class="row">
@@ -115,7 +289,7 @@
     <span class="price">~0.46 &euro;</span>
   </div>
 </div>
-
+</details>
 <footer>Live-Update jede Sekunde · Preise: Cardmarket (ab-Preis, near mint)</footer>
 
 <script>
