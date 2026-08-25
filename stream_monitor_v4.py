@@ -51,8 +51,7 @@ MATCH_CONFIRMATIONS = 1    # RANSAC ist sicher genug -> 1 Treffer reicht
 RESCAN_COOLDOWN = 3.0      # Sek. nach Erkennung, bevor dieselbe Stelle neu prueft
 DEBUG = True               # Pro Scan eine Diagnosezeile ausgeben
 MIN_PRICE_FOR_DISPLAY = 1.0  # Karten ohne Hit-Rarity erst ab diesem Preis anzeigen
-MAX_CARDS_DISPLAY = 1      # Wie viele Karten auf der Stream-Seite sichtbar sind
-                           # (1 = nur die neueste, wenig Platz in OBS)
+MAX_CARDS_DISPLAY = 10     # Wie viele Karten auf der Stream-Seite sichtbar sind
 
 ENERGY_KEYWORDS = ['energie', 'energy']
 
