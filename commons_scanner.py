@@ -21,6 +21,7 @@ import stream_monitor_v4
 from stream_monitor_v4 import (
     build_reference_features, identify_card, load_price_db,
     update_html_all, FRAME_FEATURES, take_screenshot, NORMAL_INTERVAL,
+    start_http_server, HTTP_PORT,
 )
 
 stream_monitor_v4.DEBUG = False  # keine Debug-Zeilen beim Stapel-Scannen
@@ -30,6 +31,9 @@ def main():
     print("=" * 60)
     print("COMMONS-SCANNER - Stapel durchzaehlen")
     print("=" * 60)
+
+    start_http_server()
+    print(f"Liste: http://localhost:{HTTP_PORT}/booster-tracker-alle.html")
 
     price_db = load_price_db()
     print(f"Preisdatenbank: {len(price_db)} Karten")

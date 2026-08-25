@@ -28,6 +28,10 @@ try:
 except ImportError:
     msvcrt = None
 
+import threading
+from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
+from functools import partial
+
 BOOSTER_DIR = Path(__file__).parent
 PRICE_DB = BOOSTER_DIR / "sv10-preise.json"
 CARDS_DIR = BOOSTER_DIR / "sv10_cards_images"
@@ -54,6 +58,29 @@ MIN_PRICE_FOR_DISPLAY = 1.0  # Karten ohne Hit-Rarity erst ab diesem Preis anzei
 MAX_CARDS_DISPLAY = 10     # Wie viele Karten auf der Stream-Seite sichtbar sind
 
 ENERGY_KEYWORDS = ['energie', 'energy']
+
+HTTP_PORT = 8765           # Mini-Webserver fuer OBS/Tablet (statt file://)
+
+
+class _QuietHandler(SimpleHTTPRequestHandler):
+    def log_message(self, *args):
+        pass  # kein Request-Spam in der Konsole
+
+
+def start_http_server():
+    """Serviert den BoosterTracker-Ordner per HTTP.
+
+    Grund: OBS blockiert fetch() auf file:// -> die Seite faellt in einen
+    2s-Voll-Reload zurueck und das Karussell resettet staendig. Ueber
+    http://localhost laeuft das sanfte Update und die Rotation bleibt fluessig.
+    """
+    handler = partial(_QuietHandler, directory=str(BOOSTER_DIR))
+    try:
+        server = ThreadingHTTPServer(('0.0.0.0', HTTP_PORT), handler)
+    except OSError:
+        return False  # Port belegt -> Server laeuft schon (anderer Scanner)
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    return True
 
 
 def load_price_db():
@@ -313,6 +340,11 @@ def main():
     print("=" * 60)
     print("BOOSTER TRACKER v4 - ORB + RANSAC")
     print("=" * 60)
+
+    start_http_server()
+    print(f"Tracker-Seite:  http://localhost:{HTTP_PORT}/booster-tracker.html")
+    print(f"Alle Karten:    http://localhost:{HTTP_PORT}/booster-tracker-alle.html")
+    print(">> Diese URL in OBS als Browser-Quelle eintragen (statt lokale Datei!) <<")
 
     price_db = load_price_db()
     print(f"Preisdatenbank: {len(price_db)} Karten")
