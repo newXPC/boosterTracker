@@ -51,6 +51,8 @@ MATCH_CONFIRMATIONS = 1    # RANSAC ist sicher genug -> 1 Treffer reicht
 RESCAN_COOLDOWN = 3.0      # Sek. nach Erkennung, bevor dieselbe Stelle neu prueft
 DEBUG = True               # Pro Scan eine Diagnosezeile ausgeben
 MIN_PRICE_FOR_DISPLAY = 1.0  # Karten ohne Hit-Rarity erst ab diesem Preis anzeigen
+MAX_CARDS_DISPLAY = 1      # Wie viele Karten auf der Stream-Seite sichtbar sind
+                           # (1 = nur die neueste, wenig Platz in OBS)
 
 ENERGY_KEYWORDS = ['energie', 'energy']
 
@@ -228,7 +230,7 @@ def update_html(cards_list, counters, display_num=1, archived_html=""):
     if not HTML_FILE.exists():
         return
 
-    cards_html = render_cards(cards_list)
+    cards_html = render_cards(cards_list, limit=MAX_CARDS_DISPLAY)
     if not cards_html:
         cards_html = '<p class="empty">Noch keine Hits in diesem Display</p>\n'
 
