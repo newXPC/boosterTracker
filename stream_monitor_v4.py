@@ -36,6 +36,8 @@ HTML_ALL_FILE = BOOSTER_DIR / "booster-tracker-alle.html"
 SCREENSHOT_DIR = BOOSTER_DIR / "screenshots"
 SCREENSHOT_DIR.mkdir(exist_ok=True)
 
+MONITOR = 2                # mss-Monitor-Index mit dem Camo-Fenster
+                           # (1 = Hauptmonitor, 2 = zweiter Monitor, ...)
 NORMAL_INTERVAL = 0.1      # Pause zwischen Scans
 FRAME_FEATURES = 3000      # ORB-Features im Frame (hoch, weil Hintergrund/Terminal
                            # viele Features frisst)
@@ -99,12 +101,12 @@ def build_reference_features():
 def take_screenshot():
     """Camo-Fensterbereich als Graustufen-Array holen."""
     with mss.MSS() as sct:
-        monitor = sct.monitors[1]
+        monitor = sct.monitors[MONITOR]
         # Nur die Bildschirmmitte: da zeigt Camo die Karte.
         # Terminal/andere Fenster am Rand werden ignoriert.
         region = {
-            'top': int(monitor['height'] * 0.15),
-            'left': int(monitor['width'] * 0.32),
+            'top': monitor['top'] + int(monitor['height'] * 0.15),
+            'left': monitor['left'] + int(monitor['width'] * 0.32),
             'width': int(monitor['width'] * 0.36),
             'height': int(monitor['height'] * 0.7),
         }
