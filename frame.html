@@ -7,20 +7,19 @@
 
   #frame {
     position: fixed; inset: 4px;
-    border-radius: 14px;
-    border: 2px solid rgba(255, 210, 63, .55);
+    border-radius: 35px;
+    border: 5px solid #ffd23f;
     box-shadow:
-      0 0 12px rgba(255, 210, 63, .35),
-      inset 0 0 12px rgba(255, 210, 63, .2);
+      0 0 19px rgba(255, 210, 63, .45),
+      inset 0 0 19px rgba(255, 210, 63, .25);
     animation: breathe 4s ease-in-out infinite;
     pointer-events: none;
   }
   @keyframes breathe {
     50% {
-      border-color: rgba(255, 210, 63, .85);
       box-shadow:
-        0 0 20px rgba(255, 210, 63, .55),
-        inset 0 0 16px rgba(255, 210, 63, .3);
+        0 0 30px rgba(255, 210, 63, .75),
+        inset 0 0 22px rgba(255, 210, 63, .4);
     }
   }
   @media (prefers-reduced-motion: reduce) { #frame { animation: none; } }
