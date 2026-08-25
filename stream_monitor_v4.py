@@ -256,11 +256,18 @@ def update_html(cards_list, counters, display_num=1, archived_html=""):
     if not HTML_FILE.exists():
         return
 
-    cards_html = render_cards(cards_list, limit=MAX_CARDS_DISPLAY)
-    if not cards_html:
-        cards_html = '<p class="empty">Noch keine Hits in diesem Display</p>\n'
+    carousel_inner = render_cards(cards_list, limit=MAX_CARDS_DISPLAY)
+    if not carousel_inner:
+        carousel_inner = '<p class="empty">Noch keine Hits in diesem Display</p>\n'
+        hitlist = ''
+    else:
+        # Unter dem Karussell: alle Hits als feste Liste (zum Zeigen/Scrollen)
+        hitlist = ('<div id="hitlist">\n'
+                   + render_cards(cards_list, limit=MAX_CARDS_DISPLAY,
+                                  highlight_latest=False)
+                   + '</div>\n')
     # Karussell-Container: die Seite rotiert die Karten selbst durch
-    cards_html = f'<div id="carousel">\n{cards_html}</div>\n'
+    cards_html = f'<div id="carousel">\n{carousel_inner}</div>\n{hitlist}'
 
     counters_html = f"""<div class="counter c-ex"><div class="num">{counters['ex']}</div><div class="lbl">ex</div></div>
   <div class="counter c-ir"><div class="num">{counters['IR']}</div><div class="lbl">IR</div></div>
