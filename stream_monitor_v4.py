@@ -257,16 +257,21 @@ def update_html(cards_list, counters, display_num=1, archived_html="",
     if not HTML_FILE.exists():
         return
 
-    carousel_inner = render_cards(cards_list, limit=MAX_CARDS_DISPLAY)
+    # Karussell + Hit-Alert: nur Premium-Hits (IR/FA/Gold/SAR, KEIN ex).
+    # ex-Karten erscheinen nur in der Liste unten und im Zaehler.
+    premium = [c for c in cards_list
+               if get_rarity_type(c.get('rarity', '')) in ('IR', 'FA', 'Gold', 'SAR')]
+    carousel_inner = render_cards(premium, limit=MAX_CARDS_DISPLAY)
     if not carousel_inner:
-        carousel_inner = '<p class="empty">Noch keine Hits in diesem Display</p>\n'
-        hitlist = ''
-    else:
+        carousel_inner = '<p class="empty">Noch keine Top-Hits in diesem Display</p>\n'
+    if cards_list:
         # Unter dem Karussell: alle Hits als feste Liste (zum Zeigen/Scrollen)
         hitlist = ('<div id="hitlist">\n'
                    + render_cards(cards_list, limit=MAX_CARDS_DISPLAY,
                                   highlight_latest=False)
                    + '</div>\n')
+    else:
+        hitlist = ''
     # Karussell-Container: die Seite rotiert die Karten selbst durch
     cards_html = f'<div id="carousel">\n{carousel_inner}</div>\n{hitlist}'
 
