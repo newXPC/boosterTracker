@@ -1,29 +1,28 @@
 <meta charset="utf-8">
 <title>Stream Frame · Overlay</title>
 <style>
-  /* Animierter Leuchtrahmen. Als OBS-Browserquelle exakt ueber das
+  /* Dezenter Leuchtrahmen. Als OBS-Browserquelle exakt ueber das
      Kamerabild legen — die Mitte ist transparent. */
   html, body { background: transparent; margin: 0; height: 100%; overflow: hidden; }
 
-  @property --a {
-    syntax: '<angle>'; initial-value: 0deg; inherits: false;
-  }
   #frame {
-    position: fixed; inset: 6px;
-    border-radius: 18px;
-    padding: 4px;
-    background: conic-gradient(from var(--a),
-      #ffd23f, #ff5964, #b48bff, #7aa7ff, #6ad3a2, #ffd23f);
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    mask-composite: exclude;
-    animation: spin 9s linear infinite;
-    filter: drop-shadow(0 0 8px rgba(255, 210, 63, .55));
-    opacity: .9;
+    position: fixed; inset: 4px;
+    border-radius: 14px;
+    border: 2px solid rgba(255, 210, 63, .55);
+    box-shadow:
+      0 0 12px rgba(255, 210, 63, .35),
+      inset 0 0 12px rgba(255, 210, 63, .2);
+    animation: breathe 4s ease-in-out infinite;
     pointer-events: none;
   }
-  @keyframes spin { to { --a: 360deg; } }
+  @keyframes breathe {
+    50% {
+      border-color: rgba(255, 210, 63, .85);
+      box-shadow:
+        0 0 20px rgba(255, 210, 63, .55),
+        inset 0 0 16px rgba(255, 210, 63, .3);
+    }
+  }
   @media (prefers-reduced-motion: reduce) { #frame { animation: none; } }
 </style>
 
