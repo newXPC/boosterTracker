@@ -252,7 +252,8 @@ def build_archive_section(display_num, cards_list, counters):
 """
 
 
-def update_html(cards_list, counters, display_num=1, archived_html=""):
+def update_html(cards_list, counters, display_num=1, archived_html="",
+                stream_total=0.0):
     if not HTML_FILE.exists():
         return
 
@@ -282,6 +283,12 @@ def update_html(cards_list, counters, display_num=1, archived_html=""):
         r'<div class="counters">.*?</div>\n</div>|<div class="counters">.*?</div>',
         f'<div class="counters">\n  {counters_html}\n</div>',
         html, count=1, flags=re.DOTALL
+    )
+    total_str = f"{stream_total:.2f}".replace('.', ',')
+    html = re.sub(
+        r'<p class="stream-total">.*?</p>',
+        f'<p class="stream-total">Heute gezogen: <b>{total_str} &euro;</b></p>',
+        html, flags=re.DOTALL
     )
     html = re.sub(
         r'<p class="display-label">.*?(?=<footer>)',
@@ -371,6 +378,7 @@ def main():
 
     display_num = 1
     archived_html = ""
+    stream_total = 0.0  # Wert ALLER erkannten Karten (auch Bulk), ganzer Stream
 
     pending_num = None
     pending_count = 0
@@ -394,7 +402,8 @@ def main():
                     seen_cards = set()
                     pending_num, pending_count = None, 0
                     weak_num, weak_count = None, 0
-                    update_html(cards_list, counters, display_num, archived_html)
+                    update_html(cards_list, counters, display_num, archived_html,
+                                stream_total)
                     print(f"\n[{ts}] ===== NEUES DISPLAY: Display {display_num} =====\n")
 
             frame = take_screenshot()
@@ -440,6 +449,8 @@ def main():
                                 seen_cards.add(num)
                                 rt = get_rarity_type(card_data.get('rarity', ''))
                                 price = card_data.get('avg7') or 0
+                                if isinstance(price, (int, float)):
+                                    stream_total += price
 
                                 # Nur Hits anzeigen: ex/FA/IR/SAR/Gold oder teuer
                                 is_hit = rt is not None or (
@@ -451,10 +462,15 @@ def main():
                                     if rt:
                                         counters[rt] += 1
                                     update_html(cards_list, counters,
-                                                display_num, archived_html)
+                                                display_num, archived_html,
+                                                stream_total)
                                     print(f"[{ts}] HIT: {num} {name} "
                                           f"(~{price} EUR, {inliers} Inlier)")
                                 else:
+                                    # Ticker trotzdem aktualisieren
+                                    update_html(cards_list, counters,
+                                                display_num, archived_html,
+                                                stream_total)
                                     print(f"[{ts}] Bulk -> nicht angezeigt: "
                                           f"{num} {name} (~{price} EUR)")
                                 last_detect_time = time.time()

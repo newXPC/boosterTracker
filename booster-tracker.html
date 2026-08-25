@@ -73,6 +73,11 @@
   .counter.c-fa   { border-color: #b48bff; } .counter.c-fa .num   { color: #c9adff; }
   .counter.c-gold { border-color: var(--price); } .counter.c-gold .num { color: var(--price); }
   .counter.c-ex   { border-color: #6ad3a2; } .counter.c-ex .num   { color: #8ae0b8; }
+  .stream-total {
+    text-align: right; font-size: .72rem; color: var(--muted);
+    margin: -4px 0 8px;
+  }
+  .stream-total b { color: var(--price); font-variant-numeric: tabular-nums; }
   .display-label {
     display: flex; align-items: center; gap: 8px;
     font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
@@ -118,12 +123,14 @@
 </header>
 
 <div class="counters">
-  <div class="counter c-ex"><div class="num">1</div><div class="lbl">ex</div></div>
+  <div class="counter c-ex"><div class="num">0</div><div class="lbl">ex</div></div>
   <div class="counter c-ir"><div class="num">1</div><div class="lbl">IR</div></div>
-  <div class="counter c-fa"><div class="num">1</div><div class="lbl">FA</div></div>
+  <div class="counter c-fa"><div class="num">0</div><div class="lbl">FA</div></div>
   <div class="counter c-gold"><div class="num">1</div><div class="lbl">Gold</div></div>
   <div class="counter c-sar"><div class="num">1</div><div class="lbl">SAR</div></div>
 </div>
+
+<p class="stream-total">Heute gezogen: <b>657,36 &euro;</b></p>
 
 <p class="display-label">Display 1 &middot; aktuell</p>
 
@@ -161,28 +168,6 @@
     </div>
   </div>
 </div>
-<div class="card">
-  <img class="thumb" src="sv10_cards_images/213.png" alt="">
-  <div class="info">
-    <p class="name">Team Rockets Mewtu-ex</p>
-    <p class="set">Ewige Rivalen (DRI) &middot; 213/182</p>
-    <div class="row">
-      <span class="chip">Ultra Rare</span>
-      <span class="price">~17.41 &euro;</span>
-    </div>
-  </div>
-</div>
-<div class="card">
-  <img class="thumb" src="sv10_cards_images/81.png" alt="">
-  <div class="info">
-    <p class="name">Team Rockets Mewtu-ex</p>
-    <p class="set">Ewige Rivalen (DRI) &middot; 81/182</p>
-    <div class="row">
-      <span class="chip">Double Rare</span>
-      <span class="price">~0.99 &euro;</span>
-    </div>
-  </div>
-</div>
 </div>
 <div id="hitlist">
 <div class="card">
@@ -215,28 +200,6 @@
     <div class="row">
       <span class="chip">Illustration Rare</span>
       <span class="price">~42.24 &euro;</span>
-    </div>
-  </div>
-</div>
-<div class="card">
-  <img class="thumb" src="sv10_cards_images/213.png" alt="">
-  <div class="info">
-    <p class="name">Team Rockets Mewtu-ex</p>
-    <p class="set">Ewige Rivalen (DRI) &middot; 213/182</p>
-    <div class="row">
-      <span class="chip">Ultra Rare</span>
-      <span class="price">~17.41 &euro;</span>
-    </div>
-  </div>
-</div>
-<div class="card">
-  <img class="thumb" src="sv10_cards_images/81.png" alt="">
-  <div class="info">
-    <p class="name">Team Rockets Mewtu-ex</p>
-    <p class="set">Ewige Rivalen (DRI) &middot; 81/182</p>
-    <div class="row">
-      <span class="chip">Double Rare</span>
-      <span class="price">~0.99 &euro;</span>
     </div>
   </div>
 </div>
