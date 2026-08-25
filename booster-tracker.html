@@ -57,7 +57,7 @@
   }
   .chip.holo { border-color: #7aa7ff; color: #a8c4ff; }
   .chip.hit  { border-color: var(--price); color: var(--price); }
-  .empty { text-align: center; color: var(--muted); padding: 48px 16px; }
+  .empty { text-align: center; color: var(--muted); padding: 24px 16px; }
   .counters {
     display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px;
     margin-bottom: 10px;
@@ -79,6 +79,22 @@
     color: var(--muted); margin: 4px 0 10px;
   }
   .display-label::after { content: ""; flex: 1; height: 1px; background: var(--panel-edge); }
+
+  /* Karussell: eine Karte sichtbar, Wechsel Mitte -> links raus, rechts -> rein */
+  #carousel { position: relative; overflow: hidden; margin-bottom: 6px; }
+  #carousel .card {
+    position: absolute; top: 0; left: 0; right: 0; margin: 0;
+    transform: translateX(115%);
+    transition: transform .55s cubic-bezier(.25,.8,.25,1);
+  }
+  #carousel .card.active  { transform: translateX(0); }
+  #carousel .card.leaving { transform: translateX(-115%); }
+  #carousel .card.notrans { transition: none; }
+  /* Im Karussell alle Karten gleich gross (wie "latest") */
+  #carousel .card img.thumb { width: 64px; }
+  #carousel .card .name { font-size: 1.15rem; }
+  #carousel .card .price { font-size: 1.35rem; }
+
   details.display-old {
     background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 10px;
     margin-bottom: 12px; padding: 0 16px;
@@ -91,7 +107,7 @@
   details.display-old summary .d-name { font-weight: 700; font-size: 1rem; }
   details.display-old summary .d-stats { color: var(--muted); font-size: .8rem; }
   details.display-old[open] summary { border-bottom: 1px solid var(--panel-edge); margin-bottom: 12px; }
-  details.display-old .card { border: none; border-top: 1px solid var(--panel-edge); border-radius: 0; margin: 0; padding: 12px 0; }
+  details.display-old .card { border: none; border-top: 1px solid var(--panel-edge); border-radius: 0; margin: 0; padding: 12px 0; position: static; transform: none; }
   details.display-old .card:first-of-type { border-top: none; }
   footer { text-align: center; color: var(--muted); font-size: .75rem; margin-top: 20px; }
 </style>
@@ -111,6 +127,7 @@
 
 <p class="display-label">Display 1 &middot; aktuell</p>
 
+<div id="carousel">
 <div class="card latest">
   <img class="thumb" src="sv10_cards_images/23.png" alt="">
   <div class="info">
@@ -122,13 +139,58 @@
     </div>
   </div>
 </div>
+</div>
 
 <footer>Live-Update jede Sekunde · Preise: Cardmarket (ab-Preis, near mint)</footer>
 
 <script>
-  /* Soft-Update: Inhalt nachladen statt Voll-Reload — verhindert Ruckler in OBS.
-     Fällt auf location.reload() zurück, wenn fetch nicht erlaubt ist (z. B. file:// blockiert). */
+  /* Soft-Update (fetch statt Voll-Reload) + Karten-Karussell.
+     Rotation: aktive Karte gleitet nach links raus, naechste kommt von rechts. */
   var lastHtml = null;
+  var rotIdx = 0;
+  var ROTATE_MS = 5000;
+
+  function initCarousel() {
+    var car = document.getElementById('carousel');
+    if (!car) return;
+    var cards = car.querySelectorAll('.card');
+    rotIdx = 0;
+    for (var i = 0; i < cards.length; i++) {
+      cards[i].classList.remove('leaving', 'notrans');
+      cards[i].classList.toggle('active', i === 0);
+    }
+    if (cards.length) {
+      car.style.height = cards[0].offsetHeight + 'px';
+    } else {
+      car.style.height = '';
+    }
+  }
+
+  function rotate() {
+    var car = document.getElementById('carousel');
+    if (!car) return;
+    var cards = car.querySelectorAll('.card');
+    if (cards.length < 2) return;
+    var cur = cards[rotIdx];
+    rotIdx = (rotIdx + 1) % cards.length;
+    var next = cards[rotIdx];
+    // naechste Karte ohne Animation rechts positionieren
+    next.classList.add('notrans');
+    next.classList.remove('leaving', 'active');
+    void next.offsetWidth;
+    next.classList.remove('notrans');
+    // Wechsel animieren
+    cur.classList.remove('active'); cur.classList.add('leaving');
+    next.classList.add('active');
+    car.style.height = next.offsetHeight + 'px';
+    // rausgeglittene Karte nach der Animation wieder rechts parken
+    setTimeout(function () {
+      cur.classList.add('notrans'); cur.classList.remove('leaving');
+      void cur.offsetWidth;
+      cur.classList.remove('notrans');
+    }, 600);
+  }
+
   function tick() {
     fetch(location.href, { cache: 'no-store' })
       .then(function (r) { return r.text(); })
@@ -137,11 +199,17 @@
         else if (t !== lastHtml) {
           lastHtml = t;
           var doc = new DOMParser().parseFromString(t, 'text/html');
-          if (doc && doc.body) { document.body.innerHTML = doc.body.innerHTML; }
+          if (doc && doc.body) {
+            document.body.innerHTML = doc.body.innerHTML;
+            initCarousel();  // neue Karte sofort zeigen (Index 0 = neueste)
+          }
         }
         setTimeout(tick, 1000);
       })
       .catch(function () { setTimeout(function () { location.reload(); }, 2000); });
   }
+
+  initCarousel();
+  setInterval(rotate, ROTATE_MS);
   tick();
 </script>
