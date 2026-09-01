@@ -1,27 +1,27 @@
 [
   {
     "id": "me1",
-    "name": "Mega Evolution",
+    "name": "Mega-Entwicklung",
     "total": 132
   },
   {
     "id": "me2",
-    "name": "Phantasmal Flames",
+    "name": "Fatale Flammen",
     "total": 94
   },
   {
     "id": "me2pt5",
-    "name": "Ascended Heroes",
+    "name": "Erhabene Helden",
     "total": 217
   },
   {
     "id": "rsv10pt5",
-    "name": "White Flare",
+    "name": "Weiße Flammen",
     "total": 86
   },
   {
     "id": "sv1",
-    "name": "Scarlet & Violet",
+    "name": "Karmesin & Purpur",
     "total": 198
   },
   {
@@ -31,12 +31,12 @@
   },
   {
     "id": "sv2",
-    "name": "Paldea Evolved",
+    "name": "Entwicklungen in Paldea",
     "total": 193
   },
   {
     "id": "sv3",
-    "name": "Obsidian Flames",
+    "name": "Obsidian Flammen",
     "total": 197
   },
   {
@@ -46,52 +46,52 @@
   },
   {
     "id": "sv4",
-    "name": "Paradox Rift",
+    "name": "Paradoxrift",
     "total": 182
   },
   {
     "id": "sv4pt5",
-    "name": "Paldean Fates",
+    "name": "Paldeas Schicksale",
     "total": 91
   },
   {
     "id": "sv5",
-    "name": "Temporal Forces",
+    "name": "Gewalten der Zeit",
     "total": 162
   },
   {
     "id": "sv6",
-    "name": "Twilight Masquerade",
+    "name": "Maskerade im Zwielicht",
     "total": 167
   },
   {
     "id": "sv6pt5",
-    "name": "Shrouded Fable",
+    "name": "Nebel der Sagen",
     "total": 64
   },
   {
     "id": "sv7",
-    "name": "Stellar Crown",
+    "name": "Stellarkrone",
     "total": 142
   },
   {
     "id": "sv8",
-    "name": "Surging Sparks",
+    "name": "Stürmische Funken",
     "total": 191
   },
   {
     "id": "sv8pt5",
-    "name": "Prismatic Evolutions",
+    "name": "Prismatische Entwicklungen",
     "total": 131
   },
   {
     "id": "sv9",
-    "name": "Journey Together",
+    "name": "Reisegefährten",
     "total": 159
   },
   {
     "id": "zsv10pt5",
-    "name": "Black Bolt",
+    "name": "Schwarze Blitze",
     "total": 86
   }
 ]

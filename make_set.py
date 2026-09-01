@@ -58,10 +58,24 @@ def fetch_cards(set_id):
     return cards
 
 
+# pokemontcg.io-ID -> tcgdex-ID (tcgdex nutzt zero-padded IDs)
+def tcgdex_id(set_id):
+    special = {'zsv10pt5': 'sv10.5b', 'rsv10pt5': 'sv10.5w'}
+    if set_id in special:
+        return special[set_id]
+    import re as _re
+    m = _re.match(r'^([a-z]+)(\d+)(pt5)?$', set_id)
+    if not m:
+        return set_id
+    prefix, num, pt5 = m.groups()
+    padded = num if len(num) > 1 else '0' + num
+    return f"{prefix}{padded}" + ('.5' if pt5 else '')
+
+
 def fetch_german_names(set_id):
     """Returns (kartennamen_dict, deutscher_setname oder None)."""
     try:
-        data = api_get(f"https://api.tcgdex.net/v2/de/sets/{set_id}")
+        data = api_get(f"https://api.tcgdex.net/v2/de/sets/{tcgdex_id(set_id)}")
         out = {}
         for c in data.get("cards", []):
             try:
