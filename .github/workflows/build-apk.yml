@@ -6,7 +6,8 @@ on:
     branches: [master]
     paths:
       - 'app.html'
-      - 'app_data.json'
+      - 'sets/sv10/app_data.json'
+      - 'sets.json'
       - 'android/**'
       - '.github/workflows/build-apk.yml'
 
@@ -26,9 +27,9 @@ jobs:
 
       - name: Web-Dateien in App-Assets kopieren
         run: |
-          mkdir -p android/app/src/main/assets/sv10_cards_images
-          cp app.html opencv.js app_data.json android/app/src/main/assets/
-          cp sv10_cards_images/*.png android/app/src/main/assets/sv10_cards_images/
+          mkdir -p android/app/src/main/assets/sets/sv10
+          cp app.html opencv.js sets.json android/app/src/main/assets/
+          cp sets/sv10/app_data.json android/app/src/main/assets/sets/sv10/
 
       - name: Gradle-Wrapper erzeugen (pinnt Gradle-Version)
         working-directory: android

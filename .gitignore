@@ -12,3 +12,4 @@ android/local.properties
 android/gradle/
 android/gradlew
 android/gradlew.bat
+sets/*/images/

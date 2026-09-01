@@ -20,6 +20,13 @@
   #status { font-size: .75rem; color: var(--muted); }
   #status.ready { color: var(--ok); }
 
+  #setpicker { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 10px 10px; }
+  .setchip { padding: 6px 12px; border-radius: 999px; font-size: .8rem;
+    background: var(--panel); border: 1px solid var(--panel-edge);
+    color: var(--muted); }
+  .setchip.active { border-color: var(--price); color: var(--price);
+    font-weight: 700; }
+
   #camwrap { position: relative; margin: 0 10px; border-radius: 12px;
     overflow: hidden; border: 1px solid var(--panel-edge); }
   video { width: 100%; display: block; }
@@ -30,15 +37,13 @@
   #camwrap.found #scanline { background: var(--ok); animation: none; top: 50%; }
 
   #result { margin: 10px; background: var(--panel);
-    border: 1px solid var(--panel-edge); border-radius: 12px; padding: 12px;
-    display: flex; gap: 12px; align-items: center; min-height: 96px; }
-  #result img { width: 64px; border-radius: 4px; display: none; }
-  #result .info { flex: 1; }
-  #result .name { font-size: 1.1rem; font-weight: 800; }
-  #result .meta { font-size: .75rem; color: var(--muted); margin-top: 2px; }
-  #result .price { font-size: 1.4rem; font-weight: 800; color: var(--price);
+    border: 1px solid var(--panel-edge); border-radius: 12px; padding: 14px;
+    min-height: 84px; }
+  #result .name { font-size: 1.2rem; font-weight: 800; }
+  #result .meta { font-size: .78rem; color: var(--muted); margin-top: 2px; }
+  #result .price { font-size: 1.6rem; font-weight: 800; color: var(--price);
     margin-top: 4px; font-variant-numeric: tabular-nums; }
-  #result.idle .info { color: var(--muted); font-size: .85rem; }
+  #result.idle { color: var(--muted); font-size: .85rem; }
 
   #stats { display: flex; gap: 8px; margin: 0 10px 10px; }
   .stat { flex: 1; background: var(--panel); border: 1px solid var(--panel-edge);
@@ -65,9 +70,11 @@
 <body>
 
 <header>
-  <h1>Karten-Scanner · Ewige Rivalen</h1>
+  <h1>Karten-Scanner</h1>
   <span id="status">lade...</span>
 </header>
+
+<div id="setpicker"></div>
 
 <button id="startbtn" class="hidden">Kamera starten</button>
 
@@ -76,10 +83,7 @@
   <div id="scanline"></div>
 </div>
 
-<div id="result" class="idle">
-  <img id="rimg" src="" alt="">
-  <div class="info" id="rinfo">Karte flach und gut beleuchtet vor die Kamera halten</div>
-</div>
+<div id="result" class="idle">Karte flach und gut beleuchtet vor die Kamera halten</div>
 
 <div id="stats">
   <div class="stat"><div class="num" id="scount">0</div><div class="lbl">Karten</div></div>
@@ -89,19 +93,21 @@
 <div id="list"></div>
 
 <script>
-/* Handy-Karten-Scanner: gleiche Pipeline wie der PC-Scanner, aber komplett
-   im Browser (OpenCV.js/WASM). Referenzdaten kommen aus app_data.json.
-   Dieselbe Karte wird erst wieder gezaehlt, wenn sie kurz aus dem Bild war. */
-var DB = null;          // app_data.json
-var refDesc = {};       // num -> cv.Mat (Nx32 CV_8U)
-var refKps = {};        // num -> Float32Array [x0,y0,x1,y1,...]
-var bigDesc = null;     // alle Deskriptoren als eine Matrix (fuer Voting)
-var owner = [];         // Zeile -> Kartennummer
-var rowOffset = {};     // num -> Startzeile in bigDesc
-var cvReady = false, dbReady = false, running = false;
+/* Handy-Karten-Scanner (ORB + RANSAC via OpenCV.js).
+   Daten kommen LIVE von GitHub (immer aktuelle Preise + neue Sets);
+   ohne Internet greift das in der APK mitgelieferte Paket. */
+var REMOTE = 'https://raw.githubusercontent.com/newXPC/boosterTracker/master/';
+
+var SETS = [];          // sets.json
+var currentSet = null;  // {id, name, total}
+var DB = null;
+var refKps = {};
+var bigDesc = null;     // eine grosse Deskriptor-Matrix
+var owner = [];
+var rowOffset = {};
+var cvReady = false, camReady = false, running = false, indexReady = false;
 
 var MIN_VOTES = 6, MIN_INLIERS = 8, GATE_EMPTY_SCANS = 2;
-
 var scanned = [], total = 0, lastNum = null, emptyStreak = 99;
 
 window.onerror = function (msg) {
@@ -115,43 +121,103 @@ function setStatus(t, ready) {
   el.className = ready ? 'ready' : '';
 }
 
+function fetchJson(url, timeoutMs) {
+  return new Promise(function (resolve, reject) {
+    var ctrl = new AbortController();
+    var timer = setTimeout(function () { ctrl.abort(); }, timeoutMs);
+    fetch(url, { cache: 'no-store', signal: ctrl.signal })
+      .then(function (r) {
+        clearTimeout(timer);
+        if (!r.ok) return reject(new Error('HTTP ' + r.status));
+        resolve(r.json());
+      })
+      .catch(function (e) { clearTimeout(timer); reject(e); });
+  });
+}
+
+function loadJsonRemoteFirst(path, timeoutMs) {
+  // Online-Version bevorzugen (aktuelle Preise), lokales Asset als Fallback
+  return fetchJson(REMOTE + path, timeoutMs).catch(function () {
+    return fetchJson(path, 5000);
+  });
+}
+
 function b64ToBytes(b64) {
   var bin = atob(b64), out = new Uint8Array(bin.length);
   for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
   return out;
 }
 
-function maybeReady() {
-  if (!(cvReady && dbReady)) return;
-  // Referenz-Matrizen bauen
+function freeIndex() {
+  if (bigDesc) { bigDesc.delete(); bigDesc = null; }
+  refKps = {}; owner = []; rowOffset = {};
+}
+
+function buildIndex() {
+  freeIndex();
   var rows = 0;
   for (var num in DB) rows += DB[num].n;
   bigDesc = new cv.Mat(rows, 32, cv.CV_8U);
   var off = 0;
   for (var num in DB) {
-    var bytes = b64ToBytes(DB[num].des);
-    bigDesc.data.set(bytes, off * 32);
-    var m = new cv.Mat(DB[num].n, 32, cv.CV_8U);
-    m.data.set(bytes);
-    refDesc[num] = m;
+    bigDesc.data.set(b64ToBytes(DB[num].des), off * 32);
     refKps[num] = new Float32Array(DB[num].kps);
     rowOffset[num] = off;
     for (var i = 0; i < DB[num].n; i++) owner.push(num);
     off += DB[num].n;
   }
-  setStatus('bereit', true);
-  document.getElementById('startbtn').classList.remove('hidden');
+  indexReady = true;
 }
 
-fetch('app_data.json').then(function (r) { return r.json(); }).then(function (d) {
-  DB = d; dbReady = true; maybeReady();
-});
+function renderPicker() {
+  var el = document.getElementById('setpicker');
+  el.innerHTML = '';
+  SETS.forEach(function (s) {
+    var b = document.createElement('button');
+    b.className = 'setchip' + (currentSet && s.id === currentSet.id ? ' active' : '');
+    b.textContent = s.name;
+    b.onclick = function () { selectSet(s); };
+    el.appendChild(b);
+  });
+}
 
+function selectSet(s) {
+  currentSet = s;
+  indexReady = false;
+  try { localStorage.setItem('set', s.id); } catch (e) {}
+  renderPicker();
+  setStatus('lade ' + s.name + '...');
+  loadJsonRemoteFirst('sets/' + s.id + '/app_data.json', 12000)
+    .then(function (d) {
+      DB = d;
+      if (cvReady) { buildIndex(); onReady(); }
+      else { var t = setInterval(function () {
+        if (cvReady) { clearInterval(t); buildIndex(); onReady(); } }, 200); }
+    })
+    .catch(function (e) { setStatus('Set nicht ladbar: ' + e.message); });
+}
+
+function onReady() {
+  setStatus(currentSet.name + ' · ' + Object.keys(DB).length + ' Karten', true);
+  if (!camReady) document.getElementById('startbtn').classList.remove('hidden');
+}
+
+// Sets laden (online zuerst -> neue Sets erscheinen automatisch)
+loadJsonRemoteFirst('sets.json', 8000).then(function (s) {
+  SETS = s;
+  var wanted = null;
+  try { wanted = localStorage.getItem('set'); } catch (e) {}
+  var initial = SETS[0];
+  for (var i = 0; i < SETS.length; i++) if (SETS[i].id === wanted) initial = SETS[i];
+  selectSet(initial);
+}).catch(function (e) { setStatus('Keine Daten: ' + e.message); });
+
+// OpenCV.js laden (lokal aus der APK / dem Repo)
 var cvScript = document.createElement('script');
-cvScript.src = 'opencv.js';  // lokal im Repo (11 MB) — kein CDN noetig
+cvScript.src = 'opencv.js';
 cvScript.onload = function () {
-  if (cv.getBuildInformation) { cvReady = true; maybeReady(); }
-  else cv.onRuntimeInitialized = function () { cvReady = true; maybeReady(); };
+  if (cv.getBuildInformation) { cvReady = true; }
+  else cv.onRuntimeInitialized = function () { cvReady = true; };
 };
 document.head.appendChild(cvScript);
 
@@ -161,9 +227,9 @@ document.getElementById('startbtn').addEventListener('click', function () {
   }).then(function (stream) {
     var v = document.getElementById('video');
     v.srcObject = stream;
+    camReady = true; running = true;
     document.getElementById('startbtn').classList.add('hidden');
     document.getElementById('camwrap').classList.remove('hidden');
-    running = true;
     setTimeout(scanLoop, 800);
   }).catch(function (e) { setStatus('Kamera verweigert: ' + e.name); });
 });
@@ -175,14 +241,12 @@ function euro(v) {
 
 function showResult(num) {
   var c = DB[num];
-  var img = document.getElementById('rimg');
-  img.src = 'sv10_cards_images/' + num + '.png';
-  img.style.display = 'block';
-  document.getElementById('rinfo').innerHTML =
+  var total_txt = currentSet && currentSet.total ? '/' + currentSet.total : '';
+  document.getElementById('result').className = '';
+  document.getElementById('result').innerHTML =
     '<div class="name">' + c.name + '</div>' +
-    '<div class="meta">' + num + '/182 · ' + c.rarity + '</div>' +
+    '<div class="meta">' + num + total_txt + ' · ' + c.rarity + '</div>' +
     '<div class="price">~' + euro(c.avg7) + '</div>';
-  document.getElementById('result').classList.remove('idle');
 
   scanned.unshift(num);
   if (typeof c.avg7 === 'number') total += c.avg7;
@@ -198,7 +262,7 @@ function showResult(num) {
 
 function scanFrame() {
   var v = document.getElementById('video');
-  if (!v.videoWidth) return null;
+  if (!v.videoWidth || !indexReady) return null;
   var W = 480, H = Math.round(v.videoHeight * (W / v.videoWidth));
   var cnv = document.createElement('canvas');
   cnv.width = W; cnv.height = H;
@@ -213,7 +277,6 @@ function scanFrame() {
   gray.delete(); orb.delete();
   if (des.rows < 40) { kp.delete(); des.delete(); return null; }
 
-  // Stufe 1: knnMatch gegen ALLE Referenzen, Voting per Ratio-Test
   var bf = new cv.BFMatcher(cv.NORM_HAMMING, false);
   var knn = new cv.DMatchVectorVector();
   bf.knnMatch(des, bigDesc, knn, 2);
@@ -225,7 +288,8 @@ function scanFrame() {
     if (m.distance < 0.75 * n2.distance) {
       var num = owner[m.trainIdx];
       votes[num] = (votes[num] || 0) + 1;
-      (corr[num] = corr[num] || []).push([m.queryIdx, m.trainIdx - rowOffset[num]]);
+      if (!corr[num]) corr[num] = [];
+      corr[num].push([m.queryIdx, m.trainIdx - rowOffset[num]]);
     }
   }
   knn.delete(); bf.delete();
@@ -234,10 +298,8 @@ function scanFrame() {
   for (var num in votes) if (votes[num] > bestVotes) { best = num; bestVotes = votes[num]; }
   var out = null;
   if (best && bestVotes >= MIN_VOTES) {
-    // Stufe 2: RANSAC-Homographie auf den Korrespondenzen
     try {
-      var pairs = corr[best];
-      var srcPts = [], dstPts = [];
+      var pairs = corr[best], srcPts = [], dstPts = [];
       for (var j = 0; j < pairs.length; j++) {
         var q = kp.get(pairs[j][0]).pt;
         srcPts.push(q.x, q.y);
@@ -252,7 +314,6 @@ function scanFrame() {
       sm.delete(); dm.delete(); mask.delete(); Hm.delete();
       if (inliers >= MIN_INLIERS) out = best;
     } catch (e) {
-      // findHomography nicht verfuegbar -> nur nach Votes entscheiden
       if (bestVotes >= MIN_VOTES * 2) out = best;
     }
   }
@@ -270,7 +331,6 @@ function scanLoop() {
     wrap.classList.remove('found');
   } else {
     wrap.classList.add('found');
-    // Gate: gleiche Karte erst nach kurzem "aus dem Bild" wieder zaehlen
     if (num !== lastNum || emptyStreak >= GATE_EMPTY_SCANS) {
       lastNum = num;
       showResult(num);
