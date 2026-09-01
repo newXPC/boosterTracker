@@ -4,3 +4,11 @@ screenshots/
 debug_ocr_output/
 debug_v3_output/
 sv10_orb_descriptors.npz
+android/.gradle/
+android/build/
+android/app/build/
+android/app/src/main/assets/
+android/local.properties
+android/gradle/
+android/gradlew
+android/gradlew.bat
