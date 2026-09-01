@@ -148,7 +148,7 @@ fetch('app_data.json').then(function (r) { return r.json(); }).then(function (d)
 });
 
 var cvScript = document.createElement('script');
-cvScript.src = 'https://docs.opencv.org/4.10.0/opencv.js';
+cvScript.src = 'opencv.js';  // lokal im Repo (11 MB) — kein CDN noetig
 cvScript.onload = function () {
   if (cv.getBuildInformation) { cvReady = true; maybeReady(); }
   else cv.onRuntimeInitialized = function () { cvReady = true; maybeReady(); };
