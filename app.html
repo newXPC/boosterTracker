@@ -104,6 +104,11 @@ var MIN_VOTES = 6, MIN_INLIERS = 8, GATE_EMPTY_SCANS = 2;
 
 var scanned = [], total = 0, lastNum = null, emptyStreak = 99;
 
+window.onerror = function (msg) {
+  var el = document.getElementById('status');
+  if (el) { el.textContent = 'Fehler: ' + msg; el.className = ''; }
+};
+
 function setStatus(t, ready) {
   var el = document.getElementById('status');
   el.textContent = t;
