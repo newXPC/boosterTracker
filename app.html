@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="theme-color" content="#101418">
+<title>Karten-Scanner</title>
+<style>
+  :root {
+    --bg: #101418; --panel: #1a2129; --panel-edge: #26303b;
+    --text: #e8edf2; --muted: #8b98a5; --price: #ffd23f; --ok: #6ad3a2;
+  }
+  * { box-sizing: border-box; }
+  html, body { background: var(--bg); color: var(--text); margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 14px; }
+  header h1 { font-size: .85rem; margin: 0; text-transform: uppercase;
+    letter-spacing: .05em; color: var(--muted); }
+  #status { font-size: .75rem; color: var(--muted); }
+  #status.ready { color: var(--ok); }
+
+  #camwrap { position: relative; margin: 0 10px; border-radius: 12px;
+    overflow: hidden; border: 1px solid var(--panel-edge); }
+  video { width: 100%; display: block; }
+  #scanline { position: absolute; left: 8%; right: 8%; height: 2px;
+    background: rgba(255, 210, 63, .8); top: 10%;
+    animation: sweep 2.4s ease-in-out infinite alternate; }
+  @keyframes sweep { to { top: 88%; } }
+  #camwrap.found #scanline { background: var(--ok); animation: none; top: 50%; }
+
+  #result { margin: 10px; background: var(--panel);
+    border: 1px solid var(--panel-edge); border-radius: 12px; padding: 12px;
+    display: flex; gap: 12px; align-items: center; min-height: 96px; }
+  #result img { width: 64px; border-radius: 4px; display: none; }
+  #result .info { flex: 1; }
+  #result .name { font-size: 1.1rem; font-weight: 800; }
+  #result .meta { font-size: .75rem; color: var(--muted); margin-top: 2px; }
+  #result .price { font-size: 1.4rem; font-weight: 800; color: var(--price);
+    margin-top: 4px; font-variant-numeric: tabular-nums; }
+  #result.idle .info { color: var(--muted); font-size: .85rem; }
+
+  #stats { display: flex; gap: 8px; margin: 0 10px 10px; }
+  .stat { flex: 1; background: var(--panel); border: 1px solid var(--panel-edge);
+    border-radius: 10px; text-align: center; padding: 8px 4px; }
+  .stat .num { font-size: 1.2rem; font-weight: 800; color: var(--price);
+    font-variant-numeric: tabular-nums; }
+  .stat .lbl { font-size: .6rem; text-transform: uppercase; color: var(--muted);
+    letter-spacing: .05em; }
+
+  #list { margin: 0 10px 20px; }
+  #list .row { display: flex; justify-content: space-between; gap: 8px;
+    padding: 7px 4px; border-bottom: 1px solid var(--panel-edge);
+    font-size: .85rem; }
+  #list .row .p { color: var(--price); font-variant-numeric: tabular-nums;
+    white-space: nowrap; }
+  #list .row .r { color: var(--muted); font-size: .75rem; }
+
+  #startbtn { display: block; margin: 14px auto; padding: 14px 40px;
+    font-size: 1.05rem; font-weight: 700; color: #101418;
+    background: var(--price); border: none; border-radius: 999px; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Karten-Scanner · Ewige Rivalen</h1>
+  <span id="status">lade...</span>
+</header>
+
+<button id="startbtn" class="hidden">Kamera starten</button>
+
+<div id="camwrap" class="hidden">
+  <video id="video" autoplay playsinline muted></video>
+  <div id="scanline"></div>
+</div>
+
+<div id="result" class="idle">
+  <img id="rimg" src="" alt="">
+  <div class="info" id="rinfo">Karte flach und gut beleuchtet vor die Kamera halten</div>
+</div>
+
+<div id="stats">
+  <div class="stat"><div class="num" id="scount">0</div><div class="lbl">Karten</div></div>
+  <div class="stat"><div class="num" id="stotal">0,00 €</div><div class="lbl">Gesamtwert</div></div>
+</div>
+
+<div id="list"></div>
+
+<script>
+/* Handy-Karten-Scanner: gleiche Pipeline wie der PC-Scanner, aber komplett
+   im Browser (OpenCV.js/WASM). Referenzdaten kommen aus app_data.json.
+   Dieselbe Karte wird erst wieder gezaehlt, wenn sie kurz aus dem Bild war. */
+var DB = null;          // app_data.json
+var refDesc = {};       // num -> cv.Mat (Nx32 CV_8U)
+var refKps = {};        // num -> Float32Array [x0,y0,x1,y1,...]
+var bigDesc = null;     // alle Deskriptoren als eine Matrix (fuer Voting)
+var owner = [];         // Zeile -> Kartennummer
+var rowOffset = {};     // num -> Startzeile in bigDesc
+var cvReady = false, dbReady = false, running = false;
+
+var MIN_VOTES = 6, MIN_INLIERS = 8, GATE_EMPTY_SCANS = 2;
+
+var scanned = [], total = 0, lastNum = null, emptyStreak = 99;
+
+function setStatus(t, ready) {
+  var el = document.getElementById('status');
+  el.textContent = t;
+  el.className = ready ? 'ready' : '';
+}
+
+function b64ToBytes(b64) {
+  var bin = atob(b64), out = new Uint8Array(bin.length);
+  for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+
+function maybeReady() {
+  if (!(cvReady && dbReady)) return;
+  // Referenz-Matrizen bauen
+  var rows = 0;
+  for (var num in DB) rows += DB[num].n;
+  bigDesc = new cv.Mat(rows, 32, cv.CV_8U);
+  var off = 0;
+  for (var num in DB) {
+    var bytes = b64ToBytes(DB[num].des);
+    bigDesc.data.set(bytes, off * 32);
+    var m = new cv.Mat(DB[num].n, 32, cv.CV_8U);
+    m.data.set(bytes);
+    refDesc[num] = m;
+    refKps[num] = new Float32Array(DB[num].kps);
+    rowOffset[num] = off;
+    for (var i = 0; i < DB[num].n; i++) owner.push(num);
+    off += DB[num].n;
+  }
+  setStatus('bereit', true);
+  document.getElementById('startbtn').classList.remove('hidden');
+}
+
+fetch('app_data.json').then(function (r) { return r.json(); }).then(function (d) {
+  DB = d; dbReady = true; maybeReady();
+});
+
+var cvScript = document.createElement('script');
+cvScript.src = 'https://docs.opencv.org/4.10.0/opencv.js';
+cvScript.onload = function () {
+  if (cv.getBuildInformation) { cvReady = true; maybeReady(); }
+  else cv.onRuntimeInitialized = function () { cvReady = true; maybeReady(); };
+};
+document.head.appendChild(cvScript);
+
+document.getElementById('startbtn').addEventListener('click', function () {
+  navigator.mediaDevices.getUserMedia({
+    video: { facingMode: 'environment', width: { ideal: 1280 } }, audio: false
+  }).then(function (stream) {
+    var v = document.getElementById('video');
+    v.srcObject = stream;
+    document.getElementById('startbtn').classList.add('hidden');
+    document.getElementById('camwrap').classList.remove('hidden');
+    running = true;
+    setTimeout(scanLoop, 800);
+  }).catch(function (e) { setStatus('Kamera verweigert: ' + e.name); });
+});
+
+function euro(v) {
+  return (typeof v === 'number')
+    ? v.toFixed(2).replace('.', ',') + ' €' : '?';
+}
+
+function showResult(num) {
+  var c = DB[num];
+  var img = document.getElementById('rimg');
+  img.src = 'sv10_cards_images/' + num + '.png';
+  img.style.display = 'block';
+  document.getElementById('rinfo').innerHTML =
+    '<div class="name">' + c.name + '</div>' +
+    '<div class="meta">' + num + '/182 · ' + c.rarity + '</div>' +
+    '<div class="price">~' + euro(c.avg7) + '</div>';
+  document.getElementById('result').classList.remove('idle');
+
+  scanned.unshift(num);
+  if (typeof c.avg7 === 'number') total += c.avg7;
+  document.getElementById('scount').textContent = scanned.length;
+  document.getElementById('stotal').textContent = euro(total);
+  var row = document.createElement('div');
+  row.className = 'row';
+  row.innerHTML = '<span>' + c.name + ' <span class="r">' + c.rarity +
+    '</span></span><span class="p">' + euro(c.avg7) + '</span>';
+  document.getElementById('list').prepend(row);
+  if (navigator.vibrate) navigator.vibrate(80);
+}
+
+function scanFrame() {
+  var v = document.getElementById('video');
+  if (!v.videoWidth) return null;
+  var W = 480, H = Math.round(v.videoHeight * (W / v.videoWidth));
+  var cnv = document.createElement('canvas');
+  cnv.width = W; cnv.height = H;
+  cnv.getContext('2d').drawImage(v, 0, 0, W, H);
+  var src = cv.imread(cnv), gray = new cv.Mat();
+  cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
+  src.delete();
+
+  var orb = new cv.ORB(800);
+  var kp = new cv.KeyPointVector(), des = new cv.Mat();
+  orb.detectAndCompute(gray, new cv.Mat(), kp, des);
+  gray.delete(); orb.delete();
+  if (des.rows < 40) { kp.delete(); des.delete(); return null; }
+
+  // Stufe 1: knnMatch gegen ALLE Referenzen, Voting per Ratio-Test
+  var bf = new cv.BFMatcher(cv.NORM_HAMMING, false);
+  var knn = new cv.DMatchVectorVector();
+  bf.knnMatch(des, bigDesc, knn, 2);
+  var votes = {}, corr = {};
+  for (var i = 0; i < knn.size(); i++) {
+    var pair = knn.get(i);
+    if (pair.size() < 2) continue;
+    var m = pair.get(0), n2 = pair.get(1);
+    if (m.distance < 0.75 * n2.distance) {
+      var num = owner[m.trainIdx];
+      votes[num] = (votes[num] || 0) + 1;
+      (corr[num] = corr[num] || []).push([m.queryIdx, m.trainIdx - rowOffset[num]]);
+    }
+  }
+  knn.delete(); bf.delete();
+
+  var best = null, bestVotes = 0;
+  for (var num in votes) if (votes[num] > bestVotes) { best = num; bestVotes = votes[num]; }
+  var out = null;
+  if (best && bestVotes >= MIN_VOTES) {
+    // Stufe 2: RANSAC-Homographie auf den Korrespondenzen
+    try {
+      var pairs = corr[best];
+      var srcPts = [], dstPts = [];
+      for (var j = 0; j < pairs.length; j++) {
+        var q = kp.get(pairs[j][0]).pt;
+        srcPts.push(q.x, q.y);
+        dstPts.push(refKps[best][pairs[j][1] * 2], refKps[best][pairs[j][1] * 2 + 1]);
+      }
+      var sm = cv.matFromArray(pairs.length, 1, cv.CV_32FC2, srcPts);
+      var dm = cv.matFromArray(pairs.length, 1, cv.CV_32FC2, dstPts);
+      var mask = new cv.Mat();
+      var Hm = cv.findHomography(sm, dm, cv.RANSAC, 5.0, mask);
+      var inliers = 0;
+      for (var j = 0; j < mask.rows; j++) if (mask.data[j]) inliers++;
+      sm.delete(); dm.delete(); mask.delete(); Hm.delete();
+      if (inliers >= MIN_INLIERS) out = best;
+    } catch (e) {
+      // findHomography nicht verfuegbar -> nur nach Votes entscheiden
+      if (bestVotes >= MIN_VOTES * 2) out = best;
+    }
+  }
+  kp.delete(); des.delete();
+  return out;
+}
+
+function scanLoop() {
+  if (!running) return;
+  var num = null;
+  try { num = scanFrame(); } catch (e) {}
+  var wrap = document.getElementById('camwrap');
+  if (num === null) {
+    emptyStreak++;
+    wrap.classList.remove('found');
+  } else {
+    wrap.classList.add('found');
+    // Gate: gleiche Karte erst nach kurzem "aus dem Bild" wieder zaehlen
+    if (num !== lastNum || emptyStreak >= GATE_EMPTY_SCANS) {
+      lastNum = num;
+      showResult(num);
+    }
+    emptyStreak = 0;
+  }
+  setTimeout(scanLoop, 350);
+}
+</script>
+</body>
+</html>
