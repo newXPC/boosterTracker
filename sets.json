@@ -1,7 +1,97 @@
 [
   {
+    "id": "me1",
+    "name": "Mega Evolution",
+    "total": 132
+  },
+  {
+    "id": "me2",
+    "name": "Phantasmal Flames",
+    "total": 94
+  },
+  {
+    "id": "me2pt5",
+    "name": "Ascended Heroes",
+    "total": 217
+  },
+  {
+    "id": "rsv10pt5",
+    "name": "White Flare",
+    "total": 86
+  },
+  {
+    "id": "sv1",
+    "name": "Scarlet & Violet",
+    "total": 198
+  },
+  {
     "id": "sv10",
     "name": "Ewige Rivalen",
     "total": 182
+  },
+  {
+    "id": "sv2",
+    "name": "Paldea Evolved",
+    "total": 193
+  },
+  {
+    "id": "sv3",
+    "name": "Obsidian Flames",
+    "total": 197
+  },
+  {
+    "id": "sv3pt5",
+    "name": "151",
+    "total": 165
+  },
+  {
+    "id": "sv4",
+    "name": "Paradox Rift",
+    "total": 182
+  },
+  {
+    "id": "sv4pt5",
+    "name": "Paldean Fates",
+    "total": 91
+  },
+  {
+    "id": "sv5",
+    "name": "Temporal Forces",
+    "total": 162
+  },
+  {
+    "id": "sv6",
+    "name": "Twilight Masquerade",
+    "total": 167
+  },
+  {
+    "id": "sv6pt5",
+    "name": "Shrouded Fable",
+    "total": 64
+  },
+  {
+    "id": "sv7",
+    "name": "Stellar Crown",
+    "total": 142
+  },
+  {
+    "id": "sv8",
+    "name": "Surging Sparks",
+    "total": 191
+  },
+  {
+    "id": "sv8pt5",
+    "name": "Prismatic Evolutions",
+    "total": 131
+  },
+  {
+    "id": "sv9",
+    "name": "Journey Together",
+    "total": 159
+  },
+  {
+    "id": "zsv10pt5",
+    "name": "Black Bolt",
+    "total": 86
   }
 ]
