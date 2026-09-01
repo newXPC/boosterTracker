@@ -13,3 +13,4 @@ android/gradle/
 android/gradlew
 android/gradlew.bat
 sets/*/images/
+exe_build/

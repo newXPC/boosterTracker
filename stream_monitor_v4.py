@@ -32,7 +32,11 @@ import threading
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from functools import partial
 
-BOOSTER_DIR = Path(__file__).parent
+# Als EXE (PyInstaller) liegen die Daten neben der EXE, nicht im Bundle
+if getattr(sys, 'frozen', False):
+    BOOSTER_DIR = Path(sys.executable).parent
+else:
+    BOOSTER_DIR = Path(__file__).parent
 PRICE_DB = BOOSTER_DIR / "sv10-preise.json"
 CARDS_DIR = BOOSTER_DIR / "sv10_cards_images"
 HTML_FILE = BOOSTER_DIR / "booster-tracker.html"
@@ -42,6 +46,12 @@ SCREENSHOT_DIR.mkdir(exist_ok=True)
 
 MONITOR = 2                # mss-Monitor-Index mit dem Camo-Fenster
                            # (1 = Hauptmonitor, 2 = zweiter Monitor, ...)
+REGION_PCT = {             # Capture-Bereich in Prozent des Monitors
+    'top': 0.15, 'left': 0.32, 'width': 0.36, 'height': 0.7,
+}
+RESET_ON_START = False     # True: Seiten beim Start auf null setzen (EXE-Modus)
+SHOW_ALL_CARDS = False     # True: auch Commons/Bulk in der Liste anzeigen
+SIMPLE_OVERLAY = False     # True: schlichte Liste statt Karussell+Hitliste
 NORMAL_INTERVAL = 0.1      # Pause zwischen Scans
 FRAME_FEATURES = 3000      # ORB-Features im Frame (hoch, weil Hintergrund/Terminal
                            # viele Features frisst)
@@ -81,6 +91,27 @@ def start_http_server():
         return False  # Port belegt -> Server laeuft schon (anderer Scanner)
     threading.Thread(target=server.serve_forever, daemon=True).start()
     return True
+
+
+def load_config():
+    """Optionale config.json neben Script/EXE liest einfache Einstellungen."""
+    global MONITOR, REGION_PCT, RESET_ON_START, DEBUG
+    global SHOW_ALL_CARDS, SIMPLE_OVERLAY
+    cfg_path = BOOSTER_DIR / "config.json"
+    if not cfg_path.exists():
+        return
+    try:
+        with open(cfg_path, encoding='utf-8') as f:
+            cfg = json.load(f)
+        MONITOR = int(cfg.get('monitor', MONITOR))
+        REGION_PCT.update(cfg.get('region_prozent', {}))
+        RESET_ON_START = bool(cfg.get('reset_beim_start', RESET_ON_START))
+        DEBUG = bool(cfg.get('debug', DEBUG))
+        SHOW_ALL_CARDS = bool(cfg.get('alle_karten_anzeigen', SHOW_ALL_CARDS))
+        SIMPLE_OVERLAY = bool(cfg.get('einfaches_overlay', SIMPLE_OVERLAY))
+        print(f"config.json geladen (Monitor {MONITOR})")
+    except Exception as e:
+        print(f"WARNUNG: config.json fehlerhaft ({e}) - nutze Standardwerte")
 
 
 def load_price_db():
@@ -133,10 +164,10 @@ def take_screenshot():
         # Nur die Bildschirmmitte: da zeigt Camo die Karte.
         # Terminal/andere Fenster am Rand werden ignoriert.
         region = {
-            'top': monitor['top'] + int(monitor['height'] * 0.15),
-            'left': monitor['left'] + int(monitor['width'] * 0.32),
-            'width': int(monitor['width'] * 0.36),
-            'height': int(monitor['height'] * 0.7),
+            'top': monitor['top'] + int(monitor['height'] * REGION_PCT['top']),
+            'left': monitor['left'] + int(monitor['width'] * REGION_PCT['left']),
+            'width': int(monitor['width'] * REGION_PCT['width']),
+            'height': int(monitor['height'] * REGION_PCT['height']),
         }
         shot = sct.grab(region)
         img = np.array(shot)
@@ -257,23 +288,29 @@ def update_html(cards_list, counters, display_num=1, archived_html="",
     if not HTML_FILE.exists():
         return
 
-    # Karussell + Hit-Alert: nur Premium-Hits (IR/FA/Gold/SAR, KEIN ex).
-    # ex-Karten erscheinen nur in der Liste unten und im Zaehler.
-    premium = [c for c in cards_list
-               if get_rarity_type(c.get('rarity', '')) in ('IR', 'FA', 'Gold', 'SAR')]
-    carousel_inner = render_cards(premium, limit=MAX_CARDS_DISPLAY)
-    if not carousel_inner:
-        carousel_inner = '<p class="empty">Noch keine Top-Hits in diesem Display</p>\n'
-    if cards_list:
-        # Unter dem Karussell: alle Hits als feste Liste (zum Zeigen/Scrollen)
-        hitlist = ('<div id="hitlist">\n'
-                   + render_cards(cards_list, limit=MAX_CARDS_DISPLAY,
-                                  highlight_latest=False)
-                   + '</div>\n')
+    if SIMPLE_OVERLAY:
+        # Schlichte Liste: neueste Karte gross oben, Rest normal darunter
+        cards_html = render_cards(cards_list, limit=30)
+        if not cards_html:
+            cards_html = '<p class="empty">Noch keine Karten erkannt</p>\n'
     else:
-        hitlist = ''
-    # Karussell-Container: die Seite rotiert die Karten selbst durch
-    cards_html = f'<div id="carousel">\n{carousel_inner}</div>\n{hitlist}'
+        # Karussell + Hit-Alert: nur Premium-Hits (IR/FA/Gold/SAR, KEIN ex).
+        # ex-Karten erscheinen nur in der Liste unten und im Zaehler.
+        premium = [c for c in cards_list
+                   if get_rarity_type(c.get('rarity', '')) in ('IR', 'FA', 'Gold', 'SAR')]
+        carousel_inner = render_cards(premium, limit=MAX_CARDS_DISPLAY)
+        if not carousel_inner:
+            carousel_inner = '<p class="empty">Noch keine Top-Hits in diesem Display</p>\n'
+        if cards_list:
+            # Unter dem Karussell: alle Hits als feste Liste (zum Zeigen/Scrollen)
+            hitlist = ('<div id="hitlist">\n'
+                       + render_cards(cards_list, limit=MAX_CARDS_DISPLAY,
+                                      highlight_latest=False)
+                       + '</div>\n')
+        else:
+            hitlist = ''
+        # Karussell-Container: die Seite rotiert die Karten selbst durch
+        cards_html = f'<div id="carousel">\n{carousel_inner}</div>\n{hitlist}'
 
     counters_html = f"""<div class="counter c-ex"><div class="num">{counters['ex']}</div><div class="lbl">ex</div></div>
   <div class="counter c-ir"><div class="num">{counters['IR']}</div><div class="lbl">IR</div></div>
@@ -359,6 +396,12 @@ def main():
     print("=" * 60)
     print("BOOSTER TRACKER v4 - ORB + RANSAC")
     print("=" * 60)
+
+    load_config()
+    if RESET_ON_START:
+        update_html([], {'ex': 0, 'IR': 0, 'FA': 0, 'Gold': 0, 'SAR': 0}, 1, '', 0.0)
+        update_html_all([])
+        print("Seiten auf null gesetzt")
 
     start_http_server()
     print(f"Tracker-Seite:  http://localhost:{HTTP_PORT}/booster-tracker.html")
@@ -458,7 +501,8 @@ def main():
                                     stream_total += price
 
                                 # Nur Hits anzeigen: ex/FA/IR/SAR/Gold oder teuer
-                                is_hit = rt is not None or (
+                                # (oder alles, wenn per Config gewuenscht)
+                                is_hit = SHOW_ALL_CARDS or rt is not None or (
                                     isinstance(price, (int, float))
                                     and price >= MIN_PRICE_FOR_DISPLAY
                                 )

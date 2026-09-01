@@ -44,12 +44,28 @@
   td.num { color: var(--muted); white-space: nowrap; }
   .empty { text-align: center; color: var(--muted); padding: 48px 16px; }
   footer { text-align: center; color: var(--muted); font-size: .75rem; margin-top: 20px; }
+  #search {
+    width: 100%; box-sizing: border-box; padding: 8px 12px; border-radius: 999px;
+    background: var(--panel); border: 1px solid var(--panel-edge);
+    color: var(--text); font-size: .9rem; margin-bottom: 8px; outline: none;
+  }
+  #search:focus { border-color: var(--price); }
+  #search-results .sr {
+    display: flex; justify-content: space-between; gap: 8px;
+    padding: 6px 10px; font-size: .85rem; margin-bottom: 3px;
+    background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 8px;
+  }
+  #search-results .sr .p { color: var(--price); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  #search-results .sr .m { color: var(--muted); font-size: .75rem; }
 </style>
 
 <header>
   <h1>Alle gezogenen Karten</h1>
   <span>Ewige Rivalen</span>
 </header>
+
+<input id="search" type="text" placeholder="Karte suchen (Name oder Nummer)..." autocomplete="off">
+<div id="search-results"></div>
 
 <div class="stats">
   <div class="stat"><div class="num">0</div><div class="lbl">Karten</div></div>
@@ -66,6 +82,42 @@
 
 <script>
   var lastHtml = null;
+  var priceDb = null;
+
+  function euro(v) {
+    return (typeof v === 'number') ? ('~' + v.toFixed(2).replace('.', ',') + ' €') : '?';
+  }
+
+  function renderSearch(q) {
+    var box = document.getElementById('search-results');
+    if (!box) return;
+    if (!q || q.length < 2) { box.innerHTML = ''; return; }
+    var doRender = function (db) {
+      var needle = q.toLowerCase(), digits = q.replace(/\D/g, ''), hits = [];
+      for (var i = 0; i < db.length && hits.length < 8; i++) {
+        var c = db[i];
+        var name = (c.name_de || c.name || '').toLowerCase();
+        if (name.indexOf(needle) !== -1 || (digits && String(c.number) === String(parseInt(digits, 10)))) {
+          hits.push(c);
+        }
+      }
+      box.innerHTML = hits.map(function (c) {
+        return '<div class="sr"><span>' + (c.name_de || c.name) +
+          ' <span class="m">' + c.number + '/182 · ' + (c.rarity || '') + '</span></span>' +
+          '<span class="p">' + euro(c.avg7) + '</span></div>';
+      }).join('') || '<div class="sr"><span class="m">Nichts gefunden</span></div>';
+    };
+    if (priceDb) { doRender(priceDb); }
+    else fetch('sv10-preise.json', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) { priceDb = d; doRender(d); });
+  }
+
+  function wireSearch() {
+    var inp = document.getElementById('search');
+    if (inp) inp.addEventListener('input', function () { renderSearch(inp.value); });
+  }
+
   function tick() {
     fetch(location.href, { cache: 'no-store' })
       .then(function (r) { return r.text(); })
@@ -73,12 +125,25 @@
         if (lastHtml === null) { lastHtml = t; }
         else if (t !== lastHtml) {
           lastHtml = t;
+          var q = '', focused = false;
+          var inp = document.getElementById('search');
+          if (inp) { q = inp.value; focused = (document.activeElement === inp); }
           var doc = new DOMParser().parseFromString(t, 'text/html');
-          if (doc && doc.body) { document.body.innerHTML = doc.body.innerHTML; }
+          if (doc && doc.body) {
+            document.body.innerHTML = doc.body.innerHTML;
+            wireSearch();
+            var inp2 = document.getElementById('search');
+            if (inp2) {
+              inp2.value = q;
+              if (focused) inp2.focus();
+              renderSearch(q);
+            }
+          }
         }
         setTimeout(tick, 1000);
       })
-      .catch(function () { setTimeout(function () { location.reload(); }, 2000); });
+      .catch(function () { setTimeout(tick, 2000); });
   }
+  wireSearch();
   tick();
 </script>

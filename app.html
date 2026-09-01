@@ -20,6 +20,23 @@
   #status { font-size: .75rem; color: var(--muted); }
   #status.ready { color: var(--ok); }
 
+  #search {
+    display: block; width: calc(100% - 20px); margin: 0 10px 8px;
+    padding: 9px 14px; border-radius: 999px; font-size: .9rem;
+    background: var(--panel); border: 1px solid var(--panel-edge);
+    color: var(--text); outline: none;
+  }
+  #search:focus { border-color: var(--price); }
+  #search-results { margin: 0 10px 8px; }
+  #search-results .sr {
+    display: flex; justify-content: space-between; gap: 8px;
+    padding: 7px 10px; font-size: .85rem; margin-bottom: 3px;
+    background: var(--panel); border: 1px solid var(--panel-edge);
+    border-radius: 8px;
+  }
+  #search-results .sr .p { color: var(--price); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  #search-results .sr .m { color: var(--muted); font-size: .75rem; }
+
   #setpicker { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 10px 10px; }
   .setchip { padding: 6px 12px; border-radius: 999px; font-size: .8rem;
     background: var(--panel); border: 1px solid var(--panel-edge);
@@ -75,6 +92,9 @@
 </header>
 
 <div id="setpicker"></div>
+
+<input id="search" type="text" placeholder="Karte suchen (Name oder Nummer)..." autocomplete="off">
+<div id="search-results"></div>
 
 <button id="startbtn" class="hidden">Kamera starten</button>
 
@@ -220,6 +240,28 @@ cvScript.onload = function () {
   else cv.onRuntimeInitialized = function () { cvReady = true; };
 };
 document.head.appendChild(cvScript);
+
+// Kartensuche im aktuell geladenen Set
+document.getElementById('search').addEventListener('input', function () {
+  var q = this.value.trim().toLowerCase();
+  var box = document.getElementById('search-results');
+  if (!DB || q.length < 2) { box.innerHTML = ''; return; }
+  var digits = q.replace(/\D/g, '');
+  var html = '', count = 0;
+  for (var num in DB) {
+    if (count >= 8) break;
+    var c = DB[num];
+    var name = (c.name || '').toLowerCase();
+    if (name.indexOf(q) !== -1 || (digits && num === String(parseInt(digits, 10)))) {
+      var tot = currentSet && currentSet.total ? '/' + currentSet.total : '';
+      html += '<div class="sr"><span>' + c.name +
+        ' <span class="m">' + num + tot + ' · ' + (c.rarity || '') + '</span></span>' +
+        '<span class="p">~' + euro(c.avg7) + '</span></div>';
+      count++;
+    }
+  }
+  box.innerHTML = html || '<div class="sr"><span class="m">Nichts gefunden</span></div>';
+});
 
 document.getElementById('startbtn').addEventListener('click', function () {
   navigator.mediaDevices.getUserMedia({
