@@ -3,18 +3,19 @@
 Karten-Tracker als eigenstaendige Fenster-App.
 
 Startet den Scanner unsichtbar im Hintergrund und zeigt das Overlay in
-einem eigenen Programmfenster (kein CMD, kein Browser noetig).
-Buttons im Fenster: "Neues Display" und "Alles zuruecksetzen".
+einem eigenen Programmfenster (Edge/Chrome App-Modus - auf jedem
+Windows 10/11 vorhanden, keine Zusatzkomponenten).
 
-OBS kann weiterhin parallel http://localhost:8765/booster-tracker.html
-als Browser-Quelle nutzen (ohne Buttons).
+Fenster schliessen beendet auch den Scanner.
 """
 
+import subprocess
 import threading
 import time
+import traceback
 import urllib.request
-
-import webview  # pywebview
+import webbrowser
+from pathlib import Path
 
 import stream_monitor_v4 as scanner
 
@@ -24,11 +25,9 @@ URL = f"http://localhost:{scanner.HTTP_PORT}/booster-tracker.html?app=1"
 def run_scanner():
     try:
         scanner.main()
-    except Exception as e:
-        # Fehler in Datei neben der EXE schreiben (kein Konsolenfenster da)
+    except Exception:
         try:
             with open(scanner.BOOSTER_DIR / "fehler.log", "w", encoding="utf-8") as f:
-                import traceback
                 f.write(traceback.format_exc())
         except Exception:
             pass
@@ -45,16 +44,42 @@ def wait_for_server(timeout=30):
     return False
 
 
+def find_browser():
+    candidates = [
+        r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+        r"C:\Program Files\Microsoft\Edge\Application\msedge.exe",
+        r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+        r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+    ]
+    for c in candidates:
+        if Path(c).exists():
+            return c
+    return None
+
+
 def main():
     t = threading.Thread(target=run_scanner, daemon=True)
     t.start()
     wait_for_server()
-    webview.create_window(
-        "Karten-Tracker", URL,
-        width=620, height=900,
-        background_color="#101418",
-    )
-    webview.start()
+
+    browser = find_browser()
+    if browser:
+        # Eigenes Profilverzeichnis -> eigener Prozess, der blockiert,
+        # bis das Fenster geschlossen wird (= App-Lebensdauer)
+        profile = scanner.BOOSTER_DIR / ".appwindow"
+        subprocess.run([
+            browser,
+            f"--app={URL}",
+            f"--user-data-dir={profile}",
+            "--window-size=620,900",
+            "--no-first-run",
+            "--no-default-browser-check",
+        ])
+    else:
+        # Fallback: normaler Browser-Tab, App laeuft bis Strg+C
+        webbrowser.open(URL)
+        while True:
+            time.sleep(3600)
 
 
 if __name__ == "__main__":
