@@ -379,7 +379,56 @@
       'Wirklich alles auf null setzen?'));
     var header = document.querySelector('header');
     header.parentNode.insertBefore(bar, header.nextSibling);
+
+    // Kartensuche (nur im App-Fenster sichtbar)
+    var inp = document.createElement('input');
+    inp.id = 'appsearch';
+    inp.type = 'text';
+    inp.placeholder = 'Karte suchen (Name oder Nummer)...';
+    inp.autocomplete = 'off';
+    inp.style.cssText = 'width:100%;box-sizing:border-box;padding:8px 12px;' +
+      'border-radius:999px;background:#1a2129;border:1px solid #26303b;' +
+      'color:#e8edf2;font-size:.9rem;margin-bottom:6px;outline:none;';
+    var res = document.createElement('div');
+    res.id = 'appsearch-results';
+    res.style.cssText = 'margin-bottom:8px;';
+    bar.parentNode.insertBefore(inp, bar.nextSibling);
+    inp.parentNode.insertBefore(res, inp.nextSibling);
+    inp.addEventListener('input', function () { renderAppSearch(inp.value); });
     checkForUpdate(bar);
+  }
+
+  var appPriceDb = null;
+  function renderAppSearch(q) {
+    var box = document.getElementById('appsearch-results');
+    if (!box) return;
+    if (!q || q.length < 2) { box.innerHTML = ''; return; }
+    var doRender = function (db) {
+      var needle = q.toLowerCase(), digits = q.replace(/\D/g, ''), hits = [];
+      for (var i = 0; i < db.length && hits.length < 8; i++) {
+        var c = db[i];
+        var name = (c.name_de || c.name || '').toLowerCase();
+        if (name.indexOf(needle) !== -1 ||
+            (digits && String(c.number) === String(parseInt(digits, 10)))) {
+          hits.push(c);
+        }
+      }
+      var rowCss = 'display:flex;justify-content:space-between;gap:8px;' +
+        'padding:6px 10px;font-size:.85rem;margin-bottom:3px;background:#1a2129;' +
+        'border:1px solid #26303b;border-radius:8px;';
+      box.innerHTML = hits.map(function (c) {
+        var p = (typeof c.avg7 === 'number')
+          ? ('~' + c.avg7.toFixed(2).replace('.', ',') + ' €') : '?';
+        return '<div style="' + rowCss + '"><span>' + (c.name_de || c.name) +
+          ' <span style="color:#8b98a5;font-size:.75rem">' + c.number + '/182 · ' +
+          (c.rarity || '') + '</span></span>' +
+          '<span style="color:#ffd23f;white-space:nowrap">' + p + '</span></div>';
+      }).join('') || '<div style="' + rowCss + 'color:#8b98a5">Nichts gefunden</div>';
+    };
+    if (appPriceDb) { doRender(appPriceDb); }
+    else fetch('sv10-preise.json', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) { appPriceDb = d; doRender(d); });
   }
 
   function checkForUpdate(bar) {
@@ -454,9 +503,19 @@
           lastHtml = t;
           var doc = new DOMParser().parseFromString(t, 'text/html');
           if (doc && doc.body) {
+            // Suchzustand retten (App-Modus)
+            var q = '', focused = false;
+            var oldInp = document.getElementById('appsearch');
+            if (oldInp) { q = oldInp.value; focused = (document.activeElement === oldInp); }
             document.body.innerHTML = doc.body.innerHTML;
             initCarousel();  // neue Karte sofort zeigen (Index 0 = neueste)
             initAppButtons();
+            var newInp = document.getElementById('appsearch');
+            if (newInp && q) {
+              newInp.value = q;
+              if (focused) newInp.focus();
+              renderAppSearch(q);
+            }
           }
         }
         setTimeout(tick, 1000);

@@ -77,7 +77,7 @@ HTTP_PORT = 8765           # Mini-Webserver fuer OBS/Tablet (statt file://)
 NEW_DISPLAY_EVENT = threading.Event()
 RESET_EVENT = threading.Event()
 
-VERSION = "1.1"
+VERSION = "1.2"
 UPDATE_INFO_URL = ("https://raw.githubusercontent.com/newXPC/boosterTracker/"
                    "master/version.json")
 _update_info = {"remote": None, "zip": None}
