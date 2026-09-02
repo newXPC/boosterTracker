@@ -13,6 +13,7 @@ Funktioniert auch wenn Finger die Karte teilweise verdecken.
 """
 
 import json
+import os
 import re
 import sys
 import time
@@ -76,10 +77,87 @@ HTTP_PORT = 8765           # Mini-Webserver fuer OBS/Tablet (statt file://)
 NEW_DISPLAY_EVENT = threading.Event()
 RESET_EVENT = threading.Event()
 
+VERSION = "1.1"
+UPDATE_INFO_URL = ("https://raw.githubusercontent.com/newXPC/boosterTracker/"
+                   "master/version.json")
+_update_info = {"remote": None, "zip": None}
+
+
+def check_update_background():
+    """Holt die aktuelle Versionsinfo von GitHub (leise, nicht blockierend)."""
+    def _check():
+        try:
+            import urllib.request
+            with urllib.request.urlopen(UPDATE_INFO_URL, timeout=8) as r:
+                info = json.load(r)
+            _update_info["remote"] = info.get("version")
+            _update_info["zip"] = info.get("app_zip")
+        except Exception:
+            pass
+    threading.Thread(target=_check, daemon=True).start()
+
+
+def run_self_update():
+    """Laedt das neue ZIP, tauscht die Dateien per Batch aus, startet neu.
+
+    Die eigene config.json wird gesichert und wiederhergestellt.
+    Nur im EXE-Modus sinnvoll (Python-Nutzer machen git pull).
+    """
+    import subprocess
+    import tempfile
+    import urllib.request
+    import zipfile
+
+    zip_url = _update_info.get("zip")
+    if not zip_url or not getattr(sys, "frozen", False):
+        return False
+
+    tmp = Path(tempfile.mkdtemp(prefix="tracker_update_"))
+    zpath = tmp / "update.zip"
+    urllib.request.urlretrieve(zip_url, zpath)
+    with zipfile.ZipFile(zpath) as z:
+        z.extractall(tmp / "new")
+    inner = next(d for d in (tmp / "new").iterdir() if d.is_dir())
+
+    exe = Path(sys.executable)
+    install = exe.parent
+    bat = tmp / "update.bat"
+    bat.write_text(f'''@echo off
+timeout /t 3 /nobreak >nul
+copy /Y "{install}\\config.json" "{tmp}\\config.backup" >nul 2>&1
+xcopy /E /Y /Q "{inner}\\*" "{install}\\" >nul
+copy /Y "{tmp}\\config.backup" "{install}\\config.json" >nul 2>&1
+powershell -NoProfile -Command "Get-CimInstance Win32_Process -Filter \\"Name='msedge.exe'\\" | Where-Object {{ $_.CommandLine -like '*appwindow*' }} | ForEach-Object {{ Stop-Process -Id $_.ProcessId -Force }}" >nul 2>&1
+start "" "{exe}"
+''', encoding="utf-8")
+    subprocess.Popen(["cmd", "/c", str(bat)],
+                     creationflags=subprocess.CREATE_NO_WINDOW)
+    time.sleep(1)
+    os._exit(0)
+
 
 class _QuietHandler(SimpleHTTPRequestHandler):
     def log_message(self, *args):
         pass  # kein Request-Spam in der Konsole
+
+    def do_GET(self):
+        if self.path == '/api/version':
+            update_ok = (getattr(sys, 'frozen', False)
+                         and _update_info["remote"] is not None
+                         and _update_info["remote"] != VERSION
+                         and _update_info["zip"])
+            body = json.dumps({
+                "version": VERSION,
+                "remote": _update_info["remote"],
+                "update": bool(update_ok),
+            }).encode()
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Content-Length', str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+        else:
+            super().do_GET()
 
     def do_POST(self):
         if self.path == '/api/new-display':
@@ -88,6 +166,9 @@ class _QuietHandler(SimpleHTTPRequestHandler):
         elif self.path == '/api/reset':
             RESET_EVENT.set()
             self.send_response(204); self.end_headers()
+        elif self.path == '/api/update':
+            self.send_response(204); self.end_headers()
+            threading.Thread(target=run_self_update, daemon=True).start()
         else:
             self.send_response(404); self.end_headers()
 
@@ -413,6 +494,7 @@ def main():
     print("=" * 60)
 
     load_config()
+    check_update_background()
     if RESET_ON_START:
         update_html([], {'ex': 0, 'IR': 0, 'FA': 0, 'Gold': 0, 'SAR': 0}, 1, '', 0.0)
         update_html_all([])

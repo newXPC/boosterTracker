@@ -362,7 +362,7 @@
     if (!APP_MODE || document.getElementById('appbtns')) return;
     var bar = document.createElement('div');
     bar.id = 'appbtns';
-    bar.style.cssText = 'display:flex;gap:8px;margin-bottom:10px;';
+    bar.style.cssText = 'display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;';
     var mk = function (label, path, confirmMsg) {
       var b = document.createElement('button');
       b.textContent = label;
@@ -379,6 +379,29 @@
       'Wirklich alles auf null setzen?'));
     var header = document.querySelector('header');
     header.parentNode.insertBefore(bar, header.nextSibling);
+    checkForUpdate(bar);
+  }
+
+  function checkForUpdate(bar) {
+    fetch('/api/version', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (v) {
+        if (!v.update || document.getElementById('updbtn')) return;
+        var b = document.createElement('button');
+        b.id = 'updbtn';
+        b.textContent = '⬆️ Update auf Version ' + v.remote + ' installieren';
+        b.style.cssText = 'flex:1 0 100%;padding:8px;border-radius:8px;margin-top:6px;' +
+          'border:1px solid #ffd23f;background:#2a2410;color:#ffd23f;' +
+          'font-weight:700;font-size:.85rem;cursor:pointer;';
+        b.onclick = function () {
+          if (!confirm('Update jetzt installieren? Die App startet danach neu.')) return;
+          b.textContent = '⏳ Update läuft – die App startet gleich neu...';
+          b.disabled = true;
+          fetch('/api/update', { method: 'POST' });
+        };
+        bar.appendChild(b);
+      })
+      .catch(function () {});
   }
 
   function initCarousel() {
