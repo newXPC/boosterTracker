@@ -1,0 +1,19 @@
+Set-Info laden (sv1)...
+  Scarlet & Violet, 198 Karten im Hauptset
+  WARNUNG: keine deutschen Namen gefunden (tcgdex)
+  Deutsche Namen: 0 (Set: Scarlet & Violet)
+  Kartenliste Seite 1: 50
+  Kartenliste Seite 2: 50
+  Kartenliste Seite 3: 50
+  Kartenliste Seite 4: 50
+  Kartenliste Seite 5: 50
+  Kartenliste Seite 6: 8
+  Karten gesamt: 258
+  Features: 50/258
+  Features: 100/258
+  Features: 150/258
+  Features: 200/258
+  Features: 250/258
+  app_data.json: 258 Karten
+FERTIG: sets/sv1/ + Eintrag in sets.json
+Jetzt: git add -A && git commit && git push

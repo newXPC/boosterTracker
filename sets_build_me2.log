@@ -1,0 +1,13 @@
+Set-Info laden (me2)...
+  Phantasmal Flames, 94 Karten im Hauptset
+  WARNUNG: keine deutschen Namen gefunden (tcgdex)
+  Deutsche Namen: 0 (Set: Phantasmal Flames)
+  Kartenliste Seite 1: 50
+  Kartenliste Seite 2: 50
+  Kartenliste Seite 3: 30
+  Karten gesamt: 130
+  Features: 50/130
+  Features: 100/130
+  app_data.json: 130 Karten
+FERTIG: sets/me2/ + Eintrag in sets.json
+Jetzt: git add -A && git commit && git push

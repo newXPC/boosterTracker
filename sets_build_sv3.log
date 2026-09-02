@@ -1,0 +1,17 @@
+Set-Info laden (sv3)...
+  Obsidian Flames, 197 Karten im Hauptset
+  WARNUNG: keine deutschen Namen gefunden (tcgdex)
+  Deutsche Namen: 0 (Set: Obsidian Flames)
+  Kartenliste Seite 1: 50
+  Kartenliste Seite 2: 50
+  Kartenliste Seite 3: 50
+  Kartenliste Seite 4: 50
+  Kartenliste Seite 5: 30
+  Karten gesamt: 230
+  Features: 50/230
+  Features: 100/230
+  Features: 150/230
+  Features: 200/230
+  app_data.json: 230 Karten
+FERTIG: sets/sv3/ + Eintrag in sets.json
+Jetzt: git add -A && git commit && git push

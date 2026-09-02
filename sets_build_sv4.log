@@ -1,0 +1,19 @@
+Set-Info laden (sv4)...
+  Paradox Rift, 182 Karten im Hauptset
+  WARNUNG: keine deutschen Namen gefunden (tcgdex)
+  Deutsche Namen: 0 (Set: Paradox Rift)
+  Kartenliste Seite 1: 50
+  Kartenliste Seite 2: 50
+  Kartenliste Seite 3: 50
+  Kartenliste Seite 4: 50
+  Kartenliste Seite 5: 50
+  Kartenliste Seite 6: 16
+  Karten gesamt: 266
+  Features: 50/266
+  Features: 100/266
+  Features: 150/266
+  Features: 200/266
+  Features: 250/266
+  app_data.json: 266 Karten
+FERTIG: sets/sv4/ + Eintrag in sets.json
+Jetzt: git add -A && git commit && git push

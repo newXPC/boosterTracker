@@ -1,0 +1,17 @@
+Set-Info laden (sv3pt5)...
+  151, 165 Karten im Hauptset
+  WARNUNG: keine deutschen Namen gefunden (tcgdex)
+  Deutsche Namen: 0 (Set: 151)
+  Kartenliste Seite 1: 50
+  Kartenliste Seite 2: 50
+  Kartenliste Seite 3: 50
+  Kartenliste Seite 4: 50
+  Kartenliste Seite 5: 7
+  Karten gesamt: 207
+  Features: 50/207
+  Features: 100/207
+  Features: 150/207
+  Features: 200/207
+  app_data.json: 207 Karten
+FERTIG: sets/sv3pt5/ + Eintrag in sets.json
+Jetzt: git add -A && git commit && git push

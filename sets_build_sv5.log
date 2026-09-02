@@ -1,0 +1,17 @@
+Set-Info laden (sv5)...
+  Temporal Forces, 162 Karten im Hauptset
+  WARNUNG: keine deutschen Namen gefunden (tcgdex)
+  Deutsche Namen: 0 (Set: Temporal Forces)
+  Kartenliste Seite 1: 50
+  Kartenliste Seite 2: 50
+  Kartenliste Seite 3: 50
+  Kartenliste Seite 4: 50
+  Kartenliste Seite 5: 18
+  Karten gesamt: 218
+  Features: 50/218
+  Features: 100/218
+  Features: 150/218
+  Features: 200/218
+  app_data.json: 218 Karten
+FERTIG: sets/sv5/ + Eintrag in sets.json
+Jetzt: git add -A && git commit && git push

@@ -1,0 +1,15 @@
+Set-Info laden (sv9)...
+  Journey Together, 159 Karten im Hauptset
+  WARNUNG: keine deutschen Namen gefunden (tcgdex)
+  Deutsche Namen: 0 (Set: Journey Together)
+  Kartenliste Seite 1: 50
+  Kartenliste Seite 2: 50
+  Kartenliste Seite 3: 50
+  Kartenliste Seite 4: 40
+  Karten gesamt: 190
+  Features: 50/190
+  Features: 100/190
+  Features: 150/190
+  app_data.json: 190 Karten
+FERTIG: sets/sv9/ + Eintrag in sets.json
+Jetzt: git add -A && git commit && git push

@@ -1,0 +1,15 @@
+Set-Info laden (me1)...
+  Mega Evolution, 132 Karten im Hauptset
+  WARNUNG: keine deutschen Namen gefunden (tcgdex)
+  Deutsche Namen: 0 (Set: Mega Evolution)
+  Kartenliste Seite 1: 50
+  Kartenliste Seite 2: 50
+  Kartenliste Seite 3: 50
+  Kartenliste Seite 4: 38
+  Karten gesamt: 188
+  Features: 50/188
+  Features: 100/188
+  Features: 150/188
+  app_data.json: 188 Karten
+FERTIG: sets/me1/ + Eintrag in sets.json
+Jetzt: git add -A && git commit && git push

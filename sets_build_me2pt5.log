@@ -1,0 +1,19 @@
+Set-Info laden (me2pt5)...
+  Ascended Heroes, 217 Karten im Hauptset
+  WARNUNG: keine deutschen Namen gefunden (tcgdex)
+  Deutsche Namen: 0 (Set: Ascended Heroes)
+  Kartenliste Seite 1: 50
+  Kartenliste Seite 2: 50
+  Kartenliste Seite 3: 50
+  Kartenliste Seite 4: 50
+  Kartenliste Seite 5: 50
+  Kartenliste Seite 6: 45
+  Karten gesamt: 295
+  Features: 50/295
+  Features: 100/295
+  Features: 150/295
+  Features: 200/295
+  Features: 250/295
+  app_data.json: 295 Karten
+FERTIG: sets/me2pt5/ + Eintrag in sets.json
+Jetzt: git add -A && git commit && git push

@@ -1,0 +1,15 @@
+Set-Info laden (sv8pt5)...
+  Prismatic Evolutions, 131 Karten im Hauptset
+  WARNUNG: keine deutschen Namen gefunden (tcgdex)
+  Deutsche Namen: 0 (Set: Prismatic Evolutions)
+  Kartenliste Seite 1: 50
+  Kartenliste Seite 2: 50
+  Kartenliste Seite 3: 50
+  Kartenliste Seite 4: 30
+  Karten gesamt: 180
+  Features: 50/180
+  Features: 100/180
+  Features: 150/180
+  app_data.json: 180 Karten
+FERTIG: sets/sv8pt5/ + Eintrag in sets.json
+Jetzt: git add -A && git commit && git push

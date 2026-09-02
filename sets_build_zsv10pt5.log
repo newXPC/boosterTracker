@@ -1,0 +1,15 @@
+Set-Info laden (zsv10pt5)...
+  Black Bolt, 86 Karten im Hauptset
+  WARNUNG: keine deutschen Namen gefunden (tcgdex)
+  Deutsche Namen: 0 (Set: Black Bolt)
+  Kartenliste Seite 1: 50
+  Kartenliste Seite 2: 50
+  Kartenliste Seite 3: 50
+  Kartenliste Seite 4: 22
+  Karten gesamt: 172
+  Features: 50/172
+  Features: 100/172
+  Features: 150/172
+  app_data.json: 171 Karten
+FERTIG: sets/zsv10pt5/ + Eintrag in sets.json
+Jetzt: git add -A && git commit && git push

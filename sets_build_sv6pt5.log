@@ -1,0 +1,11 @@
+Set-Info laden (sv6pt5)...
+  Shrouded Fable, 64 Karten im Hauptset
+  WARNUNG: keine deutschen Namen gefunden (tcgdex)
+  Deutsche Namen: 0 (Set: Shrouded Fable)
+  Kartenliste Seite 1: 50
+  Kartenliste Seite 2: 49
+  Karten gesamt: 99
+  Features: 50/99
+  app_data.json: 99 Karten
+FERTIG: sets/sv6pt5/ + Eintrag in sets.json
+Jetzt: git add -A && git commit && git push

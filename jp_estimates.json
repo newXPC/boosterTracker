@@ -1,0 +1,11 @@
+{
+  "Special Art Rare": 25.0,
+  "Super Rare": 8.0,
+  "Ultra Rare": 30.0,
+  "Art Rare": 3.0,
+  "Double Rare": 0.6,
+  "Rare": 0.2,
+  "Uncommon": 0.05,
+  "Common": 0.05,
+  "_default": 0.1
+}

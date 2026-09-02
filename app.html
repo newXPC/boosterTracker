@@ -256,7 +256,7 @@ document.getElementById('search').addEventListener('input', function () {
       var tot = currentSet && currentSet.total ? '/' + currentSet.total : '';
       html += '<div class="sr"><span>' + c.name +
         ' <span class="m">' + num + tot + ' · ' + (c.rarity || '') + '</span></span>' +
-        '<span class="p">~' + euro(c.avg7) + '</span></div>';
+        '<span class="p">' + priceLabel(c.avg7) + '</span></div>';
       count++;
     }
   }
@@ -281,6 +281,11 @@ function euro(v) {
     ? v.toFixed(2).replace('.', ',') + ' €' : '?';
 }
 
+function priceLabel(v) {
+  var isEst = currentSet && currentSet.estimate;
+  return '~' + euro(v) + (isEst ? ' <span style="font-size:.55em;color:var(--muted)">Schätzwert</span>' : '');
+}
+
 function showResult(num) {
   var c = DB[num];
   var total_txt = currentSet && currentSet.total ? '/' + currentSet.total : '';
@@ -288,7 +293,7 @@ function showResult(num) {
   document.getElementById('result').innerHTML =
     '<div class="name">' + c.name + '</div>' +
     '<div class="meta">' + num + total_txt + ' · ' + c.rarity + '</div>' +
-    '<div class="price">~' + euro(c.avg7) + '</div>';
+    '<div class="price">' + priceLabel(c.avg7) + '</div>';
 
   scanned.unshift(num);
   if (typeof c.avg7 === 'number') total += c.avg7;

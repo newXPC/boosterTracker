@@ -1,0 +1,17 @@
+Set-Info laden (sv4pt5)...
+  Paldean Fates, 91 Karten im Hauptset
+  WARNUNG: keine deutschen Namen gefunden (tcgdex)
+  Deutsche Namen: 0 (Set: Paldean Fates)
+  Kartenliste Seite 1: 50
+  Kartenliste Seite 2: 50
+  Kartenliste Seite 3: 50
+  Kartenliste Seite 4: 50
+  Kartenliste Seite 5: 45
+  Karten gesamt: 245
+  Features: 50/245
+  Features: 100/245
+  Features: 150/245
+  Features: 200/245
+  app_data.json: 245 Karten
+FERTIG: sets/sv4pt5/ + Eintrag in sets.json
+Jetzt: git add -A && git commit && git push

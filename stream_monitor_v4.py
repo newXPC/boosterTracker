@@ -44,10 +44,10 @@ HTML_ALL_FILE = BOOSTER_DIR / "booster-tracker-alle.html"
 SCREENSHOT_DIR = BOOSTER_DIR / "screenshots"
 SCREENSHOT_DIR.mkdir(exist_ok=True)
 
-MONITOR = 2                # mss-Monitor-Index mit dem Camo-Fenster
+MONITOR = 1                # mss-Monitor-Index mit dem Camo-Fenster
                            # (1 = Hauptmonitor, 2 = zweiter Monitor, ...)
 REGION_PCT = {             # Capture-Bereich in Prozent des Monitors
-    'top': 0.15, 'left': 0.32, 'width': 0.36, 'height': 0.7,
+    'top': 0.40, 'left': 0.36, 'width': 0.24, 'height': 0.42,
 }
 RESET_ON_START = False     # True: Seiten beim Start auf null setzen (EXE-Modus)
 SHOW_ALL_CARDS = False     # True: auch Commons/Bulk in der Liste anzeigen

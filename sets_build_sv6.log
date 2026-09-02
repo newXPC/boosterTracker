@@ -1,0 +1,17 @@
+Set-Info laden (sv6)...
+  Twilight Masquerade, 167 Karten im Hauptset
+  WARNUNG: keine deutschen Namen gefunden (tcgdex)
+  Deutsche Namen: 0 (Set: Twilight Masquerade)
+  Kartenliste Seite 1: 50
+  Kartenliste Seite 2: 50
+  Kartenliste Seite 3: 50
+  Kartenliste Seite 4: 50
+  Kartenliste Seite 5: 26
+  Karten gesamt: 226
+  Features: 50/226
+  Features: 100/226
+  Features: 150/226
+  Features: 200/226
+  app_data.json: 226 Karten
+FERTIG: sets/sv6/ + Eintrag in sets.json
+Jetzt: git add -A && git commit && git push

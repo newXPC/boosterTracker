@@ -1,0 +1,15 @@
+Set-Info laden (sv7)...
+  Stellar Crown, 142 Karten im Hauptset
+  WARNUNG: keine deutschen Namen gefunden (tcgdex)
+  Deutsche Namen: 0 (Set: Stellar Crown)
+  Kartenliste Seite 1: 50
+  Kartenliste Seite 2: 50
+  Kartenliste Seite 3: 50
+  Kartenliste Seite 4: 25
+  Karten gesamt: 175
+  Features: 50/175
+  Features: 100/175
+  Features: 150/175
+  app_data.json: 175 Karten
+FERTIG: sets/sv7/ + Eintrag in sets.json
+Jetzt: git add -A && git commit && git push

@@ -1,0 +1,19 @@
+Set-Info laden (sv8)...
+  Surging Sparks, 191 Karten im Hauptset
+  WARNUNG: keine deutschen Namen gefunden (tcgdex)
+  Deutsche Namen: 0 (Set: Surging Sparks)
+  Kartenliste Seite 1: 50
+  Kartenliste Seite 2: 50
+  Kartenliste Seite 3: 50
+  Kartenliste Seite 4: 50
+  Kartenliste Seite 5: 50
+  Kartenliste Seite 6: 2
+  Karten gesamt: 252
+  Features: 50/252
+  Features: 100/252
+  Features: 150/252
+  Features: 200/252
+  Features: 250/252
+  app_data.json: 252 Karten
+FERTIG: sets/sv8/ + Eintrag in sets.json
+Jetzt: git add -A && git commit && git push

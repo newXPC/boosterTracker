@@ -1,0 +1,15 @@
+Set-Info laden (rsv10pt5)...
+  White Flare, 86 Karten im Hauptset
+  WARNUNG: keine deutschen Namen gefunden (tcgdex)
+  Deutsche Namen: 0 (Set: White Flare)
+  Kartenliste Seite 1: 50
+  Kartenliste Seite 2: 50
+  Kartenliste Seite 3: 50
+  Kartenliste Seite 4: 23
+  Karten gesamt: 173
+  Features: 50/173
+  Features: 100/173
+  Features: 150/173
+  app_data.json: 173 Karten
+FERTIG: sets/rsv10pt5/ + Eintrag in sets.json
+Jetzt: git add -A && git commit && git push
