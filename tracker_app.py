@@ -64,9 +64,16 @@ def main():
 
     browser = find_browser()
     if browser:
-        # Eigenes Profilverzeichnis -> eigener Prozess, der blockiert,
-        # bis das Fenster geschlossen wird (= App-Lebensdauer)
-        profile = scanner.BOOSTER_DIR / ".appwindow"
+        # Pro Start ein FRISCHES Profilverzeichnis: erzwingt einen eigenen
+        # Edge-Prozess (kein Singleton-Handoff), der zuverlaessig blockiert,
+        # bis das Fenster geschlossen wird (= App-Lebensdauer).
+        import os as _os
+        import shutil
+        base = scanner.BOOSTER_DIR / ".appwindow"
+        # alte Profile aufraeumen
+        for old in scanner.BOOSTER_DIR.glob(".appwindow*"):
+            shutil.rmtree(old, ignore_errors=True)
+        profile = Path(f"{base}-{_os.getpid()}")
         subprocess.run([
             browser,
             f"--app={URL}",
@@ -75,6 +82,7 @@ def main():
             "--no-first-run",
             "--no-default-browser-check",
         ])
+        shutil.rmtree(profile, ignore_errors=True)
     else:
         # Fallback: normaler Browser-Tab, App laeuft bis Strg+C
         webbrowser.open(URL)
