@@ -122,13 +122,28 @@ def run_self_update():
     exe = Path(sys.executable)
     install = exe.parent
     bat = tmp / "update.bat"
+    # WICHTIG: kein `timeout` (braucht eine Konsole) -> ping als Schlaf-Ersatz.
+    # xcopy mit Wiederhol-Schleife, falls die alte EXE noch kurz gesperrt ist.
+    # Alles wird in update.log protokolliert (Diagnose bei Problemen).
     bat.write_text(f'''@echo off
-timeout /t 3 /nobreak >nul
-copy /Y "{install}\\config.json" "{tmp}\\config.backup" >nul 2>&1
-xcopy /E /Y /Q "{inner}\\*" "{install}\\" >nul
-copy /Y "{tmp}\\config.backup" "{install}\\config.json" >nul 2>&1
-powershell -NoProfile -Command "Get-CimInstance Win32_Process -Filter \\"Name='msedge.exe'\\" | Where-Object {{ $_.CommandLine -like '*appwindow*' }} | ForEach-Object {{ Stop-Process -Id $_.ProcessId -Force }}" >nul 2>&1
+set LOG="{install}\\update.log"
+echo Update gestartet %date% %time% > %LOG%
+ping -n 4 127.0.0.1 >nul
+copy /Y "{install}\\config.json" "{tmp}\\config.backup" >> %LOG% 2>&1
+set TRIES=0
+:copyloop
+set /a TRIES+=1
+xcopy /E /Y /Q "{inner}\\*" "{install}\\" >> %LOG% 2>&1
+if errorlevel 1 (
+  if %TRIES% LSS 10 (
+    ping -n 3 127.0.0.1 >nul
+    goto copyloop
+  )
+)
+copy /Y "{tmp}\\config.backup" "{install}\\config.json" >> %LOG% 2>&1
+echo Kopieren fertig nach %TRIES% Versuch(en) >> %LOG%
 start "" "{exe}"
+echo Neustart ausgeloest %time% >> %LOG%
 ''', encoding="utf-8")
     subprocess.Popen(["cmd", "/c", str(bat)],
                      creationflags=subprocess.CREATE_NO_WINDOW)
