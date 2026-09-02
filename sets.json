@@ -1,8 +1,32 @@
 [
   {
+    "id": "jp-M1L",
+    "name": "JP · メガブレイブ",
+    "total": 63,
+    "estimate": true
+  },
+  {
+    "id": "jp-M1S",
+    "name": "JP · メガシンフォニア",
+    "total": 63,
+    "estimate": true
+  },
+  {
+    "id": "jp-M2",
+    "name": "JP · インフェルノX",
+    "total": 80,
+    "estimate": true
+  },
+  {
     "id": "jp-M2a",
     "name": "JP · MEGAドリームex",
     "total": 193,
+    "estimate": true
+  },
+  {
+    "id": "jp-M6",
+    "name": "JP · ストームエメラルダ",
+    "total": 76,
     "estimate": true
   },
   {
