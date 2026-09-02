@@ -356,6 +356,30 @@
   var lastHtml = null;
   var rotIdx = 0;
   var ROTATE_MS = 5000;
+  var APP_MODE = location.search.indexOf('app=1') !== -1;
+
+  function initAppButtons() {
+    if (!APP_MODE || document.getElementById('appbtns')) return;
+    var bar = document.createElement('div');
+    bar.id = 'appbtns';
+    bar.style.cssText = 'display:flex;gap:8px;margin-bottom:10px;';
+    var mk = function (label, path, confirmMsg) {
+      var b = document.createElement('button');
+      b.textContent = label;
+      b.style.cssText = 'flex:1;padding:8px;border-radius:8px;border:1px solid #26303b;' +
+        'background:#1a2129;color:#e8edf2;font-weight:700;font-size:.85rem;cursor:pointer;';
+      b.onclick = function () {
+        if (confirmMsg && !confirm(confirmMsg)) return;
+        fetch(path, { method: 'POST' });
+      };
+      return b;
+    };
+    bar.appendChild(mk('📦 Neues Display', '/api/new-display', null));
+    bar.appendChild(mk('🔄 Alles zurücksetzen', '/api/reset',
+      'Wirklich alles auf null setzen?'));
+    var header = document.querySelector('header');
+    header.parentNode.insertBefore(bar, header.nextSibling);
+  }
 
   function initCarousel() {
     var car = document.getElementById('carousel');
@@ -409,6 +433,7 @@
           if (doc && doc.body) {
             document.body.innerHTML = doc.body.innerHTML;
             initCarousel();  // neue Karte sofort zeigen (Index 0 = neueste)
+            initAppButtons();
           }
         }
         setTimeout(tick, 1000);
@@ -417,6 +442,7 @@
   }
 
   initCarousel();
+  initAppButtons();
   setInterval(rotate, ROTATE_MS);
   tick();
 </script>

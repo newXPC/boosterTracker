@@ -72,9 +72,24 @@ ENERGY_KEYWORDS = ['energie', 'energy']
 HTTP_PORT = 8765           # Mini-Webserver fuer OBS/Tablet (statt file://)
 
 
+# Steuer-Signale aus der App-Oberflaeche (Buttons statt Enter-Taste)
+NEW_DISPLAY_EVENT = threading.Event()
+RESET_EVENT = threading.Event()
+
+
 class _QuietHandler(SimpleHTTPRequestHandler):
     def log_message(self, *args):
         pass  # kein Request-Spam in der Konsole
+
+    def do_POST(self):
+        if self.path == '/api/new-display':
+            NEW_DISPLAY_EVENT.set()
+            self.send_response(204); self.end_headers()
+        elif self.path == '/api/reset':
+            RESET_EVENT.set()
+            self.send_response(204); self.end_headers()
+        else:
+            self.send_response(404); self.end_headers()
 
 
 def start_http_server():
@@ -438,21 +453,41 @@ def main():
         while True:
             ts = datetime.now().strftime("%H:%M:%S")
 
-            # ENTER im Terminal = aktuelles Display archivieren, neues starten
-            if msvcrt and msvcrt.kbhit():
-                key = msvcrt.getwch()
-                if key == '\r':
-                    archived_html = build_archive_section(
-                        display_num, cards_list, counters) + archived_html
-                    display_num += 1
-                    cards_list = []
-                    counters = {'ex': 0, 'IR': 0, 'FA': 0, 'Gold': 0, 'SAR': 0}
-                    seen_cards = set()
-                    pending_num, pending_count = None, 0
-                    weak_num, weak_count = None, 0
-                    update_html(cards_list, counters, display_num, archived_html,
-                                stream_total)
-                    print(f"\n[{ts}] ===== NEUES DISPLAY: Display {display_num} =====\n")
+            # ENTER im Terminal ODER App-Button = neues Display starten
+            enter_pressed = False
+            try:
+                if msvcrt and msvcrt.kbhit() and msvcrt.getwch() == '\r':
+                    enter_pressed = True
+            except Exception:
+                pass  # keine Konsole (App-Modus)
+            if enter_pressed or NEW_DISPLAY_EVENT.is_set():
+                NEW_DISPLAY_EVENT.clear()
+                archived_html = build_archive_section(
+                    display_num, cards_list, counters) + archived_html
+                display_num += 1
+                cards_list = []
+                counters = {'ex': 0, 'IR': 0, 'FA': 0, 'Gold': 0, 'SAR': 0}
+                seen_cards = set()
+                pending_num, pending_count = None, 0
+                weak_num, weak_count = None, 0
+                update_html(cards_list, counters, display_num, archived_html,
+                            stream_total)
+                print(f"\n[{ts}] ===== NEUES DISPLAY: Display {display_num} =====\n")
+
+            # App-Button "Reset": alles auf null
+            if RESET_EVENT.is_set():
+                RESET_EVENT.clear()
+                display_num = 1
+                archived_html = ""
+                stream_total = 0.0
+                cards_list = []
+                counters = {'ex': 0, 'IR': 0, 'FA': 0, 'Gold': 0, 'SAR': 0}
+                seen_cards = set()
+                pending_num, pending_count = None, 0
+                weak_num, weak_count = None, 0
+                update_html(cards_list, counters, 1, '', 0.0)
+                update_html_all([])
+                print(f"\n[{ts}] ===== RESET =====\n")
 
             frame = take_screenshot()
 
