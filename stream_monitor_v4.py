@@ -29,6 +29,15 @@ try:
 except ImportError:
     msvcrt = None
 
+try:
+    import ctypes
+    import win32gui
+    import win32ui
+    ctypes.windll.shcore.SetProcessDpiAwareness(2)  # echte Pixel bei Skalierung
+    WIN32_AVAILABLE = True
+except Exception:
+    WIN32_AVAILABLE = False
+
 import threading
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from functools import partial
@@ -51,6 +60,8 @@ REGION_PCT = {             # Capture-Bereich in Prozent des Monitors
     'top': 0.40, 'left': 0.36, 'width': 0.24, 'height': 0.42,
 }
 RESET_ON_START = False     # True: Seiten beim Start auf null setzen (EXE-Modus)
+WINDOW_TITLE = ""          # Fenstertitel (Teil reicht) -> Fensteraufnahme statt
+                           # Bildschirmbereich (wie Teams-Fensterfreigabe)
 SHOW_ALL_CARDS = False     # True: auch Commons/Bulk in der Liste anzeigen
 SIMPLE_OVERLAY = False     # True: schlichte Liste statt Karussell+Hitliste
 NORMAL_INTERVAL = 0.1      # Pause zwischen Scans
@@ -77,7 +88,7 @@ HTTP_PORT = 8765           # Mini-Webserver fuer OBS/Tablet (statt file://)
 NEW_DISPLAY_EVENT = threading.Event()
 RESET_EVENT = threading.Event()
 
-VERSION = "1.3"
+VERSION = "1.4"
 UPDATE_INFO_URL = ("https://raw.githubusercontent.com/newXPC/boosterTracker/"
                    "master/version.json")
 _update_info = {"remote": None, "zip": None}
@@ -156,7 +167,17 @@ class _QuietHandler(SimpleHTTPRequestHandler):
         pass  # kein Request-Spam in der Konsole
 
     def do_GET(self):
-        if self.path == '/api/version':
+        if self.path == '/api/windows':
+            body = json.dumps({
+                "current": WINDOW_TITLE,
+                "windows": list_windows(),
+            }).encode('utf-8')
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.send_header('Content-Length', str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+        elif self.path == '/api/version':
             update_ok = (getattr(sys, 'frozen', False)
                          and _update_info["remote"] is not None
                          and _update_info["remote"] != VERSION
@@ -184,6 +205,27 @@ class _QuietHandler(SimpleHTTPRequestHandler):
         elif self.path == '/api/update':
             self.send_response(204); self.end_headers()
             threading.Thread(target=run_self_update, daemon=True).start()
+        elif self.path == '/api/set-window':
+            global WINDOW_TITLE
+            length = int(self.headers.get('Content-Length', 0))
+            try:
+                data = json.loads(self.rfile.read(length) or b'{}')
+                WINDOW_TITLE = str(data.get('title') or "")
+                # dauerhaft in config.json speichern
+                cfg_path = BOOSTER_DIR / "config.json"
+                cfg = {}
+                if cfg_path.exists():
+                    with open(cfg_path, encoding='utf-8') as f:
+                        cfg = json.load(f)
+                cfg['fenster'] = WINDOW_TITLE
+                with open(cfg_path, 'w', encoding='utf-8') as f:
+                    json.dump(cfg, f, indent=2, ensure_ascii=False)
+                print(f"Bildquelle: "
+                      f"{'Fenster: ' + WINDOW_TITLE if WINDOW_TITLE else 'Bildschirmbereich'}")
+                self.send_response(204)
+            except Exception:
+                self.send_response(400)
+            self.end_headers()
         else:
             self.send_response(404); self.end_headers()
 
@@ -207,7 +249,7 @@ def start_http_server():
 def load_config():
     """Optionale config.json neben Script/EXE liest einfache Einstellungen."""
     global MONITOR, REGION_PCT, RESET_ON_START, DEBUG
-    global SHOW_ALL_CARDS, SIMPLE_OVERLAY
+    global SHOW_ALL_CARDS, SIMPLE_OVERLAY, WINDOW_TITLE
     cfg_path = BOOSTER_DIR / "config.json"
     if not cfg_path.exists():
         return
@@ -220,6 +262,7 @@ def load_config():
         DEBUG = bool(cfg.get('debug', DEBUG))
         SHOW_ALL_CARDS = bool(cfg.get('alle_karten_anzeigen', SHOW_ALL_CARDS))
         SIMPLE_OVERLAY = bool(cfg.get('einfaches_overlay', SIMPLE_OVERLAY))
+        WINDOW_TITLE = str(cfg.get('fenster', WINDOW_TITLE) or "")
         print(f"config.json geladen (Monitor {MONITOR})")
     except Exception as e:
         print(f"WARNUNG: config.json fehlerhaft ({e}) - nutze Standardwerte")
@@ -268,8 +311,80 @@ def build_reference_features():
     return refs, flann, np.array(owner)
 
 
+def list_windows():
+    """Sichtbare Fenster auflisten (fuer die Quellen-Auswahl in der App)."""
+    if not WIN32_AVAILABLE:
+        return []
+    out = []
+    def cb(hwnd, _):
+        if win32gui.IsWindowVisible(hwnd):
+            title = win32gui.GetWindowText(hwnd)
+            if (title and len(title) > 2
+                    and 'Booster-Tracker' not in title      # eigenes Fenster!
+                    and 'KartenTracker' not in title        # eigene Prozesse
+                    and title not in ('Program Manager', 'Einstellungen')):
+                out.append(title)
+        return True
+    win32gui.EnumWindows(cb, None)
+    return out
+
+
+def _find_window(title_part):
+    needle = title_part.lower()
+    found = []
+    def cb(hwnd, _):
+        if win32gui.IsWindowVisible(hwnd):
+            t = win32gui.GetWindowText(hwnd)
+            if t and needle in t.lower() and 'Booster-Tracker' not in t:
+                found.append(hwnd)
+        return True
+    win32gui.EnumWindows(cb, None)
+    return found[0] if found else None
+
+
+def capture_window(title_part):
+    """Ein bestimmtes Fenster aufnehmen (auch wenn es verdeckt ist).
+
+    Returns: Graustufen-Array mit CLAHE oder None wenn Fenster fehlt.
+    """
+    if not WIN32_AVAILABLE:
+        return None
+    hwnd = _find_window(title_part)
+    if not hwnd:
+        return None
+    try:
+        left, top, right, bottom = win32gui.GetClientRect(hwnd)
+        w, h = right - left, bottom - top
+        if w < 80 or h < 80:
+            return None
+        hwnd_dc = win32gui.GetWindowDC(hwnd)
+        mfc_dc = win32ui.CreateDCFromHandle(hwnd_dc)
+        save_dc = mfc_dc.CreateCompatibleDC()
+        bmp = win32ui.CreateBitmap()
+        bmp.CreateCompatibleBitmap(mfc_dc, w, h)
+        save_dc.SelectObject(bmp)
+        # 3 = PW_CLIENTONLY | PW_RENDERFULLCONTENT (auch GPU-Fenster wie Camo)
+        ctypes.windll.user32.PrintWindow(hwnd, save_dc.GetSafeHdc(), 3)
+        bits = bmp.GetBitmapBits(True)
+        img = np.frombuffer(bits, dtype=np.uint8).reshape((h, w, 4))
+        win32gui.DeleteObject(bmp.GetHandle())
+        save_dc.DeleteDC()
+        mfc_dc.DeleteDC()
+        win32gui.ReleaseDC(hwnd, hwnd_dc)
+        gray = cv2.cvtColor(img, cv2.COLOR_BGRA2GRAY)
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+        return clahe.apply(gray)
+    except Exception:
+        return None
+
+
 def take_screenshot():
-    """Camo-Fensterbereich als Graustufen-Array holen."""
+    """Bildquelle holen: gewaehltes Fenster ODER Camo-Bildschirmbereich."""
+    if WINDOW_TITLE:
+        frame = capture_window(WINDOW_TITLE)
+        if frame is not None:
+            return frame
+        # Fenster nicht gefunden -> Fallback auf Bildschirmbereich
     with mss.MSS() as sct:
         monitor = sct.monitors[MONITOR]
         # Nur die Bildschirmmitte: da zeigt Camo die Karte.

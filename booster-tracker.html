@@ -395,7 +395,56 @@
     bar.parentNode.insertBefore(inp, bar.nextSibling);
     inp.parentNode.insertBefore(res, inp.nextSibling);
     inp.addEventListener('input', function () { renderAppSearch(inp.value); });
+    initSourcePicker(res);
     checkForUpdate(bar);
+  }
+
+  function initSourcePicker(afterEl) {
+    // Bildquelle waehlen: bestimmtes Fenster (wie Teams) oder Bildschirmbereich
+    var row = document.createElement('div');
+    row.id = 'srcpicker';
+    row.style.cssText = 'display:flex;gap:6px;margin-bottom:8px;align-items:center;';
+    var sel = document.createElement('select');
+    sel.style.cssText = 'flex:1;padding:7px 10px;border-radius:8px;background:#1a2129;' +
+      'border:1px solid #26303b;color:#e8edf2;font-size:.8rem;outline:none;';
+    var btn = document.createElement('button');
+    btn.textContent = '🎯 Quelle setzen';
+    btn.style.cssText = 'padding:7px 12px;border-radius:8px;border:1px solid #26303b;' +
+      'background:#1a2129;color:#e8edf2;font-weight:700;font-size:.8rem;cursor:pointer;';
+    row.appendChild(sel); row.appendChild(btn);
+    afterEl.parentNode.insertBefore(row, afterEl.nextSibling);
+
+    fetch('/api/windows', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var opt = document.createElement('option');
+        opt.value = '';
+        opt.textContent = '🖥️ Bildschirmbereich (Standard)';
+        sel.appendChild(opt);
+        (d.windows || []).forEach(function (w) {
+          var o = document.createElement('option');
+          o.value = w;
+          o.textContent = '🪟 ' + (w.length > 55 ? w.slice(0, 55) + '…' : w);
+          sel.appendChild(o);
+        });
+        if (d.current) {
+          for (var i = 0; i < sel.options.length; i++) {
+            if (sel.options[i].value === d.current) { sel.selectedIndex = i; break; }
+          }
+        }
+      })
+      .catch(function () { row.style.display = 'none'; });
+
+    btn.onclick = function () {
+      fetch('/api/set-window', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: sel.value })
+      }).then(function () {
+        btn.textContent = '✅ gesetzt';
+        setTimeout(function () { btn.textContent = '🎯 Quelle setzen'; }, 2000);
+      });
+    };
   }
 
   var appPriceDb = null;
