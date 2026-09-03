@@ -57,7 +57,29 @@ def find_browser():
     return None
 
 
+def kill_zombie_windows():
+    """Alte App-Fenster aus frueheren Sitzungen/Updates schliessen.
+
+    Nach Absturz oder Update ueberlebt das Edge-Fenster die App und zeigt
+    fuer immer 'Verbindung verweigert' - Nutzer klicken es in der Taskleiste
+    an und denken, die App sei kaputt. Deshalb: beim Start alle Fenster mit
+    unserem Profil-Marker beenden.
+    """
+    for exe_name in ("msedge.exe", "chrome.exe"):
+        try:
+            subprocess.run([
+                "powershell", "-NoProfile", "-Command",
+                f"Get-CimInstance Win32_Process -Filter \"Name='{exe_name}'\" | "
+                "Where-Object { $_.CommandLine -like '*appwindow*' } | "
+                "ForEach-Object { Stop-Process -Id $_.ProcessId -Force "
+                "-ErrorAction SilentlyContinue }",
+            ], creationflags=subprocess.CREATE_NO_WINDOW, timeout=20)
+        except Exception:
+            pass
+
+
 def main():
+    kill_zombie_windows()
     t = threading.Thread(target=run_scanner, daemon=True)
     t.start()
     wait_for_server()
