@@ -62,6 +62,9 @@ REGION_PCT = {             # Capture-Bereich in Prozent des Monitors
 RESET_ON_START = False     # True: Seiten beim Start auf null setzen (EXE-Modus)
 WINDOW_TITLE = ""          # Fenstertitel (Teil reicht) -> Fensteraufnahme statt
                            # Bildschirmbereich (wie Teams-Fensterfreigabe)
+SET_ID = "sv10"            # aktives Set (siehe sets.json); per App-UI umschaltbar
+RAW_BASE = "https://raw.githubusercontent.com/newXPC/boosterTracker/master/"
+SET_SWITCH_REQUEST = []    # [set_id] -> Hauptloop laedt das Set live nach
 SHOW_ALL_CARDS = False     # True: auch Commons/Bulk in der Liste anzeigen
 SIMPLE_OVERLAY = False     # True: schlichte Liste statt Karussell+Hitliste
 NORMAL_INTERVAL = 0.1      # Pause zwischen Scans
@@ -88,7 +91,7 @@ HTTP_PORT = 8765           # Mini-Webserver fuer OBS/Tablet (statt file://)
 NEW_DISPLAY_EVENT = threading.Event()
 RESET_EVENT = threading.Event()
 
-VERSION = "1.4"
+VERSION = "1.5"
 UPDATE_INFO_URL = ("https://raw.githubusercontent.com/newXPC/boosterTracker/"
                    "master/version.json")
 _update_info = {"remote": None, "zip": None}
@@ -177,6 +180,16 @@ class _QuietHandler(SimpleHTTPRequestHandler):
             self.send_header('Content-Length', str(len(body)))
             self.end_headers()
             self.wfile.write(body)
+        elif self.path == '/api/sets':
+            body = json.dumps({
+                "current": SET_ID,
+                "sets": load_sets_index(),
+            }).encode('utf-8')
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.send_header('Content-Length', str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
         elif self.path == '/api/version':
             update_ok = (getattr(sys, 'frozen', False)
                          and _update_info["remote"] is not None
@@ -205,6 +218,25 @@ class _QuietHandler(SimpleHTTPRequestHandler):
         elif self.path == '/api/update':
             self.send_response(204); self.end_headers()
             threading.Thread(target=run_self_update, daemon=True).start()
+        elif self.path == '/api/set-set':
+            length = int(self.headers.get('Content-Length', 0))
+            try:
+                data = json.loads(self.rfile.read(length) or b'{}')
+                new_id = str(data.get('id') or "")
+                if new_id:
+                    SET_SWITCH_REQUEST.append(new_id)
+                    cfg_path = BOOSTER_DIR / "config.json"
+                    cfg = {}
+                    if cfg_path.exists():
+                        with open(cfg_path, encoding='utf-8') as f:
+                            cfg = json.load(f)
+                    cfg['set'] = new_id
+                    with open(cfg_path, 'w', encoding='utf-8') as f:
+                        json.dump(cfg, f, indent=2, ensure_ascii=False)
+                self.send_response(204)
+            except Exception:
+                self.send_response(400)
+            self.end_headers()
         elif self.path == '/api/set-window':
             global WINDOW_TITLE
             length = int(self.headers.get('Content-Length', 0))
@@ -249,7 +281,7 @@ def start_http_server():
 def load_config():
     """Optionale config.json neben Script/EXE liest einfache Einstellungen."""
     global MONITOR, REGION_PCT, RESET_ON_START, DEBUG
-    global SHOW_ALL_CARDS, SIMPLE_OVERLAY, WINDOW_TITLE
+    global SHOW_ALL_CARDS, SIMPLE_OVERLAY, WINDOW_TITLE, SET_ID
     cfg_path = BOOSTER_DIR / "config.json"
     if not cfg_path.exists():
         return
@@ -263,14 +295,69 @@ def load_config():
         SHOW_ALL_CARDS = bool(cfg.get('alle_karten_anzeigen', SHOW_ALL_CARDS))
         SIMPLE_OVERLAY = bool(cfg.get('einfaches_overlay', SIMPLE_OVERLAY))
         WINDOW_TITLE = str(cfg.get('fenster', WINDOW_TITLE) or "")
-        print(f"config.json geladen (Monitor {MONITOR})")
+        SET_ID = str(cfg.get('set', SET_ID) or "sv10")
+        print(f"config.json geladen (Monitor {MONITOR}, Set {SET_ID})")
     except Exception as e:
         print(f"WARNUNG: config.json fehlerhaft ({e}) - nutze Standardwerte")
 
 
+def load_sets_index():
+    """sets.json lokal lesen, sonst von GitHub holen."""
+    local = BOOSTER_DIR / "sets.json"
+    try:
+        with open(local, encoding='utf-8') as f:
+            return json.load(f)
+    except Exception:
+        pass
+    try:
+        import urllib.request
+        with urllib.request.urlopen(RAW_BASE + "sets.json", timeout=10) as r:
+            data = json.load(r)
+        local.write_text(json.dumps(data, ensure_ascii=False, indent=2),
+                         encoding='utf-8')
+        return data
+    except Exception:
+        return [{"id": "sv10", "name": "Ewige Rivalen", "total": 182}]
+
+
+def load_set_data(set_id):
+    """Set-Datenpaket (Namen, Preise, ORB-Features) laden.
+
+    Lokal aus sets/<id>/app_data.json; fehlt es, einmalig von GitHub
+    herunterladen und neben der EXE ablegen.
+    """
+    path = BOOSTER_DIR / "sets" / set_id / "app_data.json"
+    if not path.exists():
+        print(f"Set {set_id} nicht lokal - lade von GitHub...")
+        import urllib.request
+        path.parent.mkdir(parents=True, exist_ok=True)
+        url = f"{RAW_BASE}sets/{set_id}/app_data.json"
+        with urllib.request.urlopen(url, timeout=60) as r:
+            path.write_bytes(r.read())
+        print("  heruntergeladen")
+    with open(path, encoding='utf-8') as f:
+        return json.load(f)
+
+
 def load_price_db():
-    with open(PRICE_DB, 'r', encoding='utf-8') as f:
-        return {card['number']: card for card in json.load(f)}
+    """Preis-/Namensdaten des aktiven Sets im render-kompatiblen Format."""
+    sets = load_sets_index()
+    info = next((s for s in sets if s['id'] == SET_ID), {})
+    raw = load_set_data(SET_ID)
+    db = {}
+    for num, e in raw.items():
+        db[num] = {
+            'number': num,
+            'name': e.get('name', '?'),
+            'name_de': e.get('name', '?'),
+            'rarity': e.get('rarity', '?'),
+            'avg7': e.get('avg7'),
+            'set_id': SET_ID,
+            'set_name': info.get('name', SET_ID),
+            'set_total': info.get('total') or '?',
+            'estimate': bool(info.get('estimate')),
+        }
+    return db
 
 
 def is_energy_card(card_name):
@@ -279,28 +366,31 @@ def is_energy_card(card_name):
 
 
 def build_reference_features():
-    """ORB-Features fuer alle Referenzkarten berechnen und in einen
-    FLANN-LSH-Index packen (ein grosser Suchindex statt 244 Einzelvergleiche).
+    """Referenz-Features des aktiven Sets aus dem Datenpaket laden und in
+    einen FLANN-LSH-Index packen (keine Bildberechnung noetig).
 
     Returns: (refs, flann, owner)
-      refs:  {num: (keypoints, descriptors)}
+      refs:  {num: (kps als Nx2-Array, descriptors als Nx32-Array)}
       flann: trainierter FLANN-Matcher
       owner: Array, das jeden Index-Deskriptor seiner Karte zuordnet
     """
-    orb = cv2.ORB_create(nfeatures=500)
+    import base64
+
+    raw = load_set_data(SET_ID)
     refs = {}
     all_des = []
     owner = []   # owner[i] = Kartennummer des i-ten Deskriptor-Blocks
 
-    for p in sorted(CARDS_DIR.glob('*.png')):
-        img = cv2.imread(str(p), cv2.IMREAD_GRAYSCALE)
-        if img is None:
+    for num, e in raw.items():
+        n = e.get('n', 0)
+        if n < 50:
             continue
-        kp, des = orb.detectAndCompute(img, None)
-        if des is not None and len(kp) >= 50:
-            refs[p.stem] = (kp, des)
-            all_des.append(des)
-            owner.extend([p.stem] * len(des))
+        des = np.frombuffer(base64.b64decode(e['des']),
+                            dtype=np.uint8).reshape(n, 32)
+        kps = np.array(e['kps'], dtype=np.float32).reshape(n, 2)
+        refs[num] = (kps, des)
+        all_des.append(des)
+        owner.extend([num] * n)
 
     # FLANN mit LSH-Index (fuer binaere ORB-Deskriptoren)
     index_params = dict(algorithm=6, table_number=8, key_size=16, multi_probe_level=1)
@@ -434,13 +524,13 @@ def identify_card(frame_gray, refs, orb, flann, owner, bf):
     # Stufe 2: RANSAC-Verifikation der Top-Kandidaten (praezises BF-Matching)
     best_num, best_inliers = None, 0
     for num, _ in candidates:
-        kp_r, des_r = refs[num]
+        kp_r, des_r = refs[num]  # kp_r: Nx2-Koordinaten-Array
         matches = bf.match(des_f, des_r)
         good = [m for m in matches if m.distance < 50]
         if len(good) < 8:
             continue
         src = np.float32([kp_f[m.queryIdx].pt for m in good]).reshape(-1, 1, 2)
-        dst = np.float32([kp_r[m.trainIdx].pt for m in good]).reshape(-1, 1, 2)
+        dst = np.float32([kp_r[m.trainIdx] for m in good]).reshape(-1, 1, 2)
         H, mask = cv2.findHomography(src, dst, cv2.RANSAC, 5.0)
         inliers = int(mask.sum()) if mask is not None else 0
         if inliers > best_inliers:
@@ -457,6 +547,18 @@ def identify_card(frame_gray, refs, orb, flann, owner, bf):
 
 def get_rarity_type(rarity_str):
     r = str(rarity_str).lower()
+    # Japanische Raritaets-Codes
+    jp = str(rarity_str).strip().upper()
+    if jp in ('RR',):
+        return 'ex'
+    if jp in ('AR',):
+        return 'IR'
+    if jp in ('SR',):
+        return 'FA'
+    if jp in ('SAR',):
+        return 'SAR'
+    if jp in ('UR',):
+        return 'Gold'
     if 'special' in r and 'illustration' in r:
         return 'SAR'
     if 'illustration' in r:
@@ -478,14 +580,21 @@ def render_cards(cards_list, limit=10, highlight_latest=True):
         rarity = card.get('rarity', 'Unknown')
         price = card.get('avg7', 'N/A')
         display_name = card.get('name_de') or card['name']
+        set_id = card.get('set_id', 'sv10')
+        set_name = card.get('set_name', 'Ewige Rivalen')
+        set_total = card.get('set_total', 182)
+        est = ' (Sch&auml;tzwert)' if card.get('estimate') else ''
+        # sv10-Bilder liegen im alten Ordner, andere Sets unter sets/<id>/images
+        img_src = (f"sv10_cards_images/{card['number']}.png" if set_id == 'sv10'
+                   else f"sets/{set_id}/images/{card['number']}.png")
         out += f"""<div class="card{latest_class}">
-  <img class="thumb" src="sv10_cards_images/{card['number']}.png" alt="">
+  <img class="thumb" src="{img_src}" alt="" onerror="this.style.display='none'">
   <div class="info">
     <p class="name">{display_name}</p>
-    <p class="set">Ewige Rivalen (DRI) &middot; {card['number']}/182</p>
+    <p class="set">{set_name} &middot; {card['number']}/{set_total}</p>
     <div class="row">
       <span class="chip">{rarity}</span>
-      <span class="price">~{price} &euro;</span>
+      <span class="price">~{price} &euro;{est}</span>
     </div>
   </div>
 </div>
@@ -546,6 +655,15 @@ def update_html(cards_list, counters, display_num=1, archived_html="",
 
     with open(HTML_FILE, 'r', encoding='utf-8') as f:
         html = f.read()
+
+    # Kopfzeile: Name des aktiven Sets
+    sets = load_sets_index()
+    set_name = next((s['name'] for s in sets if s['id'] == SET_ID), SET_ID)
+    html = re.sub(
+        r'<span class="live-dot">.*?</span>',
+        f'<span class="live-dot">{set_name} &middot; bereit</span>',
+        html, flags=re.DOTALL
+    )
 
     html = re.sub(
         r'<div class="counters">.*?</div>\n</div>|<div class="counters">.*?</div>',
@@ -624,6 +742,7 @@ def main():
     print("=" * 60)
 
     load_config()
+    global SET_ID
     check_update_background()
     if RESET_ON_START:
         update_html([], {'ex': 0, 'IR': 0, 'FA': 0, 'Gold': 0, 'SAR': 0}, 1, '', 0.0)
@@ -700,6 +819,26 @@ def main():
                 update_html(cards_list, counters, 1, '', 0.0)
                 update_html_all([])
                 print(f"\n[{ts}] ===== RESET =====\n")
+
+            # App-Auswahl: anderes Set laden (live, ohne Neustart)
+            if SET_SWITCH_REQUEST:
+                new_id = SET_SWITCH_REQUEST.pop()
+                SET_SWITCH_REQUEST.clear()
+                if new_id != SET_ID:
+                    SET_ID = new_id
+                    print(f"\n[{ts}] Wechsle Set auf {new_id}...")
+                    try:
+                        price_db = load_price_db()
+                        refs, flann, owner = build_reference_features()
+                        pending_num, pending_count = None, 0
+                        weak_num, weak_count = None, 0
+                        seen_cards = set()
+                        update_html(cards_list, counters, display_num,
+                                    archived_html, stream_total)
+                        print(f"[{ts}] Set aktiv: {new_id} "
+                              f"({len(refs)} Karten)\n")
+                    except Exception as e:
+                        print(f"[{ts}] Set-Wechsel fehlgeschlagen: {e}\n")
 
             frame = take_screenshot()
 

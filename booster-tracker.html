@@ -396,7 +396,49 @@
     inp.parentNode.insertBefore(res, inp.nextSibling);
     inp.addEventListener('input', function () { renderAppSearch(inp.value); });
     initSourcePicker(res);
+    initSetPicker(res);
     checkForUpdate(bar);
+  }
+
+  function initSetPicker(afterEl) {
+    // Set waehlen (Karmesin & Purpur, Mega, JP...) - laedt live nach
+    var row = document.createElement('div');
+    row.id = 'setpickerrow';
+    row.style.cssText = 'display:flex;gap:6px;margin-bottom:8px;align-items:center;';
+    var sel = document.createElement('select');
+    sel.style.cssText = 'flex:1;padding:7px 10px;border-radius:8px;background:#1a2129;' +
+      'border:1px solid #26303b;color:#e8edf2;font-size:.8rem;outline:none;';
+    var btn = document.createElement('button');
+    btn.textContent = '🃏 Set laden';
+    btn.style.cssText = 'padding:7px 12px;border-radius:8px;border:1px solid #26303b;' +
+      'background:#1a2129;color:#e8edf2;font-weight:700;font-size:.8rem;cursor:pointer;';
+    row.appendChild(sel); row.appendChild(btn);
+    afterEl.parentNode.insertBefore(row, afterEl.nextSibling);
+
+    fetch('/api/sets', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        (d.sets || []).forEach(function (s) {
+          var o = document.createElement('option');
+          o.value = s.id;
+          o.textContent = s.name + ' (' + s.total + ')';
+          if (s.id === d.current) o.selected = true;
+          sel.appendChild(o);
+        });
+      })
+      .catch(function () { row.style.display = 'none'; });
+
+    btn.onclick = function () {
+      fetch('/api/set-set', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: sel.value })
+      }).then(function () {
+        btn.textContent = '⏳ laedt...';
+        setTimeout(function () { btn.textContent = '✅ aktiv'; }, 4000);
+        setTimeout(function () { btn.textContent = '🃏 Set laden'; }, 7000);
+      });
+    };
   }
 
   function initSourcePicker(afterEl) {
@@ -448,6 +490,30 @@
   }
 
   var appPriceDb = null;
+  var appPriceDbSet = null;
+  function loadSearchDb(cb) {
+    fetch('/api/sets', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var cur = d.current || 'sv10';
+        var meta = (d.sets || []).filter(function (s) { return s.id === cur; })[0] || {};
+        if (appPriceDb && appPriceDbSet === cur) { cb(appPriceDb); return; }
+        fetch('sets/' + cur + '/app_data.json', { cache: 'no-store' })
+          .then(function (r) { return r.json(); })
+          .then(function (raw) {
+            var arr = [];
+            for (var num in raw) {
+              arr.push({ number: num, name_de: raw[num].name,
+                         rarity: raw[num].rarity, avg7: raw[num].avg7,
+                         total: meta.total || '' });
+            }
+            appPriceDb = arr; appPriceDbSet = cur;
+            cb(arr);
+          });
+      })
+      .catch(function () { cb([]); });
+  }
+
   function renderAppSearch(q) {
     var box = document.getElementById('appsearch-results');
     if (!box) return;
@@ -468,16 +534,14 @@
       box.innerHTML = hits.map(function (c) {
         var p = (typeof c.avg7 === 'number')
           ? ('~' + c.avg7.toFixed(2).replace('.', ',') + ' €') : '?';
+        var tot = c.total ? '/' + c.total : '';
         return '<div style="' + rowCss + '"><span>' + (c.name_de || c.name) +
-          ' <span style="color:#8b98a5;font-size:.75rem">' + c.number + '/182 · ' +
+          ' <span style="color:#8b98a5;font-size:.75rem">' + c.number + tot + ' · ' +
           (c.rarity || '') + '</span></span>' +
           '<span style="color:#ffd23f;white-space:nowrap">' + p + '</span></div>';
       }).join('') || '<div style="' + rowCss + 'color:#8b98a5">Nichts gefunden</div>';
     };
-    if (appPriceDb) { doRender(appPriceDb); }
-    else fetch('sv10-preise.json', { cache: 'no-store' })
-      .then(function (r) { return r.json(); })
-      .then(function (d) { appPriceDb = d; doRender(d); });
+    loadSearchDb(doRender);
   }
 
   function checkForUpdate(bar) {
